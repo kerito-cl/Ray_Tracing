@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 18:53:16 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/03 13:19:46 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 13:56:45 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ bool cy_hit(t_ray *r, t_hit_record *rec);
 
 static void assign_typematerial_info(t_info *info, char *material, int i)
 {
-    printf("%zu\n", ft_strlen(material));
     if (ft_strncmp(material, "M\n", ft_strlen(material)) == 0)
         info->obj[i].type_material = METAL;
     else if (ft_strncmp(material, "G\n", ft_strlen(material)) == 0)
@@ -39,7 +38,7 @@ void create_plane_info(t_info *info, char **split, int i)
     vec = ft_split(split[2], ',');
     if (!vec)
         free_arena_exit(info);
-    new_vec3(&(info->obj[i]).norm, vec, false);
+    new_vec3(&(info->obj[i]).normal, vec, false);
     vec = ft_split(split[3], ',');
     if (!vec)
         free_arena_exit(info);
@@ -84,7 +83,7 @@ void create_cylinder_info(t_info *info, char **split, int i)
     vec = ft_split(split[2], ',');
     if (!vec)
         free_arena_exit(info);
-    new_vec3(&(info->obj[i]).norm, vec, false);
+    new_vec3(&(info->obj[i]).normal, vec, false);
     vec = ft_split(split[5], ',');
     if (!vec)
         free_arena_exit(info);
@@ -97,7 +96,6 @@ void create_cylinder_info(t_info *info, char **split, int i)
 void create_object_info(t_info *info, char **split)
 {
     static  int i = 0;
-
 
     if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)
         create_plane_info(info, split, i);

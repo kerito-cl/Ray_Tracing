@@ -89,8 +89,8 @@ typedef struct s_obj
 {
     t_vec3 point;
 	t_vec3 rgb;
+	t_vec3 normal;
     float radius;
-	t_vec3 norm;
     float height;
     bool (*hit)(t_ray *r, t_hit_record *rec);
 	t_type type_material;

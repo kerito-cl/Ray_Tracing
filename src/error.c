@@ -6,22 +6,11 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:37:19 by mquero            #+#    #+#             */
-/*   Updated: 2025/02/27 09:50:48 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 13:46:00 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
-
-int	check_error(char *map)
-{
-	int	fd;
-
-	fd = open(map, O_RDONLY);
-	if (fd == -1)
-		return (0);
-	close(fd);
-	return (1);
-}
 
 void	free_all(t_info *info)
 {
@@ -41,6 +30,11 @@ void	throw_error(int flag)
 	if (flag == 1)
 	{
 		printf("Your scene doesn't exist\n");
+		exit(1);
+	}
+	if (flag == 2)
+	{
+		printf("Wrong file format\n");
 		exit(1);
 	}
 }

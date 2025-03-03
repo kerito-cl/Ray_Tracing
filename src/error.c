@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:37:19 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/03 13:46:00 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:48:29 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	throw_error(int flag)
 		printf("Wrong file format\n");
 		exit(1);
 	}
+
+	if (flag == 3)
+	{
+		printf("Malloc failed\n");
+		exit(1);
+	}
 }
 
 int	check_if_rt(char *str)
@@ -58,4 +64,11 @@ void	free_arena_exit(t_info *info)
 {
 	arena_free(info->arena);
 	exit(1);
+}
+
+void	exit_free_parser(t_info *info, char **split, int n)
+{
+	freesplit(split);
+	arena_free(info->arena);
+	throw_error(n);
 }

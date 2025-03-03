@@ -6,15 +6,11 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 18:53:16 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/03 13:56:45 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 21:39:07 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
-
-bool sp_hit(t_ray *r, t_hit_record *rec);
-bool pl_hit(t_ray *r, t_hit_record *rec);
-bool cy_hit(t_ray *r, t_hit_record *rec);
 
 static void assign_typematerial_info(t_info *info, char *material, int i)
 {
@@ -26,83 +22,87 @@ static void assign_typematerial_info(t_info *info, char *material, int i)
         info->obj[i].type_material = DIFFUSE;
 }
 
-void create_plane_info(t_info *info, char **split, int i)
+void create_plane_info(t_info *info, char **split, int i, bool *isvalid)
 {
     char  **vec;
-    static  int j = 0;
     
     vec = ft_split(split[1], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).point, vec, false);
+        exit_free_parser(info, split, 2);
+    new_vec3(&(info->obj[i]).point, vec, isvalid, false);
     vec = ft_split(split[2], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).normal, vec, false);
+        exit_free_parser(info, split, 2);
+    new_vec3(&(info->obj[i]).normal, vec, isvalid, false);
     vec = ft_split(split[3], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).rgb, vec, true);
+        exit_free_parser(info, split, 2);
+    new_vec3(&(info->obj[i]).rgb, vec, isvalid, true);
     assign_typematerial_info(info, split[4], i);
     info->obj[i].hit = pl_hit;
-    j++;
-    info->pl_count = j;
 }
 
-void create_sphere_info(t_info *info, char **split, int i)
+void create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
 {
     char  **vec;
-    static  int j = 0;
+    char    *ptr;
 
-    info->obj[i].radius = strtof(split[2], NULL) * 0.5;
+    info->obj[i].radius = ft_strtof(split[2], &ptr) * 0.5;
+    if (ptr[0] != 0)
+        exit_free_parser(info, split, 2);
     vec = ft_split(split[1], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).point, vec, false);
+        exit_free_parser(info, split, 3);
+    new_vec3(&(info->obj[i]).point, vec,isvalid, false);
     vec = ft_split(split[3], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).rgb, vec, true);
+        exit_free_parser(info, split, 3);
+    new_vec3(&(info->obj[i]).rgb, vec, isvalid, true);
     assign_typematerial_info(info, split[4], i);
     info->obj[i].hit = sp_hit;
-    j++;
-    info->sp_count = j;
 }
 
-void create_cylinder_info(t_info *info, char **split, int i)
+void create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
 {
     char  **vec;
-    static  int j = 0;
+    char    *ptr;
 
-    info->obj[i].radius = strtof(split[3], NULL) * 0.5;
-    info->obj[i].height = strtof(split[4], NULL);
+    info->obj[i].radius = ft_strtof(split[3], &ptr) * 0.5;
+    if (ptr[0] != 0)
+        exit_free_parser(info, split, 2);
+    info->obj[i].height = ft_strtof(split[4], &ptr);
+    if (ptr[0] != 0)
+        exit_free_parser(info, split, 2);
     vec = ft_split(split[1], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).point, vec, false);
+        exit_free_parser(info, split, 3);
+    new_vec3(&(info->obj[i]).point, vec, isvalid ,false);
     vec = ft_split(split[2], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).normal, vec, false);
+        exit_free_parser(info, split, 3);
+    new_vec3(&(info->obj[i]).normal, vec, isvalid ,false);
     vec = ft_split(split[5], ',');
     if (!vec)
-        free_arena_exit(info);
-    new_vec3(&(info->obj[i]).rgb, vec, true);
+        exit_free_parser(info, split, 3);
+    new_vec3(&(info->obj[i]).rgb, vec, isvalid,true);
     assign_typematerial_info(info, split[6], i);
     info->obj[i].hit = cy_hit;
-    j++;
-    info->cy_count = j;
 }
+
 void create_object_info(t_info *info, char **split)
 {
+    bool    isvalid;
     static  int i = 0;
 
+    isvalid = true;
     if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)
-        create_plane_info(info, split, i);
+        create_plane_info(info, split, i, &isvalid);
     else if (ft_strncmp(split[0], "sp", ft_strlen(split[0])) == 0)
-        create_sphere_info(info, split, i);
+        create_sphere_info(info, split, i, &isvalid);
     else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
-        create_cylinder_info(info, split, i);
+        create_cylinder_info(info, split, i, &isvalid);
+    if (!isvalid)
+        exit_free_parser(info, split, 2);
     i++;
     info->obj_count = i;
 }

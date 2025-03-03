@@ -123,10 +123,11 @@ void	throw_error(int flag);
 int     check_if_rt(char *str);
 void    parse(char *file, t_info *info);
 void	freesplit(char **strs);
-void    new_vec3(t_vec3 *vec3, char **cvec, bool if_rgb);
+void    new_vec3(t_vec3 *vec3, char **cvec, bool *isvalid ,bool if_rgb);
 void create_object_info(t_info *info, char **split);
 void	free_all(t_info *info);
 void	free_arena_exit(t_info *info);
+void	exit_free_parser(t_info *info, char **split, int n);
 
 /* HIT OBJ*/
 

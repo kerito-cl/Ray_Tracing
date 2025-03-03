@@ -6,63 +6,66 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:40:27 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/03 13:57:10 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 23:25:19 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-static  void assign_camera_info(t_info *info, char **split)
+static  void assign_camera_info(t_info *info, char **split, bool *isvalid)
 {
     char  **vec;
 
-    info->c.fov = strtof(split[3], NULL);
+    info->c.fov = ft_strtof(split[3], NULL);
     vec = ft_split(split[1], ',');
     if (!vec)
         free_arena_exit(info);
-    new_vec3(&(info->c).point, vec, false);
+    new_vec3(&(info->c).point, vec,isvalid ,false);
     vec = ft_split(split[2], ',');
     if (!vec)
         free_arena_exit(info);
-    new_vec3(&(info->c).orient, vec, false);
+    new_vec3(&(info->c).orient, vec,isvalid ,false);
 }
 
-static  void assign_ambient_info(t_info *info, char **split)
+static  void assign_ambient_info(t_info *info, char **split, bool *isvalid)
 {
     char  **rgb;
 
-    info->a.ratio = strtof(split[1], NULL);
+    info->a.ratio = ft_strtof(split[1], NULL);
     rgb = ft_split(split[2], ',');
     if (!rgb)
         free_arena_exit(info);
-    new_vec3(&(info->a).rgb, rgb, true);
+    new_vec3(&(info->a).rgb, rgb,isvalid ,true);
 }
 
-static  void assign_light_info(t_info *info, char **split)
+static  void assign_light_info(t_info *info, char **split, bool *isvalid)
 {
     char  **vec;
 
-    info->l.br_ratio = strtof(split[2], NULL);
+    info->l.br_ratio = ft_strtof(split[2], NULL);
     vec = ft_split(split[3], ',');
     if (!vec)
         free_arena_exit(info);
-    new_vec3(&(info->l).rgb, vec, true);
+    new_vec3(&(info->l).rgb, vec, isvalid,true);
     vec = ft_split(split[1], ',');
     if (!vec)
         free_arena_exit(info);
-    new_vec3(&(info->l).point, vec, false);
+    new_vec3(&(info->l).point, vec, isvalid ,false);
 }
 
 static  void assign_all(t_info *info, char **split)
 {
+    bool isvalid;
+
+    isvalid = true;
     if (ft_strncmp(split[0], "\n", ft_strlen(split[0])) == 0)
         return ;
     else if (ft_strncmp(split[0], "A", ft_strlen(split[0])) == 0)
-        assign_ambient_info(info, split);
+        assign_ambient_info(info, split, &isvalid);
     else if (ft_strncmp(split[0], "C", ft_strlen(split[0])) == 0)
-        assign_camera_info(info, split);
+        assign_camera_info(info, split, &isvalid);
     else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
-        assign_light_info(info, split);
+        assign_light_info(info, split, &isvalid);
     else if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)
         create_object_info(info, split);
     else if (ft_strncmp(split[0], "sp", ft_strlen(split[0])) == 0)
@@ -70,11 +73,9 @@ static  void assign_all(t_info *info, char **split)
     else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
         create_object_info(info, split);
     else
-    {
-        arena_free(info->arena);
-        freesplit(split);
-        throw_error(2);
-    }
+        exit_free_parser(info, split, 2);
+    if (!isvalid)
+        exit_free_parser(info, split, 2);
 }
 
 void    parse(char *file, t_info *info)

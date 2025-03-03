@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:08:48 by mquero            #+#    #+#             */
-/*   Updated: 2024/11/05 15:29:28 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:12:48 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+float	ft_strtof(const char *str, char **endptr);
+void 	*ft_realloc(void *ptr, size_t size);
 
 #endif

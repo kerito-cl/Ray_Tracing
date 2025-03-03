@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 11:42:21 by mquero            #+#    #+#             */
-/*   Updated: 2025/02/22 16:23:02 by mquero           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:13:12 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool arena_expand(t_arena *arena, size_t new_size)
     char *new_block;
 
     used_offset = arena->current - arena->arena_start;
-    new_block = realloc(arena->arena_start, new_size);
+    new_block = ft_realloc(arena->arena_start, new_size);
     if (!new_block)
         return (false);
     arena->arena_start = new_block;

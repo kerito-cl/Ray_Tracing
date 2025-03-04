@@ -60,7 +60,7 @@ typedef struct s_cam
 {
 	t_vec3 point;
 	t_vec3 orient;
-	unsigned int	fov;
+	float	fov;
 }       t_cam;
 
 typedef struct s_alight
@@ -103,6 +103,7 @@ typedef struct s_info
 	mlx_t *mlx;
 	mlx_image_t		*img;
 	t_cam c;
+	t_ray ray;
 	t_alight a;
 	t_light	l;
 	t_obj *obj;

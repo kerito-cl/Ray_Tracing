@@ -19,15 +19,15 @@
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 
-typedef struct t_vec3		t_color;
-typedef struct t_vec3		t_point;
-
 typedef struct s_vec3
 {
 	float					x;
 	float					y;
 	float					z;
 }							t_vec3;
+
+typedef t_vec3				t_color;
+typedef t_vec3				t_point;
 
 typedef struct s_ray
 {
@@ -99,7 +99,7 @@ typedef struct s_obj
 	float					height;
 	bool					(*hit)(t_ray *r, t_hit_record *rec);
 	t_type					type_material;
-	t_material				material;
+	t_material				*material;
 }							t_obj;
 
 typedef struct s_info
@@ -117,6 +117,12 @@ typedef struct s_info
 	unsigned int			cy_count;
 	unsigned int			obj_count;
 }							t_info;
+
+typedef struct s_interval
+{
+	float					min;
+	float					max;
+}							t_interval;
 
 void						print_vec3(t_vec3 vec3);
 
@@ -166,5 +172,19 @@ t_vec3						vec3_refract(t_vec3 *uv, t_vec3 *n,
 								float etai_over_etat);
 t_vec3						vec3_copy(t_vec3 vec);
 t_vec3						vec3_random_in_unit_disk(void);
+
+/*			INTERVAL						*/
+
+t_interval					interval_empty(void);
+t_interval					interval_universe(void);
+float						interval_size(t_interval interval);
+bool						interval_contains(t_interval interval, float value);
+bool						interval_surrounds(t_interval interval,
+								float value);
+float						interval_clamp(t_interval interval, float value);
+
+/*			Utils							*/
+
+t_point						ray_at(t_ray *ray, double t);
 
 #endif

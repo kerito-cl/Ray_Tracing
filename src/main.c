@@ -15,37 +15,6 @@ t_ray sp_scatter()
 
 }
 
-// belongs to the obj.
-bool	sp_hit(t_obj *sphere, t_ray *r, t_hit_record *rec)
-{
-	t_vec3 oc = vec3_sub_vecs(&sphere->sphere_center, ray->origin);
-    float a = vec3_length_squared(ray->direction);
-    float h = vec3_dot(ray->direction, &oc);
-    float c = vec3_length_squared(&oc) - sphere->obj_radius * sphere->sphere_radius;
-    float discriminant = h * h - a * c;
-
-    if (discriminant < 0)
-        return false;
-
-    float sqrtd = sqrtf(discriminant);
-
-    float root = (h - sqrtd) / a;
-    if (!interval_surrounds(interval, root))
-    {
-        root = (h + sqrtd) / a;
-        if (!interval_surrounds(interval, root))
-            return false;
-    }
-
-    rec->t = root;
-    rec->p = ray_at(ray, root);
-    t_vec3 temp = vec3_sub_vecs(&rec->p, &sphere->sphere_center);
-    t_vec3 outward_normal = vec3_div_vec(&temp, sphere->sphere_radius);
-    rec->material = sphere->material;
-    set_face_normal(ray, &outward_normal, rec);
-
-	return (true);
-}
 bool	pl_hit(t_ray *r, t_hit_record *rec)
 {
 	return (true);

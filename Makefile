@@ -9,7 +9,7 @@ LIBS	:= $(LIBMLX)/build/libmlx42.a
 
 OBJ_DIR	:= obj
 SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c \
-			src/assign_geo_objects.c src/camera.c \
+			src/assign_geo_objects.c src/camera.c src/interval.c src/objects/sphere.c \
 			src/vec3/vec_methods.c src/vec3/vec_methods2.c src/vec3/vec_methods3.c src/vec3/vec_methods4.c src/vec3/vec_methods5.c \
 		  gnl/get_next_line.c gnl/get_next_line_utils.c
 
@@ -19,7 +19,7 @@ LIBFT	:= -L$(LIBFT_DIR) -lft
 all: libmlx libft $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src
+	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src $(OBJ_DIR)/src/objects
 
 libft:
 	@echo "building libft"

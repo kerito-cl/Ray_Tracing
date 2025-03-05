@@ -33,3 +33,11 @@ t_point	ray_at(t_ray *ray, double t)
         ray->orig.z + t * ray->direc.z);
 	return (point);
 }
+void set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec)
+{
+    rec->front_face = vec3_dot(r.direc, outward_normal) < 0;
+    if (rec->front_face)
+        rec->normal = outward_normal;
+    else
+        rec->normal = vec3_flip_minus(outward_normal);
+}

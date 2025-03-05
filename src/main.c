@@ -9,45 +9,76 @@ void	print_vec3(t_vec3 vec3)
 	printf("z : %f\n", vec3.z);
 }
 
-// belongs to materail.
-t_ray sp_scatter()
-{
-
-}
-
-bool	pl_hit(t_ray *r, t_hit_record *rec)
+bool	pl_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
 {
 	return (true);
 }
-bool	cy_hit(t_ray *r, t_hit_record *rec)
+bool	cy_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
 {
 	return (true);
 }
+
+
+
+
+
+bool world_hit(t_info *info, t_ray *ray, t_hit_record *rec, float *nearest)
+{
+	t_interval interval;
+	int	i;
+	float	t;
+
+	i = 0;
+	while (i < info->obj_count)
+	{
+		if (info->obj[i].hit(&info->obj[i], ray, interval, rec))
+		{
+			if (rec->t < *nearest)
+				*nearest = rec->t;
+		}
+		i++;
+	}
+	if (*nearest == INFINITY)
+	{
+		return (false);
+	}
+	return (true);
+}
+
 
 // this function belongs to camera.
-t_vec3	ray_color(t_info *info, t_ray ray, int depth)
+t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 {
 	float			nearest;
 	t_hit_record	rec;
-	t_ray			ray;
-		t_ray scattered;
+	t_ray scattered;
 
 	nearest = INFINITY;
-	if (world_hit(info, ray, &nearest, &rec))
+	if (world_hit(info, ray, &rec, &nearest))
 	// we just get the nearest object here.
 	// we don't care about the color.
 	{
+		printf("%f\n", nearest);
+		//printf("%f\n", nearest);
 		// we handle the color here.
-		if (rec.material->scatter(rec.material, &ray, &rec, &scattered))
+		/*if (rec.material->scatter(rec.material, &ray, &rec, &scattered))
 		{
 			// we just send shadow ray.
-			if (rec.material->ref_idx == 0)
-				return (scattered.direc);
+			//if (rec.material->ref_idx == 0)
+				//return (scattered.direc);
 			// we need to handle the reflection or refraction.
 			return (ray_color(info, scattered, depth - 1));
 		}
-		return ; // black;
+		return ; // black;*/
 	}
+}
+
+void assign_ray_coordinates(t_ray *ray, int row, int col)
+{
+	float x;
+	float y;
+	float aspect_ratio;
+
 	x = (float)col / (WIDTH - 1);
 	y = (float)row / (HEIGHT - 1);
 	y = 1 - y;
@@ -55,16 +86,17 @@ t_vec3	ray_color(t_info *info, t_ray ray, int depth)
 	y = (y * 2) - 1;
 	aspect_ratio = (float)WIDTH / HEIGHT;
 	x = x * aspect_ratio;
-	info->ray.direc.x = x;
-	info->ray.direc.y = y;
-	info->ray.direc.z = -1.5;
-	vec_normalize(&(info->ray).direc);
+	ray->direc.x = x;
+	ray->direc.y = y;
+	ray->direc.z = -1.0;
+	vec_normalize(&ray->direc);
 }
-
 // this function belongs to camera.
 void	throw_rays(void *param)
 {
 	t_info	*info;
+	t_ray ray;
+	t_color color;
 	int		col;
 	int		row;
 	float	x;
@@ -72,14 +104,16 @@ void	throw_rays(void *param)
 	float	aspect_ratio;
 
 	info = (t_info *)param;
+	ray.orig = vec3_copy(info->c.point);
 	while (row < HEIGHT)
 	{
 		col = 0;
 		while (col < WIDTH)
 		{
-			t_ray ray;
-			// assign the ray.
-			info->screen[col][row] = ray_color(info, ray, 50);
+			assign_ray_coordinates(&ray, row, col);
+			// assign the ray. 
+			//info->screen[col][row] = ray_color(info, ray, 50);
+			color = ray_color(info, &ray,50);
 			col++;
 		}
 		row++;
@@ -97,21 +131,20 @@ int	main(int argc, char **argv)
 	ft_bzero(&info, sizeof(t_info));
 	info.arena = arena_init(10240);
 	parse(argv[1], &info);
-	// info.mlx =  mlx_init(WIDTH, HEIGHT, "KD MiniRT", true);
-	// info.img = mlx_new_image(info.mlx, WIDTH, HEIGHT);
-	 if (!info.img || (mlx_image_to_window(info.mlx, info.img, 0, 0) < 0))
+	//info.mlx =  mlx_init(WIDTH, HEIGHT, "KD MiniRT", true);
+	//info.img = mlx_new_image(info.mlx, WIDTH, HEIGHT);
+	 //if (!info.img || (mlx_image_to_window(info.mlx, info.img, 0, 0) < 0))
 	// return (0);
 	// print_vec3(info.obj[8].point);
-	while (i < info.obj_count)
-	{
-		print_vec3(info.obj[i].rgb);
-		i++;
-	}
 
 	// print_vec3(info.c.orient);
-	// printf("%f\n", info.c.fov);
+	printf("%u\n", info.obj_count);
+	throw_rays(&info);
+
+	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));
+	//mlx_image_to_window(info.mlx, info.img, 0 , 0);
 	// mlx_loop_hook(info.mlx, &draw, &info);
-	// mlx_loop(info.mlx);
+	//mlx_loop(info.mlx);
 	// free_all(&info);
 	free_arena_exit(&info);
 	return (0);

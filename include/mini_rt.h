@@ -18,6 +18,7 @@
 
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
+typedef struct s_obj	t_obj;
 
 typedef struct s_vec3
 {
@@ -90,6 +91,12 @@ typedef struct s_hit_record
 	bool					front_face;
 }							t_hit_record;
 
+typedef struct s_interval
+{
+	float					min;
+	float					max;
+}							t_interval;
+
 typedef struct s_obj
 {
 	t_vec3					point;
@@ -97,7 +104,7 @@ typedef struct s_obj
 	t_vec3					normal;
 	float					radius;
 	float					height;
-	bool					(*hit)(t_ray *r, t_hit_record *rec);
+	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval interval, t_hit_record *rec);
 	t_type					type_material;
 	t_material				*material;
 }							t_obj;
@@ -118,11 +125,6 @@ typedef struct s_info
 	unsigned int			obj_count;
 }							t_info;
 
-typedef struct s_interval
-{
-	float					min;
-	float					max;
-}							t_interval;
 
 void						print_vec3(t_vec3 vec3);
 
@@ -133,7 +135,7 @@ void						throw_error(int flag);
 int							check_if_rt(char *str);
 void						parse(char *file, t_info *info);
 void						freesplit(char **strs);
-void						new_vec3(t_vec3 vec3, char **cvec, bool *isvalid,
+void						new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 								bool if_rgb);
 void						create_object_info(t_info *info, char **split);
 void						free_all(t_info *info);
@@ -142,9 +144,9 @@ void						exit_free_parser(t_info *info, char **split, int n);
 
 /* HIT OBJ*/
 
-bool						sp_hit(t_ray *r, t_hit_record *rec);
-bool						pl_hit(t_ray *r, t_hit_record *rec);
-bool						cy_hit(t_ray *r, t_hit_record *rec);
+bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec);
+bool	pl_hit(t_obj *cy, t_ray *ray, t_interval interval, t_hit_record *rec);
+bool	cy_hit(t_obj *plane, t_ray *ray, t_interval interval, t_hit_record *rec);
 
 /*        OPERATIONS                       */
 
@@ -165,10 +167,10 @@ t_vec3						vec3_unit(t_vec3 vec);
 t_vec3						vec3_random(void);
 t_vec3						vec3_random_range(float min, float max);
 t_vec3						vec3_random_unit_vector(void);
-t_vec3						vec3_random_on_hemisphere(t_vec3 *normal);
+t_vec3						vec3_random_on_hemisphere(t_vec3 normal);
 bool						vec3_near_zero(t_vec3 vec);
-t_vec3						vec3_reflect(t_vec3 *v, t_vec3 *n);
-t_vec3						vec3_refract(t_vec3 *uv, t_vec3 *n,
+t_vec3						vec3_reflect(t_vec3 v, t_vec3 n);
+t_vec3						vec3_refract(t_vec3 uv, t_vec3 n,
 								float etai_over_etat);
 t_vec3						vec3_copy(t_vec3 vec);
 t_vec3						vec3_random_in_unit_disk(void);
@@ -186,5 +188,6 @@ float						interval_clamp(t_interval interval, float value);
 /*			Utils							*/
 
 t_point						ray_at(t_ray *ray, double t);
+void set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec);
 
 #endif

@@ -19,7 +19,7 @@ LIBFT	:= -L$(LIBFT_DIR) -lft
 all: libmlx libft $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src $(OBJ_DIR)/gnl
+	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src
 
 libft:
 	@echo "building libft"

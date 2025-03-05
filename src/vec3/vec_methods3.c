@@ -27,6 +27,5 @@ t_vec3	vec3_unit(t_vec3 vec)
 	float	len;
 
 	len = vec3_length(vec);
-	assert(len != 0);
 	return (vec3_div_vec(vec, len));
 }

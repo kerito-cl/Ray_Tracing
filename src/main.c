@@ -10,10 +10,6 @@ void	print_vec3(t_vec3 vec3)
 }
 
 // belongs to materail.
-t_ray sp_scatter()
-{
-
-}
 
 bool	pl_hit(t_ray *r, t_hit_record *rec)
 {
@@ -23,9 +19,14 @@ bool	cy_hit(t_ray *r, t_hit_record *rec)
 {
 	return (true);
 }
+void world_hit(t_info *info, t_ray ray, t_hit_record *rec, float *nearest)
+{
+
+}
+
 
 // this function belongs to camera.
-t_vec3	ray_color(t_info *info, t_ray ray, int depth)
+/*t_vec3	ray_color(t_info *info, t_ray ray, int depth)
 {
 	float			nearest;
 	t_hit_record	rec;
@@ -59,7 +60,7 @@ t_vec3	ray_color(t_info *info, t_ray ray, int depth)
 	info->ray.direc.y = y;
 	info->ray.direc.z = -1.5;
 	vec_normalize(&(info->ray).direc);
-}
+}*/
 
 // this function belongs to camera.
 void	throw_rays(void *param)
@@ -79,7 +80,7 @@ void	throw_rays(void *param)
 		{
 			t_ray ray;
 			// assign the ray.
-			info->screen[col][row] = ray_color(info, ray, 50);
+			//info->screen[col][row] = ray_color(info, ray, 50);
 			col++;
 		}
 		row++;

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   assign_geo_objects.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 18:53:16 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/03 21:39:07 by mquero           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "mini_rt.h"
 
@@ -87,6 +76,7 @@ void create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
     new_vec3(&(info->obj[i]).rgb, vec, isvalid,true);
     assign_typematerial_info(info, split[6], i);
     info->obj[i].hit = cy_hit;
+    //info->obj[i].material.scatter = cy_scatter;
 }
 
 void create_object_info(t_info *info, char **split)

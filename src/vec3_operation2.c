@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vec3_operation2.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 13:40:49 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/01 20:51:57 by mquero           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "mini_rt.h"
 
@@ -40,4 +29,11 @@ void    multiply_vec_by_num(t_vec3 *vec3, float mult)
     vec3->x = (float)vec3->x * mult;
     vec3->y = (float)vec3->y * mult;
     vec3->z = (float)vec3->z * mult;
+}
+
+void    vec_output(uint8_t pixel[3], t_vec3 vec)
+{
+    pixel[0] = (uint8_t)vec.x * 255;
+    pixel[1] = (uint8_t)vec.y * 255;
+    pixel[2] = (uint8_t)vec.z * 255;
 }

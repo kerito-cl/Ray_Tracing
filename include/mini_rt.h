@@ -18,6 +18,9 @@
 typedef struct s_material t_material;
 typedef struct s_hit_record t_hit_record;
 
+typedef struct t_vec3 t_color;
+typedef struct t_vec3 t_point;
+
 typedef struct s_vec3
 {
 	float	x;
@@ -103,10 +106,10 @@ typedef struct s_info
 	mlx_t *mlx;
 	mlx_image_t		*img;
 	t_cam c;
-	t_ray ray;
 	t_alight a;
 	t_light	l;
 	t_obj *obj;
+	uint8_t screen[WIDTH][HEIGHT][3];
 	unsigned int pl_count;
 	unsigned int sp_count;
 	unsigned int cy_count;

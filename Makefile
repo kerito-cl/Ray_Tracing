@@ -9,9 +9,10 @@ LIBS	:= $(LIBMLX)/build/libmlx42.a
 
 OBJ_DIR	:= obj
 SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c \
-			src/assign_geo_objects.c src/vec3_operation.c \
+			src/assign_geo_objects.c src/vec3_operation.c src/camera.c \
 			src/vec3_operation2.c \
 		  gnl/get_next_line.c gnl/get_next_line_utils.c
+
 OBJS	:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 LIBFT	:= -L$(LIBFT_DIR) -lft
 

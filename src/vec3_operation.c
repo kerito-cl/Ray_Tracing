@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vec3_operation.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:56:14 by mquero            #+#    #+#             */
-/*   Updated: 2025/03/01 13:33:01 by mquero           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "mini_rt.h"
 
@@ -33,7 +22,7 @@ float    vec_length(t_vec3 vec1)
     x = vec1.x * vec1.x;
     y = vec1.y * vec1.y;
     z = vec1.z * vec1.z;
-    return (sqrt(x + y + z));
+    return (sqrtf(x + y + z));
 }
 
 void    vec_normalize(t_vec3 *vec1)

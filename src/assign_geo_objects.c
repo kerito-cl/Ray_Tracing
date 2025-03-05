@@ -1,6 +1,9 @@
 
 #include "mini_rt.h"
 
+void		new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
+				bool if_rgb);
+                
 static void assign_typematerial_info(t_info *info, char *material, int i)
 {
     if (ft_strncmp(material, "M\n", ft_strlen(material)) == 0)
@@ -18,15 +21,15 @@ void create_plane_info(t_info *info, char **split, int i, bool *isvalid)
     vec = ft_split(split[1], ',');
     if (!vec)
         exit_free_parser(info, split, 2);
-    new_vec3(&(info->obj[i]).point, vec, isvalid, false);
+    new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
     vec = ft_split(split[2], ',');
     if (!vec)
         exit_free_parser(info, split, 2);
-    new_vec3(&(info->obj[i]).normal, vec, isvalid, false);
+    new_vec3_for_parsing(&(info->obj[i]).normal, vec, isvalid, false);
     vec = ft_split(split[3], ',');
     if (!vec)
         exit_free_parser(info, split, 2);
-    new_vec3(&(info->obj[i]).rgb, vec, isvalid, true);
+    new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
     assign_typematerial_info(info, split[4], i);
     info->obj[i].hit = pl_hit;
 }
@@ -42,11 +45,11 @@ void create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
     vec = ft_split(split[1], ',');
     if (!vec)
         exit_free_parser(info, split, 3);
-    new_vec3(&(info->obj[i]).point, vec,isvalid, false);
+    new_vec3_for_parsing(&(info->obj[i]).point, vec,isvalid, false);
     vec = ft_split(split[3], ',');
     if (!vec)
         exit_free_parser(info, split, 3);
-    new_vec3(&(info->obj[i]).rgb, vec, isvalid, true);
+    new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
     assign_typematerial_info(info, split[4], i);
     info->obj[i].hit = sp_hit;
 }
@@ -65,15 +68,15 @@ void create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
     vec = ft_split(split[1], ',');
     if (!vec)
         exit_free_parser(info, split, 3);
-    new_vec3(&(info->obj[i]).point, vec, isvalid ,false);
+    new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid ,false);
     vec = ft_split(split[2], ',');
     if (!vec)
         exit_free_parser(info, split, 3);
-    new_vec3(&(info->obj[i]).normal, vec, isvalid ,false);
+    new_vec3_for_parsing(&(info->obj[i]).normal, vec, isvalid ,false);
     vec = ft_split(split[5], ',');
     if (!vec)
         exit_free_parser(info, split, 3);
-    new_vec3(&(info->obj[i]).rgb, vec, isvalid,true);
+    new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid,true);
     assign_typematerial_info(info, split[6], i);
     info->obj[i].hit = cy_hit;
     //info->obj[i].material.scatter = cy_scatter;

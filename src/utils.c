@@ -1,7 +1,7 @@
 
 #include "mini_rt.h"
 
-void    new_vec3(t_vec3 *vec3, char **cvec, bool *isvalid ,bool if_rgb)
+void    new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid ,bool if_rgb)
 {
     if (!cvec[0] || !cvec[1] || !cvec[2] || cvec[3] != NULL)
     {

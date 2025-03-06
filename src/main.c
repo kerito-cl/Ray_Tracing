@@ -9,10 +9,6 @@ void	print_vec3(t_vec3 vec3)
 	printf("z : %f\n", vec3.z);
 }
 
-bool	pl_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
-{
-	return (true);
-}
 bool	cy_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
 {
 	return (true);
@@ -28,9 +24,8 @@ t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 
 	nearest = INFINITY;
 	if (world_hit(info, ray, &rec, &nearest))
-	// we just get the nearest object here.
-	// we don't care about the color.
 	{
+		printf("%f\n", nearest);
 	}
 	return vec3_new(0, 0, 0);
 }
@@ -118,10 +113,7 @@ void	throw_rays(void *param)
 		{
 			assign_ray_coordinates(&ray, row, col);
 			// assign the ray. 
-			//info->screen[col][row] = ray_color(info, ray, 50);
 			color = ray_color(info, &ray,50);
-			
-
 			col++;
 		}
 		row++;

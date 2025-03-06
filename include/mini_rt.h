@@ -49,7 +49,7 @@ typedef struct s_material
 	float					fuzz;
 	float					ref_idx;
 
-	bool					(*scatter)(t_material *mat, t_ray *r_in,
+	bool					(*scatter)(t_ray *r_in,
 							t_hit_record *rec, t_vec3 *attenuation,
 							t_ray **scattered);
 }							t_material;
@@ -194,8 +194,8 @@ float						interval_clamp(t_interval interval, float value);
 t_point						ray_at(t_ray *ray, double t);
 void						set_face_normal(t_ray r, t_vec3 outward_normal,
 								t_hit_record *rec);
-bool    lambertian_scatter(t_material *mat, t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
-bool    metal_scatter(t_material *mat, t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
-bool dielectric_scatter(t_material *mat, t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray **scattered);
+bool    lambertian_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
+bool    metal_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
+bool dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
 
 #endif

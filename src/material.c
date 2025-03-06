@@ -32,7 +32,7 @@ static float	reflectance(float cosine, float ref_idx)
 }
 
 bool	dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
-		t_ray **scattered)
+		t_ray *scattered)
 {
 	float	r1;
 	t_vec3	unit_direction;
@@ -52,6 +52,7 @@ bool	dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 		direction = vec3_reflect(unit_direction, rec->normal);
 	else
 		direction = vec3_refract(unit_direction, rec->normal, r1);
-	*scattered = ray_new(&rec->p, &direction);
+	scattered->orig = rec->p;
+	scattered->direc = direction;
 	return (true);
 }

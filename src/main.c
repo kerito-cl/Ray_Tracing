@@ -31,7 +31,6 @@ t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 	// we just get the nearest object here.
 	// we don't care about the color.
 	{
-		printf("%f\n", nearest);
 	}
 	return vec3_new(0, 0, 0);
 }

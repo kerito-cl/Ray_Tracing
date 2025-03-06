@@ -23,7 +23,7 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
 	rec->t = vars.root;
 	rec->p = ray_at(ray, vars.root);
 	vars.outward_normal = vec3_div_vec(vec3_sub_vecs(rec->p, sphere->point), sphere->radius);
-	rec->material = sphere->material;
+	rec->material = &sphere->material;
 	set_face_normal(*ray, vars.outward_normal, rec);
 	return (true);
 }

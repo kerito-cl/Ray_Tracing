@@ -9,11 +9,23 @@ void		new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 static void assign_typematerial_info(t_info *info, char *material, int i)
 {
     if (ft_strncmp(material, "M\n", ft_strlen(material)) == 0)
+    {
         info->obj[i].type_material = METAL;
+        info->obj[i].material.albedo = info->obj[i].rgb;
+        info->obj[i].material.scatter = metal_scatter;
+    }
     else if (ft_strncmp(material, "G\n", ft_strlen(material)) == 0)
+    {
         info->obj[i].type_material = GLASS;
+        info->obj[i].material.albedo = info->obj[i].rgb;
+        info->obj[i].material.scatter = dielectric_scatter;
+    }
     else if (ft_strncmp(material, "D\n", ft_strlen(material)) == 0)
+    {
         info->obj[i].type_material = DIFFUSE;
+        info->obj[i].material.albedo = info->obj[i].rgb;
+        info->obj[i].material.scatter = lambertian_scatter;
+    }
 }
 
 void create_plane_info(t_info *info, char **split, int i, bool *isvalid)

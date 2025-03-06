@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.css": "tailwindcss",
-        "mini_rt.h": "c"
+        "mini_rt.h": "c",
+        "limits.h": "c"
     }
 }

@@ -18,7 +18,7 @@
 
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
-typedef struct s_obj	t_obj;
+typedef struct s_obj		t_obj;
 
 typedef struct s_vec3
 {
@@ -104,7 +104,8 @@ typedef struct s_obj
 	t_vec3					normal;
 	float					radius;
 	float					height;
-	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval interval, t_hit_record *rec);
+	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval interval,
+							t_hit_record *rec);
 	t_type					type_material;
 	t_material				*material;
 }							t_obj;
@@ -125,7 +126,6 @@ typedef struct s_info
 	unsigned int			obj_count;
 }							t_info;
 
-
 void						print_vec3(t_vec3 vec3);
 
 t_arena						*arena_init(size_t size);
@@ -135,18 +135,22 @@ void						throw_error(int flag);
 int							check_if_rt(char *str);
 void						parse(char *file, t_info *info);
 void						freesplit(char **strs);
-void						new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
-								bool if_rgb);
+void						new_vec3_for_parsing(t_vec3 *vec3, char **cvec,
+								bool *isvalid, bool if_rgb);
 void						create_object_info(t_info *info, char **split);
 void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
 void						exit_free_parser(t_info *info, char **split, int n);
 
 /* HIT OBJ*/
-
-bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec);
-bool	pl_hit(t_obj *cy, t_ray *ray, t_interval interval, t_hit_record *rec);
-bool	cy_hit(t_obj *plane, t_ray *ray, t_interval interval, t_hit_record *rec);
+bool						world_hit(t_info *info, t_ray *ray,
+								t_hit_record *rec, float *nearest);
+bool						sp_hit(t_obj *sphere, t_ray *ray,
+								t_interval interval, t_hit_record *rec);
+bool						pl_hit(t_obj *cy, t_ray *ray, t_interval interval,
+								t_hit_record *rec);
+bool						cy_hit(t_obj *plane, t_ray *ray,
+								t_interval interval, t_hit_record *rec);
 
 /*        OPERATIONS                       */
 
@@ -188,6 +192,7 @@ float						interval_clamp(t_interval interval, float value);
 /*			Utils							*/
 
 t_point						ray_at(t_ray *ray, double t);
-void set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec);
+void						set_face_normal(t_ray r, t_vec3 outward_normal,
+								t_hit_record *rec);
 
 #endif

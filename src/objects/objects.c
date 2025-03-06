@@ -9,6 +9,7 @@ bool	world_hit(t_info *info, t_ray *ray, t_hit_record *rec, float *nearest)
 
 	i = 0;
 	is_hit = false;
+    interval = interval_empty();
 	while (i < info->obj_count)
 	{
 		if (info->obj[i].hit(&info->obj[i], ray, interval, rec))

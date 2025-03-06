@@ -32,20 +32,52 @@ t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 	// we don't care about the color.
 	{
 		printf("%f\n", nearest);
-		//printf("%f\n", nearest);
-		// we handle the color here.
-		/*if (rec.material->scatter(rec.material, &ray, &rec, &scattered))
-		{
-			// we just send shadow ray.
-			//if (rec.material->ref_idx == 0)
-				//return (scattered.direc);
-			// we need to handle the reflection or refraction.
-			return (ray_color(info, scattered, depth - 1));
-		}
-		return ; // black;*/
 	}
 	return vec3_new(0, 0, 0);
 }
+
+
+/**
+ // ray_color
+ if (world_hit(ray))
+ {
+	if (material is dif)
+		send_shadow_rays();
+	else
+		send_ref_rays();
+ }
+ else
+ {
+	return (sky_color);
+ }
+
+ // send_shadow_rays()
+if (is there  obstacle)
+ 	return (shadow color);
+return (colors);
+
+ // is there a obstacle?
+ while (light in lights)
+ {
+	new ray;
+	if (world_hit(ray))
+		continue;
+	else
+		return false;
+ }
+ return true;
+
+
+// send_ref_rays
+check the
+
+
+
+
+ * 
+ * 
+ * 
+ */
 
 void assign_ray_coordinates(t_ray *ray, int row, int col)
 {
@@ -79,6 +111,7 @@ void	throw_rays(void *param)
 
 	info = (t_info *)param;
 	ray.orig = vec3_copy(info->c.point);
+	row = 0;
 	while (row < HEIGHT)
 	{
 		col = 0;
@@ -88,6 +121,8 @@ void	throw_rays(void *param)
 			// assign the ray. 
 			//info->screen[col][row] = ray_color(info, ray, 50);
 			color = ray_color(info, &ray,50);
+			
+
 			col++;
 		}
 		row++;

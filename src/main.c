@@ -19,33 +19,6 @@ bool	cy_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
 }
 
 
-
-
-
-bool world_hit(t_info *info, t_ray *ray, t_hit_record *rec, float *nearest)
-{
-	t_interval interval;
-	int	i;
-	float	t;
-
-	i = 0;
-	while (i < info->obj_count)
-	{
-		if (info->obj[i].hit(&info->obj[i], ray, interval, rec))
-		{
-			if (rec->t < *nearest)
-				*nearest = rec->t;
-		}
-		i++;
-	}
-	if (*nearest == INFINITY)
-	{
-		return (false);
-	}
-	return (true);
-}
-
-
 // this function belongs to camera.
 t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 {
@@ -71,6 +44,7 @@ t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 		}
 		return ; // black;*/
 	}
+	return vec3_new(0, 0, 0);
 }
 
 void assign_ray_coordinates(t_ray *ray, int row, int col)
@@ -138,7 +112,7 @@ int	main(int argc, char **argv)
 	// print_vec3(info.obj[8].point);
 
 	// print_vec3(info.c.orient);
-	printf("%u\n", info.obj_count);
+	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
 	throw_rays(&info);
 
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));

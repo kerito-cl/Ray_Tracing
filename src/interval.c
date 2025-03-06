@@ -6,6 +6,7 @@ t_interval	interval_empty(void)
 
 	interval.max = INFINITY;
 	interval.min = -INFINITY;
+	return (interval);
 }
 
 t_interval	interval_universe(void)
@@ -14,6 +15,7 @@ t_interval	interval_universe(void)
 
 	interval.max = -INFINITY;
 	interval.min = INFINITY;
+	return (interval);
 }
 
 float	interval_size(t_interval interval)

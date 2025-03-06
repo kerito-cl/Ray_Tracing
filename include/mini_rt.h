@@ -51,7 +51,7 @@ typedef struct s_material
 
 	bool					(*scatter)(t_ray *r_in,
 							t_hit_record *rec, t_vec3 *attenuation,
-							t_ray **scattered);
+							t_ray *scattered);
 }							t_material;
 
 typedef struct s_arena
@@ -147,9 +147,9 @@ bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, float *nearest);
 bool						sp_hit(t_obj *sphere, t_ray *ray,
 								t_interval interval, t_hit_record *rec);
-bool						pl_hit(t_obj *cy, t_ray *ray, t_interval interval,
+bool						pl_hit(t_obj *plane, t_ray *ray, t_interval interval,
 								t_hit_record *rec);
-bool						cy_hit(t_obj *plane, t_ray *ray,
+bool						cy_hit(t_obj *cy, t_ray *ray,
 								t_interval interval, t_hit_record *rec);
 
 /*        OPERATIONS                       */

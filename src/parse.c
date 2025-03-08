@@ -1,4 +1,4 @@
-
+#include "constants.h"
 #include "mini_rt.h"
 
 static void	assign_camera_info(t_info *info, char **split, bool *isvalid)
@@ -14,6 +14,9 @@ static void	assign_camera_info(t_info *info, char **split, bool *isvalid)
 	if (!vec)
 		free_arena_exit(info);
 	new_vec3_for_parsing(&(info->c).orient, vec, isvalid, false);
+	info->c.look_at = vec3_new(0, 0, -1);
+	info->c.image_height = IMG_HEIGHT;
+	info->c.image_width = IMG_WIDTH;
 }
 
 static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)
@@ -89,7 +92,7 @@ void	parse(char *file, t_info *info)
 		input = get_next_line(fd);
 	}
 	// info->pl = ft_memmove(info->sp + info->sp_count, info->pl, sizeof(t_pl)
-			//* info->pl_count);
+	//* info->pl_count);
 	// info->cy = ft_memmove(info->pl + info->pl_count, info->cy, sizeof(t_cy)
-			//* info->cy_count);
+	//* info->cy_count);
 }

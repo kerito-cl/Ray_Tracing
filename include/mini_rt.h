@@ -1,7 +1,7 @@
 #ifndef MINI_RT_H
 # define MINI_RT_H
-# define WIDTH 1920
-# define HEIGHT 1080
+# define MAX_WIDTH 1920
+# define MAX_HEIGHT 1080
 # define INFINITY 1080
 
 # include "MLX42/MLX42.h"
@@ -49,9 +49,8 @@ typedef struct s_material
 	float					fuzz;
 	float					ref_idx;
 
-	bool					(*scatter)(t_ray *r_in,
-							t_hit_record *rec, t_vec3 *attenuation,
-							t_ray *scattered);
+	bool					(*scatter)(t_ray *r_in, t_hit_record *rec,
+							t_vec3 *attenuation, t_ray *scattered);
 }							t_material;
 
 typedef struct s_arena
@@ -64,9 +63,34 @@ typedef struct s_arena
 
 typedef struct s_cam
 {
-	t_vec3					point;
+	// Set to default.
+	int						image_width;
+	int						image_height;
+
+	// From Parsing.
+	t_point					point;
 	t_vec3					orient;
 	float					fov;
+
+	// Constant.
+	t_point					look_at;
+
+	// Need to be calculated.
+	float					aspect_ratio;
+	t_point					pixel00_loc;
+	t_vec3					pixel_delta_u;
+	t_vec3					pixel_delta_v;
+	t_vec3					u;
+	t_vec3					v;
+	t_vec3					w;
+	t_vec3					dist;
+	float					focal_length;
+	float					viewport_height;
+	float					viewport_width;
+	t_vec3					viewpoint_u;
+	t_vec3					viewpoint_v;
+	t_vec3					top_left;
+	
 }							t_cam;
 
 typedef struct s_alight
@@ -119,7 +143,7 @@ typedef struct s_info
 	t_alight				a;
 	t_light					l;
 	t_obj					*obj;
-	uint8_t					screen[WIDTH][HEIGHT][3];
+	uint8_t					screen[MAX_WIDTH][MAX_HEIGHT][3];
 	unsigned int			pl_count;
 	unsigned int			sp_count;
 	unsigned int			cy_count;
@@ -147,10 +171,10 @@ bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, float *nearest);
 bool						sp_hit(t_obj *sphere, t_ray *ray,
 								t_interval interval, t_hit_record *rec);
-bool						pl_hit(t_obj *plane, t_ray *ray, t_interval interval,
-								t_hit_record *rec);
-bool						cy_hit(t_obj *cy, t_ray *ray,
+bool						pl_hit(t_obj *plane, t_ray *ray,
 								t_interval interval, t_hit_record *rec);
+bool						cy_hit(t_obj *cy, t_ray *ray, t_interval interval,
+								t_hit_record *rec);
 
 /*        OPERATIONS                       */
 
@@ -194,8 +218,11 @@ float						interval_clamp(t_interval interval, float value);
 t_point						ray_at(t_ray *ray, double t);
 void						set_face_normal(t_ray r, t_vec3 outward_normal,
 								t_hit_record *rec);
-bool    lambertian_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
-bool    metal_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
-bool dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
+bool						lambertian_scatter(t_ray *r_in, t_hit_record *rec,
+								t_vec3 *attenuation, t_ray *scattered);
+bool						metal_scatter(t_ray *r_in, t_hit_record *rec,
+								t_vec3 *attenuation, t_ray *scattered);
+bool						dielectric_scatter(t_ray *r_in, t_hit_record *rec,
+								t_vec3 *attenuation, t_ray *scattered);
 
 #endif

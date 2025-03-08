@@ -119,7 +119,7 @@ typedef struct s_info
 	t_alight				a;
 	t_light					l;
 	t_obj					*obj;
-	uint8_t					screen[WIDTH][HEIGHT][3];
+	//uint8_t					screen[WIDTH][HEIGHT][3];
 	unsigned int			pl_count;
 	unsigned int			sp_count;
 	unsigned int			cy_count;

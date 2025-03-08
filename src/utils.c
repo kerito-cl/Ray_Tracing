@@ -7,17 +7,12 @@ static void	assign_str_to_vec(t_vec3 *vec3, char **cvec ,bool *isvalid, bool if_
 	vec3->x = ft_strtof(cvec[0], &ptr);
     if (ptr[0] != 0)
 		*isvalid = false;
-	printf("%f\n", vec3->x);
 	vec3->y = ft_strtof(cvec[1], &ptr);
     if (ptr[0] != 0)
 		*isvalid = false;
-	printf("%f\n", vec3->y);
 	vec3->z = ft_strtof(cvec[2], &ptr);
-	printf("%f\n", vec3->z);
     if (ptr[0] != 0 && ptr[0] != '\n')
 		*isvalid = false;
-	printf("%d\n", *isvalid);
-	printf("%s\n", ptr);
 	if (if_rgb)
 	{
 		vec3->x = vec3->x / 255;

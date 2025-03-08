@@ -1,5 +1,31 @@
 
 #include "mini_rt.h"
+static void	assign_str_to_vec(t_vec3 *vec3, char **cvec ,bool *isvalid, bool if_rgb)
+{
+	char *ptr;
+
+	vec3->x = ft_strtof(cvec[0], &ptr);
+    if (ptr[0] != 0)
+		*isvalid = false;
+	printf("%f\n", vec3->x);
+	vec3->y = ft_strtof(cvec[1], &ptr);
+    if (ptr[0] != 0)
+		*isvalid = false;
+	printf("%f\n", vec3->y);
+	vec3->z = ft_strtof(cvec[2], &ptr);
+	printf("%f\n", vec3->z);
+    if (ptr[0] != 0 && ptr[0] != '\n')
+		*isvalid = false;
+	printf("%d\n", *isvalid);
+	printf("%s\n", ptr);
+	if (if_rgb)
+	{
+		vec3->x = vec3->x / 255;
+		vec3->y = vec3->y / 255;
+		vec3->z = vec3->z / 255;
+	}
+}
+
 
 void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 		bool if_rgb)
@@ -10,7 +36,13 @@ void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 		*isvalid = false;
 		return ;
 	}
-	vec3->x = ft_strtof(cvec[0], NULL);
+	assign_str_to_vec(vec3, cvec, isvalid, if_rgb);
+	if (*isvalid == false)
+	{
+		freesplit(cvec);
+		return ;
+	}
+	/*vec3->x = ft_strtof(cvec[0], NULL);
 	vec3->y = ft_strtof(cvec[1], NULL);
 	vec3->z = ft_strtof(cvec[2], NULL);
 	if (if_rgb)
@@ -18,7 +50,7 @@ void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 		vec3->x = ft_strtof(cvec[0], NULL) / 255;
 		vec3->y = ft_strtof(cvec[1], NULL) / 255;
 		vec3->z = ft_strtof(cvec[2], NULL) / 255;
-	}
+	}*/
 	if (cvec != NULL)
 		freesplit(cvec);
 }

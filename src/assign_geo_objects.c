@@ -52,7 +52,7 @@ void create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
 {
     char  **vec;
     char    *ptr;
-
+    
     info->obj[i].radius = ft_strtof(split[2], &ptr) * 0.5;
     if (ptr[0] != 0)
         exit_free_parser(info, split, 2);

@@ -176,6 +176,13 @@ bool						pl_hit(t_obj *plane, t_ray *ray,
 bool						cy_hit(t_obj *cy, t_ray *ray, t_interval interval,
 								t_hit_record *rec);
 
+/* Camera */
+
+void 						camera_resize_screen(t_info *info, int image_width, int image_height);
+void 						camera_move(t_info *info, t_point point, float fov, t_vec3 orient);
+void 						camera_render(t_info *info);
+
+
 /*        OPERATIONS                       */
 
 t_vec3						vec3_new(float x, float y, float z);
@@ -205,6 +212,7 @@ t_vec3						vec3_random_in_unit_disk(void);
 
 /*			INTERVAL						*/
 
+t_interval					interval_default(void);
 t_interval					interval_empty(void);
 t_interval					interval_universe(void);
 float						interval_size(t_interval interval);

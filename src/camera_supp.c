@@ -14,7 +14,7 @@ void camera_init(t_cam *c)
 	c->viewpoint_v = vec3_flip_minus(vec3_mul_vec(c->v, c->viewport_height));
 	c->pixel_delta_u = vec3_div_vec(c->viewpoint_u, c->image_width);
 	c->pixel_delta_v = vec3_div_vec(c->viewpoint_v, c->image_height);
-	c->top_left = vec3_sub_vecs(c->point, vec3_add_vec(vec3_mul_vec(c->w, c->focal_length), vec3_add_vecs(vec3_div_vec(c->viewpoint_u, 2), vec3_div_vec(c->viewpoint_v, 2)));
+	c->top_left = vec3_sub_vecs(c->point, vec3_add_vec(vec3_mul_vec(c->w, c->focal_length), vec3_add_vecs(vec3_div_vec(c->viewpoint_u, 2), vec3_div_vec(c->viewpoint_v, 2))));
 	c->pixel00_loc = vec3_add_vecs(c->top_left,
 			vec3_mul_vec(vec3_add_vecs(c->pixel_delta_u, c->pixel_delta_v),
 				0.5));

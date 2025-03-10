@@ -10,7 +10,6 @@ void	camera_render(t_info *info)
 	int		j;
 	int		i;
 	t_ray	ray;
-	t_vec3	target;
 
 	camera_init(&info->c);
 	j = 0;
@@ -20,9 +19,7 @@ void	camera_render(t_info *info)
 		i = 0;
 		while (i < info->c.image_width)
 		{
-			target = vec3_new(i, j, info->c.focal_length);
-			vec3_normalize(&target);
-			ray.direc = target;
+			ray.direc = camera_get_ray(info->c, i, j);
 			info->screen[j][i] = camera_ray_color(info, ray, info->obj,
 					MAX_DEPTH);
 			++i;

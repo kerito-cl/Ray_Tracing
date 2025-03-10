@@ -32,23 +32,21 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 			vec3_mul_vec(c->pixel_delta_v, j));
 	ray.orig = c->point;
 	ray.direc = vec3_sub_vecs(pixel_sample, c->point);
+	vec3_normalize(&(ray.direc));
 	return (ray);
 }
 
 t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 {
 	t_ray			new_ray;
-	t_vec3			dist;
 	t_hit_record	new_rec;
 	t_interval		interval;
 
-	vec3_normalize(&rec->p);
 	new_ray.orig = rec->p;
-	dist = vec3_sub_vecs(info->l.point, rec->p);
-	vec3_normalize(&dist);
-	new_ray.direc = dist;
+	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
+	vec3_normalize(&(new_ray.direc));
 	interval = interval_empty();
-	if (world_hit(info, ray, rec, &interval))
+	if (world_hit(info, &new_ray, &new_rec, &interval))
 		return (get_shadow_light(info));
 	return (get_light_color(info, &new_ray, ray));
 }

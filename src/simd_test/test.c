@@ -11,18 +11,19 @@ typedef struct {
     float x;
     float y;
     float z;
+    float r;
 } t_vec3;
 
 t_vec3 vec3_new(float x, float y, float z) {
-    return (t_vec3){ x, y, z };
+    return (t_vec3){ x, y, z, 0 };
 }
 
 float vec3_dot(t_vec3 vec1, t_vec3 vec2) {
-    return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
+    return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z + vec1.r * vec2.r);
 }
 
 t_vec3 vec3_mul_vecs(t_vec3 vec1, t_vec3 vec2) {
-    return (t_vec3){ vec1.x * vec2.x, vec1.y * vec2.y, vec1.z * vec2.z };
+    return (t_vec3){ vec1.x * vec2.x, vec1.y * vec2.y, vec1.z * vec2.z, vec1.r * vec2.r };
 }
 
 // AVX2
@@ -98,15 +99,16 @@ void benchmark_vec3() {
     double cpu_time_used;
 
     start = clock();
+    float dot = 0;
     for (int i = 0; i < NUM_ITERATIONS; i++) {
         t_vec3 v1 = {rand_x1[i], rand_y1[i], rand_z1[i]};
         t_vec3 v2 = {rand_x2[i], rand_y2[i], rand_z2[i]};
-        float dot = vec3_dot(v1, v2);
         t_vec3 mul = vec3_mul_vecs(v1, v2);
+        dot *= vec3_dot(v1, v2);
     }
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("t_vec3 operations took %f seconds\n", cpu_time_used);
+    printf("t_vec3 operations took %f, %f seconds\n", cpu_time_used, dot);
 }
 
 void benchmark_vec8() {
@@ -114,17 +116,19 @@ void benchmark_vec8() {
     double cpu_time_used;
 
     start = clock();
+    float res_dots[8]= {};
+    float res = 0;
     for (int i = 0; i < (NUM_ITERATIONS / 8); i++) {
         t_vec8 v1, v2, res_mul;
         vec8_new(&rand_x1[i * 8], &rand_y1[i * 8], &rand_z1[i * 8], &v1);
         vec8_new(&rand_x2[i * 8], &rand_y2[i * 8], &rand_z2[i * 8], &v2);
-        float res_dot[8];
-        vec8_dot(v1, v2, res_dot);
         vec8_mul_vecs(v1, v2, &res_mul);
+        vec8_dot(v1, v2, res_dots);
+        res *= res_dots[0];
     }
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("t_vec8 (AVX2) operations took %f seconds\n", cpu_time_used);
+    printf("t_vec8 (AVX2) operations took %f, %f seconds\n", cpu_time_used, res);
 }
 
 void benchmark_vec4() {
@@ -132,15 +136,17 @@ void benchmark_vec4() {
     double cpu_time_used;
 
     start = clock();
+    float dot = 0;
     for (int i = 0; i < (NUM_ITERATIONS / 4); i++) {
         t_vec4 v1 = vec4_new(rand_x1[i * 4], rand_y1[i * 4], rand_z1[i * 4]);
         t_vec4 v2 = vec4_new(rand_x2[i * 4], rand_y2[i * 4], rand_z2[i * 4]);
-        float dot = vec4_dot(v1, v2);
+
         t_vec4 mul = vec4_mul_vecs(v1, v2);
+        dot *= vec4_dot(v1, v2);
     }
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("t_vec4 (SSE) operations took %f seconds\n", cpu_time_used);
+    printf("t_vec4 (SSE) operations took %f seconds %f\n", cpu_time_used, dot);
 }
 
 int main() {

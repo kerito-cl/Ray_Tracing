@@ -73,7 +73,7 @@ check the
  * 
  */
 
-void assign_ray_coordinates(t_ray *ray, int row, int col)
+/*void assign_ray_coordinates(t_ray *ray, int row, int col)
 {
 	float x;
 	float y;
@@ -90,7 +90,7 @@ void assign_ray_coordinates(t_ray *ray, int row, int col)
 	ray->direc.y = y;
 	ray->direc.z = -1.0;
 	vec_normalize(&ray->direc);
-}
+}*/
 // this function belongs to camera.
 void	throw_rays(void *param)
 {
@@ -104,14 +104,14 @@ void	throw_rays(void *param)
 	float	aspect_ratio;
 
 	info = (t_info *)param;
-	ray.orig = vec3_copy(info->c.point);
 	row = 0;
+	
 	while (row < HEIGHT)
 	{
 		col = 0;
 		while (col < WIDTH)
 		{
-			assign_ray_coordinates(&ray, row, col);
+			//assign_ray_coordinates(&ray, row, col);
 			// assign the ray. 
 			color = ray_color(info, &ray,50);
 			col++;

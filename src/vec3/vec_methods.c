@@ -23,7 +23,7 @@ float    vec_length(t_vec3 vec1)
     return (sqrtf(x + y + z));
 }
 
-void	vec_normalize(t_vec3 *vec)
+void	vec3_normalize(t_vec3 *vec)
 {
 	float	inverse;
 

@@ -187,7 +187,7 @@ void 						camera_render(t_info *info);
 
 t_vec3						vec3_new(float x, float y, float z);
 void						vec3_print(t_vec3 vec);
-void						vec_normalize(t_vec3 *vec);
+void						vec3_normalize(t_vec3 *vec);
 t_vec3						vec3_flip_minus(t_vec3 vec);
 float						vec3_length_squared(t_vec3 vec);
 float						vec3_length(t_vec3 vec);

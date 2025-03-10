@@ -1,6 +1,6 @@
 #include "mini_rt.h"
 
-bool	pl_hit(t_obj *plane, t_ray *ray, t_interval interval, t_hit_record *rec)
+bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval, t_hit_record *rec)
 {
 	t_vec3 plane_ray_vec;
     float dot_plane;
@@ -13,7 +13,7 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval interval, t_hit_record *rec)
     plane_ray_vec = vec3_sub_vecs(plane_ray_vec, ray->orig);
     result = vec3_dot(plane_ray_vec, plane->normal);
     result = result / dot_plane;
-    if (result > 0)
+    if (result > interval->min && result < interval->max)
     {
         rec->t = result;
         rec->p = ray_at(ray, result);

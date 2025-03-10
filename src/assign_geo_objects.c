@@ -1,7 +1,7 @@
 
 #include "mini_rt.h"
 
-bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec);
+bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec);
 
 void		new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 				bool if_rgb);

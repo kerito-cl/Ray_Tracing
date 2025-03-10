@@ -18,6 +18,15 @@ t_interval	interval_universe(void)
 	return (interval);
 }
 
+t_interval	interval_default(void)
+{
+	t_interval	interval;
+
+	interval.max = 0.001;
+	interval.min = INFINITY;
+	return (interval);
+}
+
 float	interval_size(t_interval interval)
 {
 	return (interval.max - interval.min);
@@ -28,9 +37,9 @@ bool	interval_contains(t_interval interval, float value)
 	return (value >= interval.min && value <= interval.max);
 }
 
-bool	interval_surrounds(t_interval interval, float value)
+bool	interval_surrounds(t_interval *interval, float value)
 {
-	return (value > interval.min && value < interval.max);
+	return (value > interval->min && value < interval->max);
 }
 
 float	interval_clamp(t_interval interval, float value)

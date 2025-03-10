@@ -48,20 +48,9 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	vec3_normalize(&dist);
 	new_ray.direc = dist;
 	interval = interval_empty();
-	if (world_hit(info, ray, rec, &interval) && rec->material.)
-		return (cal_light_color()); // required.
-	return (cal_shadow_light_color());
-	/**
-	while (i < info->lights_count) // required.
-	{
-		ray->orig = rec->p;
-		ray->direc = vec3_normalize(vec3_sub_vecs(info->lights[i].point,
-					rec->p)); // do we have this?
-		if (!world_hit_without_light(info, ray, rec, &interval))   // required.
-			return (cal_light_color()); // required.
-		++i;
-	return (cal_shadow_light_color()); // required.
-	*/
+	if (world_hit(info, ray, rec, &interval))
+		return (get_shadow_light(info));
+	return (get_light_color(info, &new_ray, ray));
 }
 
 t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
@@ -76,22 +65,21 @@ t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 	return (vec3_new(0, 0, 0));
 }
 
-t_color	camera_ray_color(t_info *info, t_ray *ray, t_obj **world, int depth)
+t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth)
 {
-	t_hit_record rec;
-	t_interval interval;
+	t_hit_record	rec;
+	t_interval		interval;
+	t_color			res;
 
 	if (depth <= 0)
 		return (vec3_new(0, 0, 0));
-	interval = interval_default;
-	if (world_hit(info, ray, &rec, &interval))
+	interval = interval_default();
+	if (world_hit(info, &ray, &rec, &interval))
 	{
 		if (rec.material == DIFFUSE)
-			return (camera_send_shadow_rays(nfo, ray, &rec));
-		else if (rec.material == LIGHT)
-			return (cal_light_color()); // required.
+			return (camera_send_shadow_rays(info, &ray, &rec));
 		else
-			return (camera_send_reflect_rays(info, ray, &rec, depth));
+			return (camera_send_reflect_rays(info, &ray, &rec, depth));
 	}
-	return (cal_sky_color()); // required.
+	return (get_ambient_light(info));
 }

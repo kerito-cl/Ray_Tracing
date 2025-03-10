@@ -1,7 +1,7 @@
 #include "mini_rt.h"
 #include "vars.h"
 
-bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
+bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
 {
 	t_sp_hit_vars vars;
 

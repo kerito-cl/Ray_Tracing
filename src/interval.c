@@ -37,9 +37,9 @@ bool	interval_contains(t_interval interval, float value)
 	return (value >= interval.min && value <= interval.max);
 }
 
-bool	interval_surrounds(t_interval interval, float value)
+bool	interval_surrounds(t_interval *interval, float value)
 {
-	return (value > interval.min && value < interval.max);
+	return (value > interval->min && value < interval->max);
 }
 
 float	interval_clamp(t_interval interval, float value)

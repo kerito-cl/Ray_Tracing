@@ -128,7 +128,7 @@ typedef struct s_obj
 	t_vec3					normal;
 	float					radius;
 	float					height;
-	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval interval,
+	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval *interval,
 							t_hit_record *rec);
 	t_type					type_material;
 	t_material				material;
@@ -168,12 +168,12 @@ void						exit_free_parser(t_info *info, char **split, int n);
 
 /* HIT OBJ*/
 bool						world_hit(t_info *info, t_ray *ray,
-								t_hit_record *rec, float *nearest);
+								t_hit_record *rec, t_interval *interval);
 bool						sp_hit(t_obj *sphere, t_ray *ray,
-								t_interval interval, t_hit_record *rec);
+								t_interval *interval, t_hit_record *rec);
 bool						pl_hit(t_obj *plane, t_ray *ray,
-								t_interval interval, t_hit_record *rec);
-bool						cy_hit(t_obj *cy, t_ray *ray, t_interval interval,
+								t_interval *interval, t_hit_record *rec);
+bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 								t_hit_record *rec);
 
 /* Camera */
@@ -217,9 +217,15 @@ t_interval					interval_empty(void);
 t_interval					interval_universe(void);
 float						interval_size(t_interval interval);
 bool						interval_contains(t_interval interval, float value);
-bool						interval_surrounds(t_interval interval,
+bool						interval_surrounds(t_interval *interval,
 								float value);
 float						interval_clamp(t_interval interval, float value);
+
+/*			COLOR						*/
+
+t_color 					get_shadow_light(t_info *info);
+t_color 					get_light_color(t_info *info, t_ray *shadow_ray, t_ray *cam_ray);
+t_color    					get_ambient_light(t_info *info);
 
 /*			Utils							*/
 

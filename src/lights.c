@@ -1,6 +1,6 @@
 #include "mini_rt.h"
 
-t_color    handle_ambient_light(t_info *info ,t_color *light_color)
+t_color    get_ambient_light(t_info *info)
 {
     t_color a_light;
 
@@ -9,24 +9,23 @@ t_color    handle_ambient_light(t_info *info ,t_color *light_color)
     return (a_light);
 }
 
-t_color    handle_diffuse_light(t_info *info ,t_color *light_color, t_hit_record *rec)
+t_color    handle_diffuse_light(t_info *info, t_ray *shadow_ray)
 {
     t_color dif_color;
-    t_vec3 to_light;
     float intensity;
 
     // REC.P NEEDS TO BE NORMALIZE BEFORE CALLING LIGHT FUNCTIONS 
 
     
-    to_light = vec3_sub_vecs(info->l.point, rec->p); 
-    vec_normalize(&to_light); // TRY TO PASS TO_LIGHT VECTOR OUTSIDE THIS FUNCTION;
-    dif_color = vec3_copy(info->l.rgb);
-    intensity = fmaxf(vec3_dot(rec->p, to_light), 0);
+    //to_light = vec3_sub_vecs(info->l.point, rec->p); 
+    //vec_normalize(&to_light); // TRY TO PASS TO_LIGHT VECTOR OUTSIDE THIS FUNCTION;
+    dif_color = info->l.rgb;
+    intensity = fmaxf(vec3_dot(shadow_ray->orig, shadow_ray->direc), 0);
     dif_color = vec3_mul_vec(dif_color, intensity);
     return (dif_color);
 }
 
-t_color    handle_specular_light(t_info *info ,t_color *light_color, t_hit_record *rec, t_ray ray)
+t_color    handle_specular_light(t_info *info ,t_ray *shadow_ray, t_ray *cam_ray)
 {
     t_color specular_color;
     t_vec3 to_light;
@@ -35,16 +34,30 @@ t_color    handle_specular_light(t_info *info ,t_color *light_color, t_hit_recor
 
     // REC.P NEEDS TO BE NORMALIZE BEFORE CALLING LIGHT FUNCTIONS 
 
-    to_light = vec3_sub_vecs(info->l.point, rec->p); 
-    vec_normalize(&to_light); // TRY TO PASS TO_LIGHT VECTOR OUTSIDE THIS FUNCTION;
-    intensity = vec3_dot(to_light, rec->p);
-    normal_vec = vec3_mul_vec(rec->p, 2.0 * intensity);
+    intensity = fmaxf(vec3_dot(shadow_ray->orig, shadow_ray->direc), 0); // NOt sure yet about FMAXF
+    normal_vec = vec3_mul_vec(shadow_ray->orig, 2.0 * intensity);
 
-    to_light = vec3_sub_vecs(to_light, normal_vec);
+    to_light = vec3_sub_vecs(shadow_ray->direc, normal_vec);
     //MAYBE NORMALIZE TO_LIGHT VECTOR
 
-    intensity = fmaxf(vec3_dot(ray.direc, to_light), 0);
-    intensity = pow(intensity, 30); //SECOND PARAMATER CHANGES THE SPECULAR SPOT LIGHT INTENSITY
+    intensity = fmaxf(vec3_dot(cam_ray->direc, shadow_ray->direc), 0);
+    intensity = powf(intensity, 30); //SECOND PARAMATER CHANGES THE SPECULAR SPOT LIGHT INTENSITY
     specular_color = vec3_mul_vec(info->l.rgb, intensity);
     return (specular_color);
 }
+
+t_color get_shadow_light(t_info *info)
+{
+    return (vec3_mul_vecs(get_ambient_light(info), vec3_new(0, 0, 0)));
+}
+
+t_color get_light_color(t_info *info, t_ray *shadow_ray, t_ray *cam_ray)
+{
+    t_color res;
+
+    res = get_ambient_light(info);
+    res = vec3_add_vecs(res, handle_diffuse_light(info, shadow_ray));
+    res = vec3_add_vecs(res, handle_specular_light(info, shadow_ray, cam_ray));
+    return res;
+}
+

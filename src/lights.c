@@ -9,7 +9,7 @@ t_color    handle_ambient_light(t_info *info ,t_color *light_color)
     return (a_light);
 }
 
-t_color    handle_diffuse_light(t_info *info ,t_color *light_color, t_hit_record *rec)
+/*t_color    handle_diffuse_light(t_info *info ,t_color *light_color, t_hit_record *rec)
 {
     t_color dif_color;
     t_vec3 to_light;
@@ -47,4 +47,4 @@ t_color    handle_specular_light(t_info *info ,t_color *light_color, t_hit_recor
     intensity = pow(intensity, 30); //SECOND PARAMATER CHANGES THE SPECULAR SPOT LIGHT INTENSITY
     specular_color = vec3_mul_vec(info->l.rgb, intensity);
     return (specular_color);
-}
+}*/

@@ -108,8 +108,6 @@ void create_object_info(t_info *info, char **split)
         create_sphere_info(info, split, i, &isvalid);
     else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
         create_cylinder_info(info, split, i, &isvalid);
-    else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
-        assign_light_info(info, split, i, &isvalid);
     if (!isvalid)
         exit_free_parser(info, split, 2);
     i++;

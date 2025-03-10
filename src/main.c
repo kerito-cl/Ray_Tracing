@@ -128,6 +128,15 @@ void	throw_rays(void *param)
 	}
 }
 
+void	handle_win_close_event(void *param)
+{
+	t_info	*info;
+
+	info = (t_info *)param;
+	free_arena_exit(info);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_info	info;
@@ -147,14 +156,14 @@ int	main(int argc, char **argv)
 
 	// print_vec3(info.c.orient);
 	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
-	print_vec3(info.obj[4].rgb);
-	print_vec3(info.l[0].rgb);
-	throw_rays(&info);
-
+	//print_vec3(info.obj[4].rgb);
+	//print_vec3(info.l[0].rgb);
+	//throw_rays(&info);
+	camera_start(info); // call this function to start.
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));
 	//mlx_image_to_window(info.mlx, info.img, 0 , 0);
-	// mlx_loop_hook(info.mlx, &draw, &info);
-	//mlx_loop(info.mlx);
+	mlx_close_hook(info.mlx, handle_win_close_event, &info);
+	mlx_loop(info.mlx);
 	// free_all(&info);
 	free_arena_exit(&info);
 	return (0);

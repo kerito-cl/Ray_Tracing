@@ -1,7 +1,7 @@
 
 #include "mini_rt.h"
 
-static void	assign_camera_info(t_info *info, char **split, bool *isvalid)
+static void	assign_camera_info(t_info *info, char **split,bool *isvalid)
 {
 	char	**vec;
 
@@ -27,19 +27,23 @@ static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)
 	new_vec3_for_parsing(&(info->a).rgb, rgb, isvalid, true);
 }
 
-static void	assign_light_info(t_info *info, char **split, bool *isvalid)
+void	assign_light_info(t_info *info, char **split,int i ,bool *isvalid)
 {
 	char	**vec;
 
-	info->l.br_ratio = ft_strtof(split[2], NULL);
+	info->obj[i].br_ratio = ft_strtof(split[2], NULL);
 	vec = ft_split(split[3], ',');
 	if (!vec)
 		free_arena_exit(info);
-	new_vec3_for_parsing(&(info->l).rgb, vec, isvalid, true);
+	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
 	vec = ft_split(split[1], ',');
 	if (!vec)
 		free_arena_exit(info);
-	new_vec3_for_parsing(&(info->l).point, vec, isvalid, false);
+	new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
+	info->obj[i].hit = light_hit;
+	info->obj[i].material.albedo = info->obj[i].rgb;
+	info->obj[i].type_material = LIGHT;
+	info->obj[i].material.scatter = light_scatter;
 }
 
 static void	assign_all(t_info *info, char **split)
@@ -54,7 +58,7 @@ static void	assign_all(t_info *info, char **split)
 	else if (ft_strncmp(split[0], "C", ft_strlen(split[0])) == 0)
 		assign_camera_info(info, split, &isvalid);
 	else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
-		assign_light_info(info, split, &isvalid);
+		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)
 		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "sp", ft_strlen(split[0])) == 0)

@@ -136,7 +136,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	if (argc != 2 || check_if_rt(argv[1]) == 0)
 		throw_error(0);
-	//ft_bzero(&info, sizeof(t_info));
+	ft_bzero(&info, sizeof(t_info));
 	info.arena = arena_init(10240);
 	parse(argv[1], &info);
 	//info.mlx =  mlx_init(WIDTH, HEIGHT, "KD MiniRT", true);
@@ -147,7 +147,8 @@ int	main(int argc, char **argv)
 
 	// print_vec3(info.c.orient);
 	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
-	print_vec3(info.obj[0].rgb);
+	print_vec3(info.obj[4].rgb);
+	print_vec3(info.l[0].rgb);
 	throw_rays(&info);
 
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));

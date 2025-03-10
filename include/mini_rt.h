@@ -119,12 +119,13 @@ typedef struct s_info
 	mlx_image_t				*img;
 	t_cam					c;
 	t_alight				a;
-	t_light					l;
+	t_light					*l;
 	t_obj					*obj;
 	//uint8_t					screen[WIDTH][HEIGHT][3];
 	unsigned int			pl_count;
 	unsigned int			sp_count;
 	unsigned int			cy_count;
+	unsigned int			light_count;
 	unsigned int			obj_count;
 }							t_info;
 
@@ -140,7 +141,6 @@ void						freesplit(char **strs);
 void						new_vec3_for_parsing(t_vec3 *vec3, char **cvec,
 								bool *isvalid, bool if_rgb);
 void						create_object_info(t_info *info, char **split);
-void	assign_light_info(t_info *info, char **split, int i ,bool *isvalid);
 void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
 void						exit_free_parser(t_info *info, char **split, int n);
@@ -154,8 +154,6 @@ bool						pl_hit(t_obj *plane, t_ray *ray, t_interval interval,
 								t_hit_record *rec);
 bool						cy_hit(t_obj *cy, t_ray *ray,
 								t_interval interval, t_hit_record *rec);
-bool					light_hit(t_obj *light, t_ray *ray, t_interval interval,
-							t_hit_record *rec);
 
 /*        OPERATIONS                       */
 
@@ -202,9 +200,5 @@ void						set_face_normal(t_ray r, t_vec3 outward_normal,
 bool    lambertian_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
 bool    metal_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
 bool dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation, t_ray *scattered);
-
-bool					light_scatter(t_ray *r_in,
-							t_hit_record *rec, t_vec3 *attenuation,
-							t_ray *scattered);
 
 #endif

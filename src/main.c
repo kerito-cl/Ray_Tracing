@@ -9,11 +9,19 @@ void	print_vec3(t_vec3 vec3)
 	printf("z : %f\n", vec3.z);
 }
 
-bool	cy_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
-{
-	return (true);
-}
 
+bool					light_hit(t_obj *obj, t_ray *ray, t_interval interval,
+							t_hit_record *rec)
+							{
+								return true;
+							}
+
+bool					light_scatter(t_ray *r_in,
+							t_hit_record *rec, t_vec3 *attenuation,
+							t_ray *scattered)
+							{
+								return true;
+							}
 
 // this function belongs to camera.
 t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
@@ -25,7 +33,7 @@ t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
 	nearest = INFINITY;
 	if (world_hit(info, ray, &rec, &nearest))
 	{
-		printf("%f\n", nearest);
+		//printf("%f\n", nearest);
 	}
 	return vec3_new(0, 0, 0);
 }
@@ -139,6 +147,8 @@ int	main(int argc, char **argv)
 
 	// print_vec3(info.c.orient);
 	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
+	print_vec3(info.obj[4].rgb);
+	print_vec3(info.l[0].rgb);
 	throw_rays(&info);
 
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));

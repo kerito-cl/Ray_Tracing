@@ -1,7 +1,7 @@
 NAME	:= miniRT
 LIBFT_DIR	:= libft
 LIBFT_LIB	:= $(LIBFT_DIR)/libft.a
-CFLAGS	:= -Wunreachable-code -Ofast
+CFLAGS	:= -Wunreachable-code -Ofast -g
 LIBMLX	:= ./MLX42
 LIB_URL := https://github.com/codam-coding-college/MLX42
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)
@@ -11,7 +11,7 @@ OBJ_DIR	:= obj
 SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c src/lights.c \
 			src/assign_geo_objects.c src/camera.c src/interval.c src/material.c \
 			src/vec3/vec_methods.c src/vec3/vec_methods2.c src/vec3/vec_methods3.c src/vec3/vec_methods4.c src/vec3/vec_methods5.c \
-			src/objects/objects.c src/objects/sphere.c src/objects/plane.c \
+			src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c \
 		  	gnl/get_next_line.c gnl/get_next_line_utils.c
 
 OBJS	:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))

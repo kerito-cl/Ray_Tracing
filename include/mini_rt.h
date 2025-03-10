@@ -41,6 +41,7 @@ typedef enum e_type
 	GLASS = 20,
 	METAL,
 	DIFFUSE,
+	LIGHT,
 }							t_type;
 
 typedef struct s_material
@@ -128,6 +129,7 @@ typedef struct s_obj
 	t_vec3					normal;
 	float					radius;
 	float					height;
+	float					br_ratio;
 	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval *interval,
 							t_hit_record *rec);
 	t_type					type_material;
@@ -141,12 +143,13 @@ typedef struct s_info
 	mlx_image_t				*img;
 	t_cam					c;
 	t_alight				a;
-	t_light					l;
+	t_light					*l;
 	t_obj					*obj;
-	uint8_t					screen[MAX_WIDTH][MAX_HEIGHT][3];
+	uint8_t					***screen;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
 	unsigned int			cy_count;
+	unsigned int			light_count;
 	unsigned int			obj_count;
 }							t_info;
 

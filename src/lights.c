@@ -44,6 +44,7 @@ t_color    handle_specular_light(t_info *info ,t_ray *shadow_ray, t_ray *cam_ray
     intensity = powf(intensity, 30); //SECOND PARAMATER CHANGES THE SPECULAR SPOT LIGHT INTENSITY
     specular_color = vec3_mul_vec(info->l.rgb, intensity);
     return (specular_color);
+
 }
 
 t_color get_shadow_light(t_info *info)

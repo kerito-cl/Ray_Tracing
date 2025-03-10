@@ -9,10 +9,6 @@ void	print_vec3(t_vec3 vec3)
 	printf("z : %f\n", vec3.z);
 }
 
-bool	cy_hit(t_obj *sphere, t_ray *ray, t_interval interval, t_hit_record *rec)
-{
-	return (true);
-}
 
 
 // this function belongs to camera.

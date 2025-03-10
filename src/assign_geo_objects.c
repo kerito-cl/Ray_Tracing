@@ -20,14 +20,12 @@ static void assign_typematerial_info(t_info *info, char *material, int i, char *
         info->obj[i].material.albedo = info->obj[i].rgb;
         info->obj[i].material.scatter = dielectric_scatter;
     }
-    else if (ft_strncmp(material, "D\n", ft_strlen(material)) == 0)
+    else
     {
-        info->obj[i].type_material = DIFFUSE;
         info->obj[i].material.albedo = info->obj[i].rgb;
+        info->obj[i].type_material = DIFFUSE;
         info->obj[i].material.scatter = lambertian_scatter;
     }
-    else
-        exit_free_parser(info, split, 2);
 }
 
 void create_plane_info(t_info *info, char **split, int i, bool *isvalid)
@@ -110,6 +108,8 @@ void create_object_info(t_info *info, char **split)
         create_sphere_info(info, split, i, &isvalid);
     else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
         create_cylinder_info(info, split, i, &isvalid);
+    else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
+        assign_light_info(info, split, i, &isvalid);
     if (!isvalid)
         exit_free_parser(info, split, 2);
     i++;

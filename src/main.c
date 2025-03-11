@@ -24,20 +24,6 @@ bool					light_scatter(t_ray *r_in,
 							}
 
 // this function belongs to camera.
-t_vec3	ray_color(t_info *info, t_ray *ray, int depth)
-{
-	float			nearest;
-	t_hit_record	rec;
-	t_ray scattered;
-
-	nearest = INFINITY;
-	if (world_hit(info, ray, &rec, &nearest))
-	{
-		//printf("%f\n", nearest);
-	}
-	return vec3_new(0, 0, 0);
-}
-
 
 /**
  // ray_color
@@ -100,7 +86,7 @@ check the
 	vec_normalize(&ray->direc);
 }*/
 // this function belongs to camera.
-void	throw_rays(void *param)
+/*void	throw_rays(void *param)
 {
 	t_info	*info;
 	t_ray ray;
@@ -126,7 +112,7 @@ void	throw_rays(void *param)
 		}
 		row++;
 	}
-}
+}*/
 
 void	handle_win_close_event(void *param)
 {
@@ -134,7 +120,6 @@ void	handle_win_close_event(void *param)
 
 	info = (t_info *)param;
 	free_arena_exit(info);
-	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -159,7 +144,7 @@ int	main(int argc, char **argv)
 	//print_vec3(info.obj[4].rgb);
 	//print_vec3(info.l[0].rgb);
 	//throw_rays(&info);
-	camera_start(info); // call this function to start.
+	camera_start(&info,info.c.point ,info.c.fov, info.c.orient); // call this function to start.
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));
 	//mlx_image_to_window(info.mlx, info.img, 0 , 0);
 	mlx_close_hook(info.mlx, handle_win_close_event, &info);

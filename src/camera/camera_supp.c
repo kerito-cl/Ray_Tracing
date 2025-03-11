@@ -32,6 +32,8 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 			vec3_mul_vec(c->pixel_delta_v, j));
 	ray.orig = c->point;
 	ray.direc = vec3_sub_vecs(pixel_sample, c->point);
+
+	print_vec3(ray.direc);
 	vec3_normalize(&(ray.direc));
 	return (ray);
 }
@@ -48,7 +50,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	interval = interval_empty();
 	if (world_hit(info, &new_ray, &new_rec, &interval))
 		return (get_shadow_light(info));
-	return (get_light_color(info, &new_ray, ray));
+	return (vec3_mul_vecs( rec->material->albedo,get_light_color(info, &new_ray, ray)));
 }
 
 t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
@@ -58,7 +60,7 @@ t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 	t_color	attenuation;
 
 	if (rec->material->scatter(ray, rec, &attenuation, &scattered))
-		return (vec3_mul_vecs(camera_ray_color(info, &scattered, info->obj,
+		return (vec3_mul_vecs(camera_ray_color(info, scattered, &info->obj,
 					depth - 1), attenuation));
 	return (vec3_new(0, 0, 0));
 }
@@ -68,16 +70,23 @@ t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth)
 	t_hit_record	rec;
 	t_interval		interval;
 	t_color			res;
+	t_color			sky;
+
+	sky.x = (float)5 / 255;
+	sky.y = (float)5 / 255;
+	sky.z = (float)255 / 255;
 
 	if (depth <= 0)
 		return (vec3_new(0, 0, 0));
 	interval = interval_default();
 	if (world_hit(info, &ray, &rec, &interval))
 	{
-		if (rec.material == DIFFUSE)
+		if (rec.material->type_material == DIFFUSE)
+		{
 			return (camera_send_shadow_rays(info, &ray, &rec));
+		}
 		else
 			return (camera_send_reflect_rays(info, &ray, &rec, depth));
 	}
-	return (get_ambient_light(info));
+	return (sky);
 }

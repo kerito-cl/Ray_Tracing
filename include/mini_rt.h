@@ -49,6 +49,7 @@ typedef struct s_material
 	t_vec3					albedo;
 	float					fuzz;
 	float					ref_idx;
+	t_type					type_material;
 
 	bool					(*scatter)(t_ray *r_in, t_hit_record *rec,
 							t_vec3 *attenuation, t_ray *scattered);
@@ -143,7 +144,7 @@ typedef struct s_info
 	mlx_image_t				*img;
 	t_cam					c;
 	t_alight				a;
-	t_light					*l;
+	t_light					l;
 	t_obj					*obj;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
@@ -184,6 +185,8 @@ void 						camera_resize_screen(t_info *info, int image_width, int image_height)
 void 						camera_move(t_info *info, t_point point, float fov, t_vec3 orient);
 void 						camera_render(t_info *info);
 void 						camera_start(t_info *info, t_point point, float fov, t_vec3 orient);
+t_ray camera_get_ray(t_cam *c, int i, int j);
+t_color camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
 
 
 /*        OPERATIONS                       */

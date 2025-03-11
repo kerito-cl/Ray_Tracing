@@ -1,5 +1,6 @@
 
 #include "mini_rt.h"
+
 static float quadratic(float a, float b, float c)
 {
     float discriminant;
@@ -9,7 +10,7 @@ static float quadratic(float a, float b, float c)
     discriminant = (b * b) - (4 * a * c);
     if (discriminant < 0)
         return (INFINITY);
-    discriminant = sqrt(discriminant);
+    discriminant = sqrtf(discriminant);
     t0 = (-b - discriminant) * (1 / (2 * a));
     t1 = (-b + discriminant) * (1 / (2 * a));
     if (t0 > 0)
@@ -19,7 +20,7 @@ static float quadratic(float a, float b, float c)
     return (INFINITY);
 }
 
-bool	cy_hit(t_obj *cy, t_ray *ray, t_interval interval, t_hit_record *rec)
+bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
 {
     t_vec3 l;
     float a;

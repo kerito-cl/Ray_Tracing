@@ -10,6 +10,7 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
     vars.c = vec3_length_squared(vars.oc) - sphere->radius * sphere->radius;
 	vars.h = vec3_dot(ray->direc, vars.oc);
 	vars.discriminant = vars.h * vars.h - vars.a * vars.c;
+	print_vec3(ray->direc);
 	if (vars.discriminant < 0)
 		return (false);
 	vars.sqrtd = sqrtf(vars.discriminant);

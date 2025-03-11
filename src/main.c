@@ -133,7 +133,6 @@ int	main(int argc, char **argv)
 	ft_bzero(&info, sizeof(t_info));
 	info.arena = arena_init(10240);
 	parse(argv[1], &info);
-	//info.mlx =  mlx_init(WIDTH, HEIGHT, "KD MiniRT", true);
 	//info.img = mlx_new_image(info.mlx, WIDTH, HEIGHT);
 	 //if (!info.img || (mlx_image_to_window(info.mlx, info.img, 0, 0) < 0))
 	// return (0);

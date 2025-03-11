@@ -32,8 +32,6 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 			vec3_mul_vec(c->pixel_delta_v, j));
 	ray.orig = c->point;
 	ray.direc = vec3_sub_vecs(pixel_sample, c->point);
-
-	print_vec3(ray.direc);
 	vec3_normalize(&(ray.direc));
 	return (ray);
 }
@@ -47,9 +45,12 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	new_ray.orig = rec->p;
 	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
 	vec3_normalize(&(new_ray.direc));
-	interval = interval_empty();
+	interval = interval_default();
 	if (world_hit(info, &new_ray, &new_rec, &interval))
+	{
+		printf("hit light\n");
 		return (get_shadow_light(info));
+	}
 	return (vec3_mul_vecs( rec->material->albedo,get_light_color(info, &new_ray, ray)));
 }
 

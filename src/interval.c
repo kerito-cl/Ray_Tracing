@@ -22,8 +22,8 @@ t_interval	interval_default(void)
 {
 	t_interval	interval;
 
-	interval.max = 0.001;
-	interval.min = INFINITY;
+	interval.min = 0.001;
+	interval.max = INFINITY;
 	return (interval);
 }
 

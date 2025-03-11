@@ -17,6 +17,7 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval, t_hit_record *rec)
     {
         rec->t = result;
         rec->p = ray_at(ray, result);
+        rec->normal = plane->normal;
 	    rec->material = &plane->material;
         return (true);
     }

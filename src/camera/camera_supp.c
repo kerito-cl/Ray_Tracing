@@ -52,11 +52,10 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 
 	vec3_normalize(&(new_ray.direc));
 	interval = interval_default();
-	if (world_hit(info, &new_ray, &new_rec, &interval))
+	/*if (world_hit(info, &new_ray, &new_rec, &interval))
 	{
-		printf("dsa");
 		return (get_shadow_light(info));
-	}
+	}*/
 	//vec3_normalize(&(new_ray.orig));
 
     //print_vec3(new_ray.orig);

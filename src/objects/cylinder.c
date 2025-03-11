@@ -37,11 +37,13 @@ bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
     rec->p = ray_at(ray, rec->t);
     if (rec->t != INFINITY)
     {
+	    rec->material = &cy->material;
         cy->normal = vec3_sub_vecs(rec->p, cy->point);
-        cy->normal.y = 0;
-        a = vec3_dot(cy->normal, ray->direc);
+        rec->normal.y = 0;
+        a = vec3_dot(rec->normal, ray->direc);
         if (a > 0)
-            cy->normal =  vec3_mul_vec(cy->normal, -1);
+            rec->normal =  vec3_mul_vec(rec->normal, -1);
+        printf("%f\n", rec->t);
         return (true);
     }
     return (false);

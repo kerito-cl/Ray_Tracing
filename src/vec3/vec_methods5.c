@@ -34,3 +34,19 @@ t_vec3	vec3_random_in_unit_disk(void)
 			return (p);
 	}
 }
+
+t_color	vec3_mul_colors(t_vec3 vec1, t_vec3 vec2)
+{
+	t_color	color;
+
+	color.x = vec1.x * vec2.x;
+	if (color.x > 1)
+		color.x = 1;
+	color.y = vec1.y * vec2.y;
+	if (color.y > 1)
+		color.y = 1;
+	color.z = vec1.z * vec2.z;
+	if (color.z > 1)
+		color.z = 1;
+	return (color);
+}

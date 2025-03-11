@@ -15,14 +15,17 @@ unsigned int get_color(t_vec3 vec1, t_vec3 vec2, float t)
 	if (t < 0)
 		t = 0;
 	r = vec1.x + (vec2.x - vec1.x) * t ;
+	//r = vec1.x;
 	r *= 255.0;
 	if (r > 255)
 		r = 255;
 	g = vec1.y + (vec2.y - vec1.y) * t;
+	//g = vec1.y;
 	g *= 255.0;
 	if (g > 255)
 		g = 255;
 	b = vec1.z + (vec2.z - vec1.z) * t;
+	//b = vec1.z;
 	b *= 255.0;
 	if (b > 255)
 		b = 255.0;
@@ -51,8 +54,10 @@ void camera_render(t_info *info)
 		while (i < info->c.image_width)
 		{
 			ray = camera_get_ray(&info->c, i, j);
+
 			color = camera_ray_color(info, ray, &info->obj, MAX_DEPTH);
 			//packed_color = (255 << 24) | ((uint8_t)(color.z * 255) << 16) | ((uint8_t)(color.y * 255) << 8) | (uint8_t)(color.x * 255);
+			//packed_color = ((size_t)color.x << 24) + ((size_t)color.y << 16) + ((size_t)color.z << 8) + 255;
 			packed_color = get_color(color, fog, 0.004);
 			mlx_put_pixel(info->img, i, j, packed_color);
 			++i;

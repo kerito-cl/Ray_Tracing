@@ -112,6 +112,7 @@ typedef struct s_hit_record
 {
 	t_vec3					p;
 	t_vec3					normal;
+	t_vec3					normal_2;
 	t_material				*material;
 	float					t;
 	bool					front_face;

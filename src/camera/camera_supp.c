@@ -47,17 +47,19 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	t_interval		interval;
 	t_color	color;
 
-	new_ray.orig = rec->normal;
+	new_ray.orig = rec->p;
 	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
 
 	vec3_normalize(&(new_ray.direc));
 	interval = interval_default();
-	/*if (world_hit(info, &new_ray, &new_rec, &interval))
+	if (world_hit(info, &new_ray, &new_rec, &interval))
 	{
 		return (get_shadow_light(info));
-	}*/
-	//vec3_normalize(&(new_ray.orig));
+	}
+	new_ray.orig = rec->normal_2;
+	vec3_normalize(&(new_ray.orig));
 
+	print_vec3(new_ray.orig);
     //print_vec3(new_ray.orig);
 	
 	color = get_light_color(info, &new_ray, ray);

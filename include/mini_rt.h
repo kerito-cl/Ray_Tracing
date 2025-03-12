@@ -1,8 +1,5 @@
 #ifndef MINI_RT_H
 # define MINI_RT_H
-# define MAX_WIDTH 1920
-# define MAX_HEIGHT 1080
-# define INFINITY 1080
 
 # include "MLX42/MLX42.h"
 # include "constants.h"
@@ -15,6 +12,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+# define MAX_WIDTH 1920
+# define MAX_HEIGHT 1080
 
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
@@ -72,12 +72,12 @@ typedef struct s_cam
 	// From Parsing.
 	t_point					point;
 	t_vec3					orient;
-	float					fov;
-
-	// Constant.
-	t_point					look_at;
+	float					hov;
 
 	// Need to be calculated.
+	t_point					look_at;
+	float					fov;
+	t_vec3					vup;
 	float					aspect_ratio;
 	t_point					pixel00_loc;
 	t_vec3					pixel_delta_u;
@@ -92,6 +92,7 @@ typedef struct s_cam
 	t_vec3					viewpoint_u;
 	t_vec3					viewpoint_v;
 	t_vec3					top_left;
+	t_vec3					right;
 	
 }							t_cam;
 
@@ -184,9 +185,9 @@ bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 void 						camera_resize_screen(t_info *info, int image_width, int image_height);
 void 						camera_move(t_info *info, t_point point, float fov, t_vec3 orient);
 void 						camera_render(t_info *info);
-void 						camera_start(t_info *info, t_point point, float fov, t_vec3 orient);
-t_ray camera_get_ray(t_cam *c, int i, int j);
-t_color camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
+void 						camera_start(t_info *info);
+t_ray 						camera_get_ray(t_cam *c, int i, int j);
+t_color 					camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
 
 
 /*        OPERATIONS                       */

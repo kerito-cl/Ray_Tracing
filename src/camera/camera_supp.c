@@ -2,13 +2,17 @@
 
 void	camera_init(t_cam *c)
 {
+	c->look_at = vec3_add_vecs(c->point, c->orient);
 	c->aspect_ratio = (float)c->image_width / c->image_height;
+	c->fov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / c->aspect_ratio) * (180.0f / PI);
+	c->w = vec3_flip_minus(c->orient);
+	c->right = vec3_unit(vec3_cross(vec3_new(0, 1, 0), c->w));
+	c->vup = vec3_flip_minus(vec3_cross(c->right, c->w));
 	c->dist = vec3_sub_vecs(c->point, c->look_at);
 	c->focal_length = vec3_length(c->dist);
 	c->viewport_height = 2.0 * tanf(DTR(c->fov) / 2) * c->focal_length;
 	c->viewport_width = c->aspect_ratio * c->viewport_height;
-	c->w = vec3_unit(vec3_sub_vecs(c->point, c->look_at));
-	c->u = vec3_unit(vec3_cross(c->orient, c->w));
+	c->u = vec3_unit(vec3_cross(c->vup, c->w));
 	c->v = vec3_cross(c->w, c->u);
 	c->viewpoint_u = vec3_mul_vec(c->u, c->viewport_width);
 	c->viewpoint_v = vec3_flip_minus(vec3_mul_vec(c->v, c->viewport_height));

@@ -31,15 +31,12 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 	t_ray	ray;
 	t_vec3	pixel_sample;
 
-	//pixel_sample = vec3_add_vecs(vec3_add_vecs(c->pixel00_loc,
-			//	vec3_mul_vec(c->pixel_delta_u, i)),
-			//vec3_mul_vec(c->pixel_delta_v, j));
 	pixel_sample = vec3_add_vecs(vec3_add_vecs(c->pixel00_loc,
 				vec3_mul_vec(c->pixel_delta_u, i)),
 			vec3_mul_vec(c->pixel_delta_v, j));
 	ray.orig = c->point;
 	ray.direc = vec3_sub_vecs(pixel_sample, c->point);
-	ray.direc.z = -1.5;
+	ray.direc.z = -1.5; // !!!!!! It's not right!
 	vec3_normalize(&(ray.direc));
 	return (ray);
 }
@@ -53,24 +50,16 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 
 	new_ray.orig = rec->p;
 	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
-
 	vec3_normalize(&(new_ray.direc));
 	interval = interval_default();
 	if (world_hit(info, &new_ray, &new_rec, &interval))
 	{
-		return (get_shadow_light(info));
+		return (vec3_shadow());
 	}
 	new_ray.orig = rec->normal_2;
 	vec3_normalize(&(new_ray.orig));
-
-	print_vec3(new_ray.orig);
-    //print_vec3(new_ray.orig);
-	
 	color = get_light_color(info, &new_ray, ray);
-	//color = vec3_new(0, 0.5 ,0);
 	color = vec3_mul_colors(rec->material->albedo, color);
-	//print_vec3(color);
-	//color = vec3_mul_vec(color , rec->t);
 	return color;
 }
 
@@ -91,11 +80,6 @@ t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth)
 	t_hit_record	rec;
 	t_interval		interval;
 	t_color			res;
-	t_color			sky;
-
-	sky.x = (float)5 / 255;
-	sky.y = (float)5 / 255;
-	sky.z = (float)255 / 255;
 
 	if (depth <= 0)
 		return (vec3_new(0, 0, 0));
@@ -103,11 +87,9 @@ t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth)
 	if (world_hit(info, &ray, &rec, &interval))
 	{
 		if (rec.material->type_material == DIFFUSE)
-		{
 			return (camera_send_shadow_rays(info, &ray, &rec));
-		}
 		else
 			return (camera_send_reflect_rays(info, &ray, &rec, depth));
 	}
-	return (sky);
+	return (vec3_sky());
 }

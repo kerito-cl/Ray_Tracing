@@ -56,18 +56,12 @@ t_color    handle_specular_light(t_info *info ,t_ray *shadow_ray, t_ray *cam_ray
 
 }
 
-t_color get_shadow_light(t_info *info)
-{
-    return (vec3_mul_vecs(get_ambient_light(info), vec3_new(0, 0, 0)));
-}
-
 t_color get_light_color(t_info *info, t_ray *shadow_ray, t_ray *cam_ray)
 {
     t_color res;
 
     res = get_ambient_light(info);
     res = vec3_add_vecs(res, handle_diffuse_light(info, shadow_ray));
-
     res = vec3_add_vecs(res, handle_specular_light(info, shadow_ray, cam_ray));
     return res;
 }

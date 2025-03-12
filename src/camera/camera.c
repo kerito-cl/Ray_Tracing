@@ -66,7 +66,7 @@ void camera_render(t_info *info)
 	}
 }
 
-void camera_start(t_info *info, t_point point, float fov, t_vec3 orient)
+void camera_start(t_info *info)
 {
 	info->c.image_height = IMG_HEIGHT;
 	info->c.image_width = IMG_WIDTH;

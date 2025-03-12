@@ -5,7 +5,7 @@ static void	assign_camera_info(t_info *info, char **split,bool *isvalid)
 {
 	char	**vec;
 
-	info->c.fov = ft_strtof(split[3], NULL);
+	info->c.hov = ft_strtof(split[3], NULL);
 	vec = ft_split(split[1], ',');
 	if (!vec)
 		free_arena_exit(info);
@@ -14,9 +14,6 @@ static void	assign_camera_info(t_info *info, char **split,bool *isvalid)
 	if (!vec)
 		free_arena_exit(info);
 	new_vec3_for_parsing(&(info->c).orient, vec, isvalid, false);
-	info->c.look_at = vec3_new(0, 0, -1);
-	info->c.image_height = IMG_HEIGHT;
-	info->c.image_width = IMG_WIDTH;
 }
 
 static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)

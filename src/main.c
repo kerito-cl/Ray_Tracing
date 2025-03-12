@@ -64,7 +64,7 @@ int	main(int argc, char **argv)
 	printf("%f\n", info.obj[0].radius);
 	//print_vec3(info.l[0].rgb);
 	//throw_rays(&info);
-	camera_start(&info,info.c.point ,info.c.fov, info.c.orient); // call this function to start.
+	camera_start(&info); // call this function to start.
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));
 	//mlx_image_to_window(info.mlx, info.img, 0 , 0);
 	mlx_close_hook(info.mlx, handle_win_close_event, &info);

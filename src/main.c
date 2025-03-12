@@ -19,6 +19,26 @@ void	handle_win_close_event(void *param)
 	free_arena_exit(info);
 }
 
+void	handle_key_press_event(mlx_key_data_t keydata, void *param)
+{
+	t_info	*info;
+	int		x;
+	int		y;
+
+	info = (t_info *)param;
+
+	if (keydata.action != MLX_PRESS)
+		return ;
+	if (keydata.key == MLX_KEY_ESCAPE)
+		free_arena_exit(info);
+	if (keydata.key == MLX_KEY_D)
+	{
+		mlx_get_mouse_pos(info->mlx, &x, &y);
+		printf("Mouse: x %d, y: %d\n", x, y);
+	}
+		
+}
+
 int	main(int argc, char **argv)
 {
 	t_info	info;
@@ -48,6 +68,7 @@ int	main(int argc, char **argv)
 	//ft_memset(info.img->pixels, 255, info.img->width * info.img->height * sizeof(int32_t));
 	//mlx_image_to_window(info.mlx, info.img, 0 , 0);
 	mlx_close_hook(info.mlx, handle_win_close_event, &info);
+	mlx_key_hook(info.mlx, handle_key_press_event, &info);
 	mlx_loop(info.mlx);
 	// free_all(&info);
 	free_arena_exit(&info);

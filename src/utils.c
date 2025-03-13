@@ -37,15 +37,6 @@ void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 		freesplit(cvec);
 		return ;
 	}
-	/*vec3->x = ft_strtof(cvec[0], NULL);
-	vec3->y = ft_strtof(cvec[1], NULL);
-	vec3->z = ft_strtof(cvec[2], NULL);
-	if (if_rgb)
-	{
-		vec3->x = ft_strtof(cvec[0], NULL) / 255;
-		vec3->y = ft_strtof(cvec[1], NULL) / 255;
-		vec3->z = ft_strtof(cvec[2], NULL) / 255;
-	}*/
 	if (cvec != NULL)
 		freesplit(cvec);
 }

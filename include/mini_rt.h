@@ -148,6 +148,7 @@ typedef struct s_info
 	t_alight				a;
 	t_light					l;
 	t_obj					*obj;
+	int						index;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
 	unsigned int			cy_count;
@@ -174,6 +175,7 @@ void						exit_free_parser(t_info *info, char **split, int n);
 /* HIT OBJ*/
 bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, t_interval *interval);
+bool	world_hit_shadow(t_info *info, t_ray *ray, t_hit_record *rec, t_interval *interval);
 bool						sp_hit(t_obj *sphere, t_ray *ray,
 								t_interval *interval, t_hit_record *rec);
 bool						pl_hit(t_obj *plane, t_ray *ray,

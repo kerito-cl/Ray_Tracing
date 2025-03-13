@@ -35,7 +35,7 @@ float intersect_sphere(t_ray ray, t_obj *sp)
     return (quadratic(a, b, c));
 }                       
 
-bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
+bool	sp_hit2(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
 {
 	t_sp_hit_vars vars;
 
@@ -55,7 +55,7 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
 	return (true);
 }
 
-bool	sp_hit2(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
+bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec)
 {
 	t_sp_hit_vars vars;
 

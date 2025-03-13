@@ -93,7 +93,6 @@ void create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
     new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid,true);
     assign_typematerial_info(info, split[6], i, split);
     info->obj[i].hit = cy_hit;
-    //info->obj[i].material.scatter = cy_scatter;
 }
 
 void create_object_info(t_info *info, char **split)

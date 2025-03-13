@@ -52,6 +52,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
 	vec3_normalize(&(new_ray.direc));
 	interval = interval_default();
+	interval.max = vec3_dot(new_ray.direc, vec3_sub_vecs(info->l.point, rec->p));
 	if (world_hit_shadow(info, &new_ray, &new_rec, &interval))
 		return (vec3_add_vecs(vec3_new(0,0,0), get_ambient_light(info)));
 	new_ray.orig = rec->normal;

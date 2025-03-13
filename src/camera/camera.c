@@ -33,15 +33,19 @@ unsigned int get_color(t_vec3 vec1, t_vec3 vec2, float t)
 }
 
 
-void camera_render(t_info *info)
+void camera_render(void *param)
 {
 	int j;
 	int i;
+	int k;
 	t_ray ray;
 	t_color color;
 	t_color fog;
 	uint32_t packed_color;
+	t_info *info;
 
+	k = 0;
+	info = (t_info *)param;
 	fog.x = (float)178 / 255;
 	fog.y = (float)178 / 255;
 	fog.z = (float)178 / 255;
@@ -59,11 +63,20 @@ void camera_render(t_info *info)
 			//packed_color = (255 << 24) | ((uint8_t)(color.z * 255) << 16) | ((uint8_t)(color.y * 255) << 8) | (uint8_t)(color.x * 255);
 			//packed_color = ((size_t)color.x << 24) + ((size_t)color.y << 16) + ((size_t)color.z << 8) + 255;
 			packed_color = get_color(color, fog, 0.004);
-			mlx_put_pixel(info->img, i, j, packed_color);
+			//mlx_put_pixel(info->img, i, j, packed_color);
+			info->img->pixels[k] = color.x * 255;
+			k++;
+			info->img->pixels[k] = color.y * 255;
+			k++;
+			info->img->pixels[k] = color.z * 255;
+			k++;
+			info->img->pixels[k] = 255;
+			k++;
 			++i;
 		}
 		++j;
 	}
+	mlx_image_to_window(info->mlx, info->img, 0, 0);
 }
 
 void camera_start(t_info *info)
@@ -75,6 +88,7 @@ void camera_start(t_info *info)
 	if (!info->img || mlx_image_to_window(info->mlx, info->img, 0, 0) < 0)
 		free_all(info);
 	camera_render(info);
+	mlx_loop_hook(info->mlx, camera_render, info);
 }
 
 void camera_resize_screen(t_info *info, int image_width, int image_height)

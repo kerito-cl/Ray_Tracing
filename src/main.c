@@ -36,8 +36,20 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 		mlx_get_mouse_pos(info->mlx, &x, &y);
 		printf("Mouse: x %d, y: %d\n", x, y);
 	}
-		
+	if (keydata.key == MLX_KEY_LEFT)
+		info->c.orient.x -= 0.1;
+	if (keydata.key == MLX_KEY_RIGHT)
+		info->c.orient.x += 0.1;
+	if (keydata.key == MLX_KEY_W)
+		info->c.point.z += 0.1;
+	if (keydata.key == MLX_KEY_S)
+		info->c.point.z -= 0.1;
+	if (keydata.key == MLX_KEY_A)
+		info->c.point.x -= 0.1;
+	if (keydata.key == MLX_KEY_D)
+		info->c.point.x += 0.1;
 }
+
 
 int	main(int argc, char **argv)
 {

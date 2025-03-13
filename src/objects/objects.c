@@ -35,7 +35,7 @@ bool	world_hit_shadow(t_info *info, t_ray *ray, t_hit_record *rec, t_interval *i
 	is_hit = false;
 	while (i < info->obj_count)
 	{
-		if (info->index != i)
+		if (info->index != i && info->obj[i].type_material == DIFFUSE)
 		{
 			if (info->obj[i].hit(&info->obj[i], ray, interval, rec))
 			{

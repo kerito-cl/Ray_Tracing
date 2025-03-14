@@ -1,10 +1,25 @@
 #include "mini_rt.h"
 
+// @details
+// look_at = point + orint
+// fov = 2 * arctan( tan(hov / 2) / aspect_ratio )
+// w = - orint
+// u = unit(cross(vup, w));
+// v = cross(w, u);
+// vup = -(cross(unit(cross((0, 1, 0), w)), w))
+//  - When the vup is 0, 1, 0, the vup = v.
+//  - So we calculate the vup by assuming the vup = 0, 1, 0,
+//  - then the v value will be the vup.
+// viewpoint_height = 2 * tan(fov / 2) * focal_length
+// pixel_delta_u = viewpoint_u / image_width
+// top_left = look_at - viewpoint_u / 2 - viewpoint_v / 2
+// pixel00_loc = top_left and shift by half pixel.
 void	camera_init(t_cam *c)
 {
 	c->look_at = vec3_add_vecs(c->point, c->orient);
 	c->aspect_ratio = (float)c->image_width / c->image_height;
-	c->fov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / c->aspect_ratio) * (180.0f / PI);
+	c->fov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / c->aspect_ratio) * (180.0f
+			/ PI);
 	c->w = vec3_flip_minus(c->orient);
 	c->right = vec3_unit(vec3_cross(vec3_new(0, 1, 0), c->w));
 	c->vup = vec3_flip_minus(vec3_cross(c->right, c->w));
@@ -18,14 +33,19 @@ void	camera_init(t_cam *c)
 	c->viewpoint_v = vec3_flip_minus(vec3_mul_vec(c->v, c->viewport_height));
 	c->pixel_delta_u = vec3_div_vec(c->viewpoint_u, c->image_width);
 	c->pixel_delta_v = vec3_div_vec(c->viewpoint_v, c->image_height);
-	c->top_left = vec3_sub_vecs(c->point, vec3_add_vecs(vec3_mul_vec(c->w,
-					c->focal_length), vec3_add_vecs(vec3_div_vec(c->viewpoint_u,
-						2), vec3_div_vec(c->viewpoint_v, 2))));
+	c->top_left = vec3_sub_vecs(c->look_at,
+			vec3_add_vecs(vec3_div_vec(c->viewpoint_u, 2),
+				vec3_div_vec(c->viewpoint_v, 2)));
 	c->pixel00_loc = vec3_add_vecs(c->top_left,
 			vec3_mul_vec(vec3_add_vecs(c->pixel_delta_u, c->pixel_delta_v),
 				0.5));
 }
 
+// @details
+// pixel_sample: since a pixel represents an area, not a single point, 
+//   we start from pixel00_loc, the center of the top-left pixel in the image plane.
+//   then the shift based on i and j, scaling by the number of world space units 
+//   per image plane pixel.
 t_ray	camera_get_ray(t_cam *c, int i, int j)
 {
 	t_ray	ray;
@@ -35,9 +55,7 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 				vec3_mul_vec(c->pixel_delta_u, i)),
 			vec3_mul_vec(c->pixel_delta_v, j));
 	ray.orig = c->point;
-	ray.direc = vec3_sub_vecs(pixel_sample, c->point);
-	ray.direc.z = -1.5; // !!!!!! It's not right!
-	vec3_normalize(&(ray.direc));
+	ray.direc = vec3_unit(vec3_sub_vecs(pixel_sample, c->point));
 	return (ray);
 }
 
@@ -46,22 +64,24 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	t_ray			new_ray;
 	t_hit_record	new_rec;
 	t_interval		interval;
-	t_color	color;
+	t_color			color;
 
 	new_ray.orig = rec->p;
 	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
 	vec3_normalize(&(new_ray.direc));
 	interval = interval_default();
-	interval.max = vec3_dot(new_ray.direc, vec3_sub_vecs(info->l.point, rec->p));
+	interval.max = vec3_dot(new_ray.direc, vec3_sub_vecs(info->l.point,
+				rec->p));
 	if (world_hit_shadow(info, &new_ray, &new_rec, &interval))
-		return (vec3_add_vecs(vec3_new(0,0,0), get_ambient_light(info)));
+		return (vec3_add_vecs(vec3_new(0, 0, 0), get_ambient_light(info)));
 	new_ray.orig = rec->normal;
 	vec3_normalize(&(new_ray.orig));
 	color = get_light_color(info, &new_ray, ray);
 	color = vec3_mul_colors(rec->material->albedo, color);
-	return color;
+	return (color);
 }
 
+// @details Monte Carlo Path Tracing is applied for calculating the reflection.
 t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 		int depth)
 {
@@ -74,6 +94,19 @@ t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 	return (vec3_new(0, 0, 0));
 }
 
+// @brief to calculate the color of a ray.
+//
+// If a ray hits nothing, then it's the sky.
+// If a ray hits a diffuse material
+//   - calculate the color by sending shadow rays.
+// If a ray hits a metal or glass
+//   - calculate the color by sending refection rays.
+//
+// @param info: the pointer to the state of the program.
+// @param ray: the ray to calculate.
+// @param world: the objects.
+// @param depth: the rest depth of recursive call.
+// @return the color.
 t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth)
 {
 	t_hit_record	rec;

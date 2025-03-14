@@ -27,6 +27,7 @@ static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)
 	new_vec3_for_parsing(&(info->a).rgb, rgb, isvalid, true);
 }
 
+// Need to be removed.
 void	assign_light_info(t_info *info, char **split, bool *isvalid)
 {
 	static int i = 0;
@@ -48,6 +49,30 @@ void	assign_light_info(t_info *info, char **split, bool *isvalid)
 	//info->obj[i].material.scatter = light_scatter;
 }
 
+void create_light_info(t_info *info, char **split, int i, bool *isvalid)
+{
+	static int j = 0;
+	char	**vec;
+
+	info->obj[i].radius = LIGHT_RADIUS;
+	info->obj[i].br_ratio = ft_strtof(split[2], NULL);
+	vec = ft_split(split[3], ',');
+	if (!vec)
+		free_arena_exit(info);
+	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
+	vec = ft_split(split[1], ',');
+	if (!vec)
+		free_arena_exit(info);
+	new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
+	j++;
+	info->light_count = j;
+	info->obj[i].hit = sp_hit;
+	info->obj[i].material.albedo = vec3_mul_vec(info->obj[i].rgb, info->obj[i].br_ratio);
+	info->obj[i].material.scatter = light_scatter;
+	info->obj[i].material.type_material = LIGHT;
+	info->lights[j] = &info->obj[i];
+}
+
 static void	assign_all(t_info *info, char **split)
 {
 	bool	isvalid;
@@ -60,7 +85,7 @@ static void	assign_all(t_info *info, char **split)
 	else if (ft_strncmp(split[0], "C", ft_strlen(split[0])) == 0)
 		assign_camera_info(info, split, &isvalid);
 	else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
-		assign_light_info(info, split, &isvalid);
+		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)
 		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "sp", ft_strlen(split[0])) == 0)
@@ -79,7 +104,7 @@ void	parse(char *file, t_info *info)
 	char	*input;
 	char	**split;
 
-	//info->l = arena_alloc(info->arena, sizeof(t_light) * 10);
+	info->lights = arena_alloc(info->arena, sizeof(t_obj *) * 10);
 	info->obj = arena_alloc(info->arena, sizeof(t_obj) * 100);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

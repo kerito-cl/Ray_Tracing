@@ -3,6 +3,9 @@
         "*.css": "tailwindcss",
         "mini_rt.h": "c",
         "limits.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "random": "c",
+        "limits": "c",
+        "algorithm": "c"
     }
 }

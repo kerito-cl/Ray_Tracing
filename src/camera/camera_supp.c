@@ -56,28 +56,41 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 			vec3_mul_vec(c->pixel_delta_v, j));
 	ray.orig = c->point;
 	ray.direc = vec3_unit(vec3_sub_vecs(pixel_sample, c->point));
+	ray.type = CAM_RAY;
 	return (ray);
 }
 
 t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 {
-	t_ray			new_ray;
-	t_hit_record	new_rec;
-	t_interval		interval;
+	t_get_light_vars var;
 	t_color			color;
+	int				i;
 
-	new_ray.orig = rec->p;
-	new_ray.direc = vec3_unit(vec3_sub_vecs(info->l.point, rec->p));
-	interval = interval_default();
-	interval.max = vec3_dot(new_ray.direc, vec3_sub_vecs(info->l.point, rec->p));
-	if (world_hit_shadow(info, &new_ray, &new_rec, &interval))
-		return (vec3_add_vecs(vec3_new(0, 0, 0), get_ambient_light(info)));
-	color = vec3_mul_colors(rec->material->albedo, get_light_color(info, rec,
-				&new_ray, ray));
+	var.cam_ray = ray;
+	var.cam_rec = rec;
+	var.shadow_ray.type = SHADOW_RAY;
+	var.shadow_ray.orig = rec->p;
+	var.interval = interval_default();
+	color = vec3_black();
+	i = 0;
+	while (i < info->light_count)
+	{
+		interval.max = INFINITY;
+		new_ray.direc = vec3_unit(vec3_sub_vecs(info->lights[i].point, rec->p));
+		if (world_hit_shadow(info, &var.shadow_ray, &var.shadow_rec, &var.interval) && new_rec.material->type_material == LIGHT)
+			color = vec3_add_vecs(color, get_light_color(info, &var));
+		++i;
+	}
+	if (!vec3_near_black(color))
+		color = vec3_mul_colors(rec->material->albedo, vec3_add_vecs(vec3_avoid_overflow(color), get_ambient_light(info)));
 	return (color);
 }
 
 // @details Monte Carlo Path Tracing is applied for calculating the reflection.
+// there are 3 base cases to stop the recurssive call:
+// 1 the scatter returns false (diffuse materail), returns black.
+// 2 the materail is LIGHT
+// 3 the attenuation is near black.
 t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 		int depth)
 {
@@ -85,9 +98,13 @@ t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 	t_color	attenuation;
 
 	if (rec->material->scatter(ray, rec, &attenuation, &scattered))
+	{
+		if (rec->material->type_material == LIGHT || vec3_near_black(attenuation))
+			return (attenuation);
 		return (vec3_mul_vecs(camera_ray_color(info, scattered, &info->obj,
-					depth - 1), attenuation));
-	return (vec3_new(0, 0, 0));
+			depth - 1), attenuation));
+	}
+	return (vec3_black());
 }
 
 // @brief to calculate the color of a ray.

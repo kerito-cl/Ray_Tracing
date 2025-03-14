@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
+# define LIGHT_VISIBLE 0
+# define LIGHT_RADIUS 1
 # define S (float)1e-8
 # define PI (float)3.14159265358979323846
 # define SHININESS 30

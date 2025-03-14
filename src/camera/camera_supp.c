@@ -42,9 +42,9 @@ void	camera_init(t_cam *c)
 }
 
 // @details
-// pixel_sample: since a pixel represents an area, not a single point, 
-//   we start from pixel00_loc, the center of the top-left pixel in the image plane.
-//   then the shift based on i and j, scaling by the number of world space units 
+// pixel_sample: since a pixel represents an area, not a single point,
+//   we start from pixel00_loc, center of the top-left pixel in the image plane.
+//   then the shift based on i and j, scaling by the number of world space units
 //   per image plane pixel.
 t_ray	camera_get_ray(t_cam *c, int i, int j)
 {

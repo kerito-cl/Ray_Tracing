@@ -26,24 +26,24 @@ bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
     float a;
     float b;
     float c;
+    float heght_radius;
 
-    
+    heght_radius = cy->height * 0.5; 
     l = vec3_copy(ray->orig);
     l = vec3_sub_vecs(l, cy->point);
-    a = vec3_dot(ray->direc, ray->direc);
-    b = 2 * vec3_dot(l, ray->direc);
-    c = vec3_dot(l, l) - (cy->radius * cy->radius);
+    a = (ray->direc.x * ray->direc.x) + (ray->direc.z * ray->direc.z);
+    b = 2 * ((ray->direc.x * l.x) + (ray->direc.z * l.z));
+    c = (l.x * l.x) + (l.z * l.z)- (cy->radius * cy->radius);
     rec->t = quadratic(a, b, c);
     rec->p = ray_at(ray, rec->t);
-    if (rec->t != INFINITY)
+    if (rec->t > 0.0 && rec->p.y > (cy->point.y -heght_radius) && rec->p.y < (cy->point.y + heght_radius))
     {
 	    rec->material = &cy->material;
-        cy->normal = vec3_sub_vecs(rec->p, cy->point);
+        rec->normal = vec3_sub_vecs(rec->p, cy->point);
         rec->normal.y = 0;
         a = vec3_dot(rec->normal, ray->direc);
         if (a > 0)
             rec->normal =  vec3_mul_vec(rec->normal, -1);
-        printf("%f\n", rec->t);
         return (true);
     }
     return (false);

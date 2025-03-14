@@ -60,11 +60,3 @@ void	camera_resize_screen(t_info *info, int image_width, int image_height)
 		free_all(info);
 	camera_render(info);
 }
-
-void	camera_move(t_info *info, t_point point, float fov, t_vec3 orient)
-{
-	info->c.point = point;
-	info->c.fov = fov;
-	info->c.orient = orient;
-	camera_render(info);
-}

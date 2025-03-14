@@ -328,15 +328,7 @@ void						camera_start(t_info *info);
 // @param image_width, image_height: the new size of the image.
 void						camera_resize_screen(t_info *info, int image_width,
 								int image_height);
-
-// @brief moves the camera, re-render the image to screen.
-//
-// @param info: pointer to the state of the program.
-// @param point: the new eye point position of the camera.
-// @param fov: the new fov of the camera which affects the focal length.
-// @param orient: the new orint of the camera which affects the viewing direction.
-void						camera_move(t_info *info, t_point point, float fov,
-								t_vec3 orient);
+void						camera_render(t_info *info);
 t_color						camera_ray_color(t_info *info, t_ray ray,
 								t_obj **world, int depth);
 

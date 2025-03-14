@@ -37,17 +37,20 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 		printf("Mouse: x %d, y: %d\n", x, y);
 	}
 	if (keydata.key == MLX_KEY_LEFT)
-		info->c.orient.x -= 0.1;
-	if (keydata.key == MLX_KEY_RIGHT)
-		info->c.orient.x += 0.1;
-	if (keydata.key == MLX_KEY_W)
-		info->c.point.z += 0.1;
-	if (keydata.key == MLX_KEY_S)
-		info->c.point.z -= 0.1;
-	if (keydata.key == MLX_KEY_A)
 		info->c.point.x -= 0.1;
-	if (keydata.key == MLX_KEY_D)
+	else if (keydata.key == MLX_KEY_RIGHT)
 		info->c.point.x += 0.1;
+	else if (keydata.key == MLX_KEY_W)
+		info->c.point.z += 0.1;
+	else if (keydata.key == MLX_KEY_S)
+		info->c.point.z -= 0.1;
+	else if (keydata.key == MLX_KEY_UP)
+		info->c.point.y -= 0.1;
+	else if (keydata.key == MLX_KEY_DOWN)
+		info->c.point.y += 0.1;
+	else
+		return ;
+	camera_render(info);
 }
 
 

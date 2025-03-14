@@ -3,6 +3,7 @@
 
 # define S (float)1e-8
 # define PI (float)3.14159265358979323846
+# define SHININESS 30
 # define MAX_DEPTH 10
 # define IMG_WIDTH 1920
 # define IMG_HEIGHT 1080

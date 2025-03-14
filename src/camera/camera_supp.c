@@ -67,17 +67,13 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	t_color			color;
 
 	new_ray.orig = rec->p;
-	new_ray.direc = vec3_sub_vecs(info->l.point, rec->p);
-	vec3_normalize(&(new_ray.direc));
+	new_ray.direc = vec3_unit(vec3_sub_vecs(info->l.point, rec->p));
 	interval = interval_default();
-	interval.max = vec3_dot(new_ray.direc, vec3_sub_vecs(info->l.point,
-				rec->p));
+	interval.max = vec3_length(vec3_sub_vecs(info->l.point, rec->p));
 	if (world_hit_shadow(info, &new_ray, &new_rec, &interval))
 		return (vec3_add_vecs(vec3_new(0, 0, 0), get_ambient_light(info)));
-	new_ray.orig = rec->normal;
-	vec3_normalize(&(new_ray.orig));
-	color = get_light_color(info, &new_ray, ray);
-	color = vec3_mul_colors(rec->material->albedo, color);
+	color = vec3_mul_colors(rec->material->albedo, get_light_color(info, rec,
+				&new_ray, ray));
 	return (color);
 }
 

@@ -102,19 +102,20 @@ typedef struct s_arena
 // 3 point: the oberservation point of the camera.
 // 4 orient: the direction vector from oberservation point to the image plane.
 // 5 hov: the Horizontal Field of View, means the width of the view point.
-// 
+//
 //
 // These are helper properties, and the value is assigned when init the camera.
 //
 // look_at: the center point of the image plane.
 //
-// fov: the Vertical Field of View, means the angle of viewpoint, 
+// fov: the Vertical Field of View, means the angle of viewpoint,
 //      the value is affected by focal which is the distance
 //      from point of camera to point of image, and the size of image.
 //      FOV = 2 * arctan((sizeof_image_plane / 2) / distance)
-//      
+//
 // vup: The up direction in world space (Y-axis direction).
-//      It normally points to (0, 1, 0), representing the world's upward direction.
+//      It normally points to (0, 1, 0),
+//    	representing the world's upward direction.
 //
 // u: the rightward unit vector in the image plane, the direction to right.
 //    when the camara is normally placed, the u is 1, 0, 0.
@@ -176,7 +177,7 @@ typedef struct s_cam
 	t_vec3					viewpoint_v;
 	t_vec3					top_left;
 	t_vec3					right;
-	
+
 }							t_cam;
 
 typedef struct s_alight
@@ -258,6 +259,7 @@ typedef struct s_obj
 // mlx: the pointer to render engine.
 // img: the pointer to the image of render engine.
 // c: the camera.
+// a: the ambient light.
 // obj: the objects.
 // pl_count: the count of planes.
 // sp_count: the count of spheres.
@@ -299,13 +301,13 @@ void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
 void						exit_free_parser(t_info *info, char **split, int n);
 
-
 /* HIT OBJ*/
 // Check the `hit` in t_obj.
 
 bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, t_interval *interval);
-bool	world_hit_shadow(t_info *info, t_ray *ray, t_hit_record *rec, t_interval *interval);
+bool						world_hit_shadow(t_info *info, t_ray *ray,
+								t_hit_record *rec, t_interval *interval);
 bool						sp_hit(t_obj *sphere, t_ray *ray,
 								t_interval *interval, t_hit_record *rec);
 bool						pl_hit(t_obj *plane, t_ray *ray,
@@ -316,25 +318,27 @@ bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 /* Camera */
 
 // @brief starts the camera, render the image to screen.
-// 
+//
 // @param info: pointer to the state of the program.
-void 						camera_start(t_info *info);
+void						camera_start(t_info *info);
 
 // @brief resizes the camera, re-render the image to screen.
-// 
+//
 // @param info: pointer to the state of the program.
 // @param image_width, image_height: the new size of the image.
-void 						camera_resize_screen(t_info *info, int image_width, int image_height);
+void						camera_resize_screen(t_info *info, int image_width,
+								int image_height);
 
 // @brief moves the camera, re-render the image to screen.
-// 
+//
 // @param info: pointer to the state of the program.
 // @param point: the new eye point position of the camera.
 // @param fov: the new fov of the camera which affects the focal length.
 // @param orient: the new orint of the camera which affects the viewing direction.
-void 						camera_move(t_info *info, t_point point, float fov, t_vec3 orient);
-t_color 					camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
-
+void						camera_move(t_info *info, t_point point, float fov,
+								t_vec3 orient);
+t_color						camera_ray_color(t_info *info, t_ray ray,
+								t_obj **world, int depth);
 
 /*        Vector Math Functions                     */
 
@@ -347,7 +351,7 @@ float						vec3_length_squared(t_vec3 vec);
 // @brief return the length of a vec which is the result of a subtraction.
 //        = sqrt(length_squared)
 float						vec3_length(t_vec3 vec);
-// @brief when we sqrt the result, we will get the length.  
+// @brief when we sqrt the result, we will get the length.
 t_vec3						vec3_add_vecs(t_vec3 vec1, t_vec3 vec2);
 t_vec3						vec3_sub_vecs(t_vec3 vec1, t_vec3 vec2);
 t_vec3						vec3_mul_vecs(t_vec3 vec1, t_vec3 vec2);
@@ -374,8 +378,8 @@ t_vec3						vec3_refract(t_vec3 uv, t_vec3 n,
 t_vec3						vec3_copy(t_vec3 vec);
 t_vec3						vec3_random_in_unit_disk(void);
 t_color						vec3_mul_colors(t_vec3 vec1, t_vec3 vec2);
-t_color 					vec3_sky(void);
-t_color 					vec3_shadow(void);
+t_color						vec3_sky(void);
+t_color						vec3_shadow(void);
 
 /*			INTERVAL						*/
 
@@ -390,13 +394,14 @@ float						interval_clamp(t_interval interval, float value);
 
 /*			COLOR						*/
 
-t_color 					get_light_color(t_info *info, t_ray *shadow_ray, t_ray *cam_ray);
-t_color    					get_ambient_light(t_info *info);
+t_color						get_light_color(t_info *info, t_hit_record *rec,
+								t_ray *shadow_ray, t_ray *cam_ray);
+t_color						get_ambient_light(t_info *info);
 
 /*			Utils							*/
 
 // @brief to calculate the destination point of a ray.
-// 
+//
 // @param ray to destination.
 // @param the distance to destination.
 // @return the destination point.

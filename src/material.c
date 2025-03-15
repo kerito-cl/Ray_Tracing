@@ -16,9 +16,9 @@ bool	lambertian_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 bool	metal_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 		t_ray *scattered)
 {
-	scattered->direc = vec3_reflect(r_in->direc, rec->normal);
-	scattered->direc = vec3_unit(vec3_add_vecs(scattered->direc, vec3_mul_vec(vec3_random_unit_vector(),
-				rec->material->fuzz)));
+	scattered->direc = vec3_unit(vec3_reflect(r_in->direc, rec->normal));
+	scattered->direc = vec3_add_vecs(scattered->direc, vec3_mul_vec(vec3_random_unit_vector(),
+				rec->material->fuzz));
 	scattered->orig = rec->p;
 	scattered->type = REFECTION_RAY;
 	*attenuation = rec->material->albedo;

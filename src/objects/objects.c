@@ -43,12 +43,14 @@ bool	world_hit_shadow(t_info *info, t_ray *ray, t_hit_record *rec,
 			{
 				if (rec->t < interval->max)
 				{
+					info->index = i;
+					is_hit = true;
+					interval->max = rec->t;
 					rec->material->type_material = info->obj[i].type_material;
-					return (true);
 				}
 			}
 		}
 		i++;
 	}
-	return (false);
+	return (is_hit);
 }

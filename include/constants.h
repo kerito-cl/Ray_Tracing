@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
+# define MOVE_STEP 0.1f
+# define ROTATE_STEP DTR(1)
 # define LIGHT_VISIBLE 0
 # define LIGHT_RADIUS 1
 # define S (float)1e-8

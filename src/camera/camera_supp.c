@@ -1,4 +1,8 @@
 #include "mini_rt.h"
+#include "vars.h"
+
+t_color						get_light_color(t_info *info, t_get_light_vars *var);
+t_color						get_ambient_light(t_info *info);
 
 // @details
 // look_at = point + orint
@@ -75,9 +79,9 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	i = 0;
 	while (i < info->light_count)
 	{
-		interval.max = INFINITY;
-		new_ray.direc = vec3_unit(vec3_sub_vecs(info->lights[i].point, rec->p));
-		if (world_hit_shadow(info, &var.shadow_ray, &var.shadow_rec, &var.interval) && new_rec.material->type_material == LIGHT)
+		var.interval.max = INFINITY;
+		var.shadow_ray.direc = vec3_unit(vec3_sub_vecs(info->lights[i]->point, rec->p));
+		if (world_hit_shadow(info, &var.shadow_ray, &var.shadow_rec, &var.interval) && var.shadow_rec.material->type_material == LIGHT)
 			color = vec3_add_vecs(color, get_light_color(info, &var));
 		++i;
 	}

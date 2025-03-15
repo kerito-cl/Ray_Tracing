@@ -1,4 +1,5 @@
 #include "mini_rt.h"
+#include "vars.h"
 
 // @details the ambient part of phong's model.
 t_color	get_ambient_light(t_info *info)

@@ -1,26 +1,26 @@
 #include "mini_rt.h"
 
-t_color vec3_sky(void)
+t_color	vec3_sky(void)
 {
-	return vec3_new(0.01960784313f, 0.01960784313f, 1.0f);
+	return (vec3_new(0.01960784313f, 0.01960784313f, 1.0f));
 }
 
-t_color vec3_shadow(void)
+t_color	vec3_shadow(void)
 {
-    return (vec3_new(0, 0, 0));
+	return (vec3_new(0, 0, 0));
 }
 
-bool    vec3_near_black(t_color color)
+bool	vec3_near_black(t_color color)
 {
-    return (color.x < 0.001f && color.y < 0.001f &&  color.z < 0.001f);
+	return (color.x < 0.001f && color.y < 0.001f && color.z < 0.001f);
 }
 
-bool    vec3_black(void)
+t_color vec3_black(void)
 {
-    return vec3_new(1, 1, 1);
+	return (vec3_new(1, 1, 1));
 }
 
-t_color vec3_avoid_overflow(t_vec3 color)
+t_color	vec3_avoid_overflow(t_vec3 color)
 {
-    return vec3_new(fmaxf(color.x, 1), fmaxf(color.y, 1), fmaxf(color.z, 1));
+	return (vec3_new(fmaxf(color.x, 1), fmaxf(color.y, 1), fmaxf(color.z, 1)));
 }

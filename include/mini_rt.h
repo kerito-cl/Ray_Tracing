@@ -3,7 +3,6 @@
 
 # include "MLX42/MLX42.h"
 # include "constants.h"
-# include "vars.h"
 # include "get_next_line.h"
 # include "libft.h"
 # include <fcntl.h>
@@ -289,7 +288,7 @@ typedef struct s_info
 	t_alight				a;
 	t_light					l; // may be removed.
 	t_obj					*obj;
-	t_obj					*lights;
+	t_obj					**lights;
 	int						index;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
@@ -388,7 +387,7 @@ t_color						vec3_mul_colors(t_vec3 vec1, t_vec3 vec2);
 t_color						vec3_sky(void);
 t_color						vec3_shadow(void);
 bool    					vec3_near_black(t_color color);
-bool    					vec3_black(void);
+t_color   					vec3_black(void);
 t_color 					vec3_avoid_overflow(t_vec3 color);
 
 /*			INTERVAL						*/
@@ -401,12 +400,6 @@ bool						interval_contains(t_interval interval, float value);
 bool						interval_surrounds(t_interval *interval,
 								float value);
 float						interval_clamp(t_interval interval, float value);
-
-/*			COLOR						*/
-
-t_color						get_light_color(t_info *info, t_hit_record *rec,
-								t_ray *shadow_ray, t_ray *cam_ray);
-t_color						get_ambient_light(t_info *info);
 
 /*			Utils							*/
 

@@ -85,13 +85,11 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		var.shadow_ray.direc = vec3_unit(vec3_sub_vecs(info->lights[i]->point,
 					rec->p));
 		if (world_hit_shadow(info, &var.shadow_ray, &var.shadow_rec,
-				&var.interval))
+				&var.interval)
+			&& var.shadow_rec.material->type_material == LIGHT)
 		{
-			if (var.shadow_rec.material->type_material == LIGHT)
-			{
-				is_shadow = false;
-				color = vec3_add_vecs(color, get_light_color(info, &var));
-			}
+			is_shadow = false;
+			color = vec3_add_vecs(color, get_light_color(info, &var));
 		}
 		++i;
 	}

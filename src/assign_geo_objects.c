@@ -20,6 +20,12 @@ static void assign_typematerial_info(t_info *info, char *material, int i, char *
         info->obj[i].material.albedo = info->obj[i].rgb;
         info->obj[i].material.scatter = dielectric_scatter;
     }
+    else if (ft_strncmp(material, "L", ft_strlen(material)) == 0)
+    {
+        info->obj[i].type_material = LIGHT;
+        info->obj[i].material.albedo = vec3_mul_vec(info->obj[i].rgb, info->obj[i].br_ratio);
+        info->obj[i].material.scatter = light_scatter;
+    }
     else
     {
         info->obj[i].material.albedo = info->obj[i].rgb;
@@ -95,6 +101,28 @@ void create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
     info->obj[i].hit = cy_hit;
 }
 
+void create_light_info(t_info *info, char **split, int i, bool *isvalid)
+{
+	static int j = 0;
+	char	**vec;
+
+	info->obj[i].radius = LIGHT_RADIUS;
+	info->obj[i].br_ratio = ft_strtof(split[2], NULL);
+	vec = ft_split(split[3], ',');
+	if (!vec)
+		free_arena_exit(info);
+	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
+	vec = ft_split(split[1], ',');
+	if (!vec)
+		free_arena_exit(info);
+	new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
+	info->obj[i].hit = sp_hit;
+	assign_typematerial_info(info, split[0], i, split);
+    info->lights[j] = &info->obj[i];
+	j++;
+	info->light_count = j;
+}
+
 void create_object_info(t_info *info, char **split)
 {
     bool    isvalid;
@@ -107,6 +135,8 @@ void create_object_info(t_info *info, char **split)
         create_sphere_info(info, split, i, &isvalid);
     else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
         create_cylinder_info(info, split, i, &isvalid);
+    else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
+        create_light_info(info, split, i, &isvalid);
     if (!isvalid)
         exit_free_parser(info, split, 2);
     i++;

@@ -34,14 +34,25 @@ typedef t_vec3				t_color;
 // Represents a point.
 typedef t_vec3				t_point;
 
+// Represents the type of ray.
+typedef enum e_ray_type
+{
+	NULL_RAY,
+	CAM_RAY,
+	SHADOW_RAY,
+	REFECTION_RAY,
+}							t_ray_type;
+
 // Represents a ray.
 //
 // orig: the start point of a ray.
 // direc: the direction vector of a ray.
+// type: the type of a ray.
 typedef struct s_ray
 {
 	t_vec3					orig;
 	t_vec3					direc;
+	t_ray_type				type;
 }							t_ray;
 
 // Represents the type of materials.
@@ -213,6 +224,7 @@ typedef struct s_hit_record
 	t_material				*material;
 	float					t;
 	bool					front_face;
+	bool					ray_type;
 }							t_hit_record;
 
 // Represents a interval.
@@ -261,6 +273,7 @@ typedef struct s_obj
 // c: the camera.
 // a: the ambient light.
 // obj: the objects.
+// lights: the lights.
 // pl_count: the count of planes.
 // sp_count: the count of spheres.
 // cy_count: the count of cylinders.
@@ -273,8 +286,9 @@ typedef struct s_info
 	mlx_image_t				*img;
 	t_cam					c;
 	t_alight				a;
-	t_light					l;
+	t_light					l; // may be removed.
 	t_obj					*obj;
+	t_obj					**lights;
 	int						index;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
@@ -372,6 +386,9 @@ t_vec3						vec3_random_in_unit_disk(void);
 t_color						vec3_mul_colors(t_vec3 vec1, t_vec3 vec2);
 t_color						vec3_sky(void);
 t_color						vec3_shadow(void);
+bool    					vec3_near_black(t_color color);
+t_color   					vec3_black(void);
+t_color 					vec3_avoid_overflow(t_vec3 color);
 
 /*			INTERVAL						*/
 
@@ -383,12 +400,6 @@ bool						interval_contains(t_interval interval, float value);
 bool						interval_surrounds(t_interval *interval,
 								float value);
 float						interval_clamp(t_interval interval, float value);
-
-/*			COLOR						*/
-
-t_color						get_light_color(t_info *info, t_hit_record *rec,
-								t_ray *shadow_ray, t_ray *cam_ray);
-t_color						get_ambient_light(t_info *info);
 
 /*			Utils							*/
 
@@ -405,6 +416,8 @@ bool						lambertian_scatter(t_ray *r_in, t_hit_record *rec,
 bool						metal_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
 bool						dielectric_scatter(t_ray *r_in, t_hit_record *rec,
+								t_vec3 *attenuation, t_ray *scattered);
+bool						light_scatter(t_ray *r_in, t_hit_record *rec, 
 								t_vec3 *attenuation, t_ray *scattered);
 
 #endif

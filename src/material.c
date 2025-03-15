@@ -20,6 +20,7 @@ bool	metal_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 	scattered->direc = vec3_unit(vec3_add_vecs(scattered->direc, vec3_mul_vec(vec3_random_unit_vector(),
 				rec->material->fuzz)));
 	scattered->orig = rec->p;
+	scattered->type = REFECTION_RAY;
 	*attenuation = rec->material->albedo;
 	return (vec3_dot(scattered->direc, rec->normal) > 0);
 }
@@ -68,5 +69,15 @@ bool	dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 		direction = vec3_refract(unit_direction, rec->normal, r1);
 	scattered->orig = rec->p;
 	scattered->direc = direction;
+	scattered->type = REFECTION_RAY;
+	return (true);
+}
+
+// @details
+// for light, just sets the attenuation and returns false.
+bool	light_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
+		t_ray *scattered)
+{
+	*attenuation = rec->material->albedo;
 	return (true);
 }

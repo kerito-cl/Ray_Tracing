@@ -27,6 +27,7 @@ static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)
 	new_vec3_for_parsing(&(info->a).rgb, rgb, isvalid, true);
 }
 
+// Need to be removed.
 void	assign_light_info(t_info *info, char **split, bool *isvalid)
 {
 	static int i = 0;
@@ -60,7 +61,7 @@ static void	assign_all(t_info *info, char **split)
 	else if (ft_strncmp(split[0], "C", ft_strlen(split[0])) == 0)
 		assign_camera_info(info, split, &isvalid);
 	else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
-		assign_light_info(info, split, &isvalid);
+		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)
 		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "sp", ft_strlen(split[0])) == 0)
@@ -79,7 +80,7 @@ void	parse(char *file, t_info *info)
 	char	*input;
 	char	**split;
 
-	//info->l = arena_alloc(info->arena, sizeof(t_light) * 10);
+	info->lights = arena_alloc(info->arena, sizeof(t_obj *) * 10);
 	info->obj = arena_alloc(info->arena, sizeof(t_obj) * 100);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

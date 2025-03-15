@@ -12,7 +12,8 @@ t_color	get_ambient_light(t_info *info)
 }
 
 // @details the diffuse part of phong's model.
-t_color	handle_diffuse_light(t_info *info, t_hit_record *rec, t_ray *shadow_ray, t_hit_record *shadow_rec)
+t_color	handle_diffuse_light(t_info *info, t_hit_record *rec, t_ray *shadow_ray,
+		t_hit_record *shadow_rec)
 {
 	float	intensity;
 
@@ -43,7 +44,8 @@ t_color	get_light_color(t_info *info, t_get_light_vars *var)
 {
 	t_color	res;
 
-	res = vec3_add_vecs(res, handle_diffuse_light(info, var->cam_rec, &var->shadow_ray, &var->shadow_rec));
+	res = handle_diffuse_light(info, var->cam_rec, &var->shadow_ray,
+			&var->shadow_rec);
 	res = vec3_add_vecs(res, handle_specular_light(info, var));
 	return (res);
 }

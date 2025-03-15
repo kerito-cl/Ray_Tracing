@@ -2,7 +2,7 @@
 #include "vars.h"
 
 // @details the ambient part of phong's model.
-t_color	get_ambient_light(t_info *info)
+t_color	get_phong_ambient(t_info *info)
 {
 	t_color	a_light;
 
@@ -15,7 +15,7 @@ t_color	get_ambient_light(t_info *info)
 // Implements the Phong reflection model for diffuse materail.
 // https://en.wikipedia.org/wiki/Phong_reflection_model
 // Diffuse Light + Specular Light.
-t_color	get_light_color(t_info *info, t_get_light_vars *var)
+t_color	get_phong_color(t_info *info, t_get_light_vars *var)
 {
 	float	intensity;
 	float	spec_intensity;

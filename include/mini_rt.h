@@ -286,7 +286,7 @@ typedef struct s_info
 	mlx_image_t				*img;
 	t_cam					c;
 	t_alight				a;
-	t_light					l; // may be removed.
+	t_light l; // may be removed.
 	t_obj					*obj;
 	t_obj					**lights;
 	int						index;
@@ -386,9 +386,9 @@ t_vec3						vec3_random_in_unit_disk(void);
 t_color						vec3_mul_colors(t_vec3 vec1, t_vec3 vec2);
 t_color						vec3_sky(void);
 t_color						vec3_shadow(void);
-bool    					vec3_near_black(t_color color);
-t_color   					vec3_black(void);
-t_color 					vec3_avoid_overflow(t_vec3 color);
+bool						vec3_near_black(t_color color);
+t_color						vec3_black(void);
+t_color						vec3_avoid_overflow(t_vec3 color);
 
 /*			INTERVAL						*/
 
@@ -417,7 +417,15 @@ bool						metal_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
 bool						dielectric_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
-bool						light_scatter(t_ray *r_in, t_hit_record *rec, 
+bool						light_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
+
+/* UI */
+
+void						handle_win_close_event(void *param);
+void						handle_key_press_event(mlx_key_data_t keydata,
+								void *param);
+void						handle_screen_resize(int32_t width, int32_t height,
+								void *param);
 
 #endif

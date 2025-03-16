@@ -3,7 +3,7 @@
 
 # define LIGHT_VISIBLE 0
 # define LIGHT_RADIUS 1
-# define METAL_FUZZ 0.05f
+# define METAL_FUZZ 0.1f
 # define METAL_BR_RATIO 0.5f
 # define GLASS_REF_IDX 0.5f
 # define S (float)1e-8

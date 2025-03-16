@@ -14,6 +14,8 @@
 # define MAX_DEPTH 10
 # define IMG_WIDTH 1920
 # define IMG_HEIGHT 1080
+# define MAX_WIDTH 1920
+# define MAX_HEIGHT 1080
 # define DTR(degrees) (degrees * PI / 180.0)
 # define RANDOM_FLOAT (float)rand() / (float)(RAND_MAX + 1.0)
 # define RANDOM_FLOAT_RANGE(min, max) (float)(min + (max - min) * RANDOM_FLOAT)

@@ -13,9 +13,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define MAX_WIDTH 1920
-# define MAX_HEIGHT 1080
-
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;

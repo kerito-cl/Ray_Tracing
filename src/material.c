@@ -1,7 +1,7 @@
 #include "mini_rt.h"
 
 // @details
- // In this project, we don't handle the lambertian scatter.
+// In this project, we don't handle the lambertian scatter.
 bool	lambertian_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 		t_ray *scattered)
 {
@@ -9,23 +9,23 @@ bool	lambertian_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 }
 
 // @details
- // 1 calculates the direction of reflection.
- // 2 adds some random vector for fuzz.
- // 3 the attenuation is the albedo.
- // 4 be sure the refection degree is valid (not a refraction).
+// 1 calculates the direction of reflection.
+// 2 adds some random vector for fuzz.
+// 3 the attenuation is the albedo.
+// 4 be sure the refection degree is valid (not a refraction).
 bool	metal_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 		t_ray *scattered)
 {
-	scattered->direc = vec3_reflect(r_in->direc, rec->normal);
-	scattered->direc = vec3_unit(vec3_add_vecs(scattered->direc, vec3_mul_vec(vec3_random_unit_vector(),
-				rec->material->fuzz)));
+	scattered->direc = vec3_unit(vec3_reflect(r_in->direc, rec->normal));
+	scattered->direc = vec3_add_vecs(scattered->direc,
+			vec3_mul_vec(vec3_random_unit_vector(), rec->material->fuzz));
 	scattered->orig = rec->p;
 	scattered->type = REFECTION_RAY;
 	*attenuation = rec->material->albedo;
 	return (vec3_dot(scattered->direc, rec->normal) > 0);
 }
 
-// @details 
+// @details
 // Implements Schlick's approximation to calculate reflectance.
 // When the incident angle is near 90 degrees, more light is reflected.
 static float	reflectance(float cosine, float ref_idx)
@@ -43,9 +43,9 @@ static float	reflectance(float cosine, float ref_idx)
 // 1 the attenuation is always white, because we don't change the color.
 // 2 r1: the possiblity of the refection.
 // 3 cos_theta: the incident angle.
-// 4 cannot_refract: Snell's Law, if there is refract, 
+// 4 cannot_refract: Snell's Law, if there is refract,
 //  - light is from glass to air, and incident angle > 90.
-// 5 light is either reflected or refracted depending on the probability, 
+// 5 light is either reflected or refracted depending on the probability,
 bool	dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 		t_ray *scattered)
 {

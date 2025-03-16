@@ -11,13 +11,16 @@ static void assign_typematerial_info(t_info *info, char *material, int i, char *
     if (ft_strncmp(material, "M\n", ft_strlen(material)) == 0)
     {
         info->obj[i].type_material = METAL;
-        info->obj[i].material.albedo = info->obj[i].rgb;
+        info->obj[i].br_ratio = METAL_BR_RATIO;
+        info->obj[i].material.albedo = vec3_mul_vec(info->obj[i].rgb, info->obj[i].br_ratio);
+        info->obj[i].material.fuzz = METAL_FUZZ;
         info->obj[i].material.scatter = metal_scatter;
     }
     else if (ft_strncmp(material, "G\n", ft_strlen(material)) == 0)
     {
         info->obj[i].type_material = GLASS;
         info->obj[i].material.albedo = info->obj[i].rgb;
+        info->obj[i].material.ref_idx = GLASS_REF_IDX;
         info->obj[i].material.scatter = dielectric_scatter;
     }
     else if (ft_strncmp(material, "L", ft_strlen(material)) == 0)

@@ -12,6 +12,12 @@ unsigned int	get_color(t_vec3 vec)
 				* 255) << 16) | ((uint8_t)(vec.z * 255) << 8) | 255);
 }
 
+void	break_point(int i)
+{
+	i += 1;
+	return 	;
+}
+
 void	camera_render(t_info *info)
 {
 	int			j;
@@ -28,6 +34,8 @@ void	camera_render(t_info *info)
 		i = 0;
 		while (i < info->c.image_width)
 		{
+			if (j == 618 && i == 1007)
+				break_point(i);
 			ray = camera_get_ray(&info->c, i, j);
 			color = camera_ray_color(info, ray, &info->obj, MAX_DEPTH);
 			packed_color = get_color(color);

@@ -1,8 +1,8 @@
 #include "mini_rt.h"
 #include "vars.h"
 
-t_color	get_light_color(t_info *info, t_get_light_vars *var);
-t_color	get_ambient_light(t_info *info);
+t_color	get_phong_color(t_info *info, t_get_light_vars *var);
+t_color	get_phong_ambient(t_info *info);
 
 // @details
 // look_at = point + orint
@@ -71,7 +71,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	int					i;
 	bool				is_shadow;
 
-	color = get_ambient_light(info);
+	color = get_phong_ambient(info);
 	var.cam_ray = ray;
 	var.cam_rec = rec;
 	var.shadow_ray.type = SHADOW_RAY;
@@ -89,7 +89,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 			&& var.shadow_rec.material->type_material == LIGHT)
 		{
 			is_shadow = false;
-			color = vec3_add_vecs(color, get_light_color(info, &var));
+			color = vec3_add_vecs(color, get_phong_color(info, &var));
 		}
 		++i;
 	}

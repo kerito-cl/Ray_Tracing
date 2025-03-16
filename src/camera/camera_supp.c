@@ -24,16 +24,15 @@ void	camera_init(t_cam *c)
 	c->aspect_ratio = (float)c->image_width / c->image_height;
 	c->vfov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / c->aspect_ratio);
 	c->w = vec3_flip_minus(c->orient);
-	c->vup = vec3_new(0, 1, 0);
-	if (fabsf(c->w.y) > 0.999f)
-		c->vup = vec3_new(0, 0, 1);
+	c->right = vec3_unit(vec3_cross(vec3_new(0, 1, 0), c->w));
+	c->vup = vec3_flip_minus(vec3_cross(c->right, c->w));
 	c->u = vec3_unit(vec3_cross(c->vup, c->w));
-	c->v = vec3_unit(vec3_cross(c->w, c->u));
-	c->focal_length = 1.0f;
-	c->viewport_height = 2.0 * tanf(DTR(c->vfov) / 2) * c->focal_length;
+	c->v = vec3_cross(c->w, c->u);
+	c->focal_length = vec3_length(vec3_sub_vecs(c->point, c->look_at));
+	c->viewport_height = 2.0 * tanf(c->vfov / 2) * c->focal_length;
 	c->viewport_width = c->aspect_ratio * c->viewport_height;
 	c->viewport_u = vec3_mul_vec(c->u, c->viewport_width);
-	c->viewport_v = vec3_flip_minus(vec3_mul_vec(c->v, c->viewport_height));
+	c->viewport_v = vec3_mul_vec(c->v, -c->viewport_height);
 	c->pixel_delta_u = vec3_div_vec(c->viewport_u, c->image_width);
 	c->pixel_delta_v = vec3_div_vec(c->viewport_v, c->image_height);
 	c->top_left = vec3_sub_vecs(c->look_at,

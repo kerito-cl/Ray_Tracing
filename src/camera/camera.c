@@ -18,6 +18,7 @@ void	break_point(int i)
 	return 	;
 }
 
+// @details to render by iterate all the pixels.
 void	camera_render(t_info *info)
 {
 	int			j;

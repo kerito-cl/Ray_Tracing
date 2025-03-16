@@ -12,9 +12,10 @@ t_color	get_phong_ambient(t_info *info)
 }
 
 // @details
-// Implements the Phong reflection model for diffuse materail.
+//
+// Implements the Phong reflection model
 // https://en.wikipedia.org/wiki/Phong_reflection_model
-// Diffuse Light + Specular Light.
+// to calculate the Diffuse Light + Specular Light.
 t_color	get_phong_color(t_info *info, t_get_light_vars *var)
 {
 	float	intensity;

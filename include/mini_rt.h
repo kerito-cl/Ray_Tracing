@@ -227,7 +227,7 @@ typedef struct s_hit_record
 	bool					ray_type;
 }							t_hit_record;
 
-// Represents a interval.
+// Represents a distance interval.
 typedef struct s_interval
 {
 	float					min;
@@ -318,10 +318,26 @@ void						exit_free_parser(t_info *info, char **split, int n);
 /* HIT OBJ*/
 // Check the `hit` in t_obj.
 
+// @brief Returns if there is an object is hit by the ray,
+// and the distance is in the interval.
+//
+// @param info: the pointer to state of the program.
+// @param ray: the ray to hit.
+// @param [rec]: the value is assigned by the function.
+// @param interval: the required inteval.
 bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, t_interval *interval);
+
+// @brief Returns if there is an object is hit by the shadow ray,
+// and the distance is in the interval.
+//
+// @param info: the pointer to state of the program.
+// @param ray: the ray to hit.
+// @param [rec]: the value is assigned by the function.
+// @param interval: the required inteval.
 bool						world_hit_shadow(t_info *info, t_ray *ray,
 								t_hit_record *rec, t_interval *interval);
+
 bool						sp_hit(t_obj *sphere, t_ray *ray,
 								t_interval *interval, t_hit_record *rec);
 bool						pl_hit(t_obj *plane, t_ray *ray,
@@ -342,37 +358,48 @@ void						camera_start(t_info *info);
 // @param image_width, image_height: the new size of the image.
 void						camera_resize_screen(t_info *info, int image_width,
 								int image_height);
+
+// @brief to render the screen.
+//
+// It inits the camera by the assigned properties in parsing.
+// Then iterates all pixels to render the screen.
+//
+// @param info: pointer to the state of the program.
 void						camera_render(t_info *info);
-t_color						camera_ray_color(t_info *info, t_ray ray,
-								t_obj **world, int depth);
 
 /*        Vector Math Functions                     */
 
-t_vec3						vec3_new(float x, float y, float z);
-void						vec3_print(t_vec3 vec);
-void						vec3_normalize(t_vec3 *vec);
-t_vec3						vec3_flip_minus(t_vec3 vec);
 // @brief return (-1 * vec);
+t_vec3						vec3_flip_minus(t_vec3 vec);
+
+// @brief when we sqrt the result, we will get the length.
 float						vec3_length_squared(t_vec3 vec);
+
 // @brief return the length of a vec which is the result of a subtraction.
 //        = sqrt(length_squared)
 float						vec3_length(t_vec3 vec);
-// @brief when we sqrt the result, we will get the length.
-t_vec3						vec3_add_vecs(t_vec3 vec1, t_vec3 vec2);
-t_vec3						vec3_sub_vecs(t_vec3 vec1, t_vec3 vec2);
-t_vec3						vec3_mul_vecs(t_vec3 vec1, t_vec3 vec2);
-t_vec3						vec3_mul_vec(t_vec3 vec, float scalar);
-t_vec3						vec3_div_vec(t_vec3 vec1, float scalar);
+
 // @brief returns a new vector that is perpendicular to both A and B.
 // - Point your right-hand fingers in the direction of A.
 // - Curl your fingers towards B.
 // - Your thumb points in the direction of A × B.
 t_vec3						vec3_cross(t_vec3 vec1, t_vec3 vec2);
+
 // @brief the angle of 2 vecs.
 //        = 0 when angle is 90°, > 0 when 0 - 90°, < 0 when 90 - 180°.
 float						vec3_dot(t_vec3 vec1, t_vec3 vec2);
+
 // @brief returns the value at the point where the distance is 1 on a ray.
 t_vec3						vec3_unit(t_vec3 vec);
+
+t_vec3						vec3_new(float x, float y, float z);
+void						vec3_print(t_vec3 vec);
+void						vec3_normalize(t_vec3 *vec);
+t_vec3						vec3_add_vecs(t_vec3 vec1, t_vec3 vec2);
+t_vec3						vec3_sub_vecs(t_vec3 vec1, t_vec3 vec2);
+t_vec3						vec3_mul_vecs(t_vec3 vec1, t_vec3 vec2);
+t_vec3						vec3_mul_vec(t_vec3 vec, float scalar);
+t_vec3						vec3_div_vec(t_vec3 vec1, float scalar);
 t_vec3						vec3_random(void);
 t_vec3						vec3_random_range(float min, float max);
 t_vec3						vec3_random_unit_vector(void);
@@ -392,14 +419,18 @@ t_color						vec3_avoid_overflow(t_vec3 color);
 
 /*			INTERVAL						*/
 
+// @brief 0.001 to INF
 t_interval					interval_default(void);
+
+// @brief -INF to INF
 t_interval					interval_empty(void);
-t_interval					interval_universe(void);
+
+// @brief returns the max - min.
 float						interval_size(t_interval interval);
-bool						interval_contains(t_interval interval, float value);
+
+// @brief return if the given value is in the interval.
 bool						interval_surrounds(t_interval *interval,
 								float value);
-float						interval_clamp(t_interval interval, float value);
 
 /*			Utils							*/
 
@@ -420,7 +451,7 @@ bool						dielectric_scatter(t_ray *r_in, t_hit_record *rec,
 bool						light_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
 
-/* UI */
+/* UI, the hooks to handle the UI event */
 
 void						handle_win_close_event(void *param);
 void						handle_key_press_event(mlx_key_data_t keydata,

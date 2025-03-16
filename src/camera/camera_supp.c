@@ -4,7 +4,8 @@
 t_color	get_phong_color(t_info *info, t_get_light_vars *var);
 t_color	get_phong_ambient(t_info *info);
 
-// @details
+// @details apply the math to calculate the properties of the camera.
+//
 // look_at = point + orint
 // fov = 2 * arctan( tan(hov / 2) / aspect_ratio )
 // w = - orint
@@ -45,7 +46,8 @@ void	camera_init(t_cam *c)
 				0.5));
 }
 
-// @details
+// @details to init a camera ray.
+//
 // pixel_sample: since a pixel represents an area, not a single point,
 //   we start from pixel00_loc, center of the top-left pixel in the image plane.
 //   then the shift based on i and j, scaling by the number of world space units
@@ -64,6 +66,16 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 	return (ray);
 }
 
+// @details to handle the shadow ray.
+//
+// Init the light to `ambient light`.
+// When an object with diffuse material is hit, then send only shadow rays
+// to light.
+//  - shadow rays are from the intersection point to each light,
+//    so it's an iteration process.
+//  - hitting the light means with light, then try to apply `phong model`.
+//    https://en.wikipedia.org/wiki/Phong_reflection_model
+//    to accumulate the diffuse light and specular light.
 t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 {
 	t_get_light_vars	var;
@@ -99,6 +111,8 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 }
 
 // @details Monte Carlo Path Tracing is applied for calculating the reflection.
+// https://en.wikipedia.org/wiki/Path_tracing
+//
 // there are 3 base cases to stop the recurssive call:
 // 1 the scatter returns false (diffuse materail), returns black.
 // 2 the materail is LIGHT
@@ -123,9 +137,9 @@ t_color	camera_send_reflect_rays(t_info *info, t_ray *ray, t_hit_record *rec,
 // @brief to calculate the color of a ray.
 //
 // If a ray hits nothing, then it's the sky.
-// If a ray hits a diffuse material
+// If a ray hits a diffuse material, apply the phong model.
 //   - calculate the color by sending shadow rays.
-// If a ray hits a metal or glass
+// If a ray hits a metal or glass, apply the monte carlo path tracing.
 //   - calculate the color by sending refection rays.
 //
 // @param info: the pointer to the state of the program.

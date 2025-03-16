@@ -13,47 +13,47 @@ void	handle_win_close_event(void *param)
 
 void	handle_rotation_lr(t_info *info, keys_t key)
 {
-	float cos;
-	float sin;
-	t_vec3 orient;
+	float	cos;
+	float	sin;
+	t_vec3	orient;
 
 	cos = cosf(ROTATE_STEP);
 	sin = sinf(ROTATE_STEP);
 	orient = info->c.orient;
-	if (key == MLX_KEY_A)
+	if (key == MLX_KEY_D)
 	{
-		orient.x = info->camera.orient.x * cos - info->camera.orient.z * sin;
-		orient.z = info->camera.orient.x * sin + info->camera.orient.z * cos;
+		orient.x = info->c.orient.x * cos - info->c.orient.z * sin;
+		orient.z = info->c.orient.x * sin + info->c.orient.z * cos;
 	}
-	else if (key == MLX_KEY_D)
+	else if (key == MLX_KEY_A)
 	{
-		orient.x = info->camera.orient.x * cos + info->camera.orient.z * sin;
-		orient.z = info->camera.orient.z * cos - info->camera.orient.x * sin;		
+		orient.x = info->c.orient.x * cos + info->c.orient.z * sin;
+		orient.z = info->c.orient.z * cos - info->c.orient.x * sin;
 	}
-	info->camera.orient = vec3_unit(orient);
+	info->c.orient = vec3_unit(orient);
 	camera_render(info);
 }
 
 void	handle_rotation_ud(t_info *info, keys_t key)
 {
-	float cos;
-	float sin;
-	t_vec3 orient;
+	float	cos;
+	float	sin;
+	t_vec3	orient;
 
 	cos = cosf(ROTATE_STEP);
 	sin = sinf(ROTATE_STEP);
 	orient = info->c.orient;
 	if (key == MLX_KEY_W)
 	{
-		orient.y = info->camera.orient.y * cos - info->camera.orient.z * sin;
-		orient.z = info->camera.orient.y * sin + info->camera.orient.z * cos;
+		orient.y = info->c.orient.y * cos - info->c.orient.z * sin;
+		orient.z = info->c.orient.y * sin + info->c.orient.z * cos;
 	}
 	else if (key == MLX_KEY_S)
 	{
-		orient.y = info->camera.orient.y * cos + info->camera.orient.z * sin;
-		orient.z = info->camera.orient.z * cos - info->camera.orient.y * sin;
+		orient.y = info->c.orient.y * cos + info->c.orient.z * sin;
+		orient.z = info->c.orient.z * cos - info->c.orient.y * sin;
 	}
-	info->camera.orient = vec3_unit(orient);
+	info->c.orient = vec3_unit(orient);
 	camera_render(info);
 }
 
@@ -68,18 +68,18 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		free_arena_exit(info);
-	if (keydata.key == MLX_KEY_D)
+	if (keydata.key == MLX_KEY_P)
 		print_position(info);
-	if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_RIGHT 
+	if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_RIGHT
 		|| keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_DOWN)
 		handle_transition_event(info, keydata.key);
-	if (keydata.key == MLX_KEY_A|| keydata.key == MLX_KEY_D)
+	if (keydata.key == MLX_KEY_A || keydata.key == MLX_KEY_D)
 		handle_rotation_lr(info, keydata.key);
-	if (keydata.key == MLX_KEY_W|| keydata.key == MLX_KEY_S)
+	if (keydata.key == MLX_KEY_W || keydata.key == MLX_KEY_S)
 		handle_rotation_ud(info, keydata.key);
 }
 
-void 	handle_screen_resize(int32_t width, int32_t height, void* param)
+void	handle_screen_resize(int32_t width, int32_t height, void *param)
 {
 	t_info	*info;
 

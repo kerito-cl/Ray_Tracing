@@ -13,6 +13,7 @@ SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c src/lights.c 
 			src/vec3/vec_methods.c src/vec3/vec_methods2.c src/vec3/vec_methods3.c src/vec3/vec_methods4.c src/vec3/vec_methods5.c src/vec3/vec_methods6.c \
 			src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c \
 			src/camera/camera.c src/camera/camera_supp.c \
+			src/ui/hook.c src/ui/hook_supp.c \
 		  	gnl/get_next_line.c gnl/get_next_line_utils.c
 
 OBJS	:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
@@ -21,7 +22,7 @@ LIBFT	:= -L$(LIBFT_DIR) -lft
 all: libmlx libft $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src $(OBJ_DIR)/src/objects $(OBJ_DIR)/src/camera
+	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src $(OBJ_DIR)/src/objects $(OBJ_DIR)/src/camera $(OBJ_DIR)/src/ui
 
 libft:
 	@echo "building libft"

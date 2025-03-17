@@ -119,10 +119,10 @@ typedef struct s_arena
 //
 // look_at: the center point of the image plane.
 //
-// fov: the Vertical Field of View, means the angle of viewpoint,
-//      the value is affected by focal which is the distance
-//      from point of camera to point of image, and the size of image.
-//      FOV = 2 * arctan((sizeof_image_plane / 2) / distance)
+// vfov: the Vertical Field of View, means the angle of viewpoint,
+//       the value is affected by focal which is the distance
+//       from point of camera to point of image, and the size of image.
+//       vfov = 2 * arctan((sizeof_image_plane / 2) / distance)
 //
 // vup: The up direction in world space (Y-axis direction).
 //      It normally points to (0, 1, 0),
@@ -171,8 +171,7 @@ typedef struct s_cam
 
 	// Need to be calculated.
 	t_point					look_at;
-	float					fov;
-	t_vec3					vup;
+	float					vfov;
 	float					aspect_ratio;
 	t_point					pixel00_loc;
 	t_vec3					pixel_delta_u;
@@ -180,12 +179,12 @@ typedef struct s_cam
 	t_vec3					u;
 	t_vec3					v;
 	t_vec3					w;
-	t_vec3					dist;
+	t_vec3 					vup;
 	float					focal_length;
 	float					viewport_height;
 	float					viewport_width;
-	t_vec3					viewpoint_u;
-	t_vec3					viewpoint_v;
+	t_vec3					viewport_u;
+	t_vec3					viewport_v;
 	t_vec3					top_left;
 	t_vec3					right;
 

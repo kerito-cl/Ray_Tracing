@@ -1,5 +1,6 @@
 #include "constants.h"
 #include "mini_rt.h"
+#include <sys/time.h>
 
 void			camera_init(t_cam *c);
 t_ray			camera_get_ray(t_cam *c, int i, int j);
@@ -25,10 +26,13 @@ void	camera_render(t_info *info)
 	t_ray		ray;
 	t_color		color;
 	uint32_t	packed_color;
+	struct timeval start, end;
 
 	camera_init(&info->c);
 	j = 0;
 	ray.orig = info->c.point;
+	
+	gettimeofday(&start, NULL);
 	while (j < info->c.image_height)
 	{
 		i = 0;
@@ -44,6 +48,8 @@ void	camera_render(t_info *info)
 		}
 		++j;
 	}
+	gettimeofday(&end, NULL);
+	printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
 }
 
 void	camera_start(t_info *info)

@@ -384,7 +384,6 @@ t_vec3						vec3_copy(t_vec3 vec);
 t_vec3						vec3_random_in_unit_disk(void);
 t_color						vec3_mul_colors(t_vec3 vec1, t_vec3 vec2);
 t_color						vec3_sky(void);
-t_color						vec3_shadow(void);
 bool						vec3_near_black(t_color color);
 t_color						vec3_black(void);
 t_color						vec3_avoid_overflow(t_vec3 color);

@@ -5,11 +5,6 @@ t_color	vec3_sky(void)
 	return (vec3_new(0.01960784313f, 0.01960784313f, 1.0f));
 }
 
-t_color	vec3_shadow(void)
-{
-	return (vec3_new(0, 0, 0));
-}
-
 bool	vec3_near_black(t_color color)
 {
 	return (color.x < 0.001f && color.y < 0.001f && color.z < 0.001f);
@@ -17,7 +12,7 @@ bool	vec3_near_black(t_color color)
 
 t_color vec3_black(void)
 {
-	return (vec3_new(1, 1, 1));
+	return (vec3_new(0, 0, 0));
 }
 
 t_color	vec3_avoid_overflow(t_vec3 color)

@@ -44,7 +44,7 @@ void create_light_info(t_info *info, char **split, int i, bool *isvalid)
     char    *ptr;
 
 	info->obj[i].radius = LIGHT_RADIUS;
-	info->obj[i].br_ratio = ft_strtof(split[2], NULL);
+	info->obj[i].br_ratio = ft_strtof(split[2], &ptr);
 	if (ptr[0] != 0)
 		exit_free_parser(info, split, 2);
 	vec = ft_split(split[3], ',');

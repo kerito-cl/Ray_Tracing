@@ -25,4 +25,19 @@ typedef struct s_get_light_vars
 	t_interval		interval;
 }					t_get_light_vars;
 
+
+typedef struct s_hit_cy_vars
+{
+	t_vec3	x;
+	t_vec3	v;
+	float	t0;
+	float	t1;
+	float	a;
+	float	b;
+	float	c;
+	float	d_dot;
+	float	x_dot;
+	float	m;
+}					t_hit_cy_vars;
+
 #endif

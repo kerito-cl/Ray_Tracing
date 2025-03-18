@@ -24,11 +24,13 @@ t_color	get_phong_color(t_info *info, t_get_light_vars *var)
 
 	intensity = fmaxf(vec3_dot(var->cam_rec->normal, var->shadow_ray.direc), 0);
 	res = vec3_mul_vec(var->shadow_rec.material->albedo, intensity);
-	reflect_dir = vec3_unit(vec3_sub_vecs(var->shadow_ray.direc,
+	if (intensity != 0)
+	{	reflect_dir = vec3_unit(vec3_sub_vecs(var->shadow_ray.direc,
 				vec3_mul_vec(var->cam_rec->normal, 2.0 * intensity)));
-	spec_intensity = powf(fmaxf(vec3_dot(var->cam_ray->direc, reflect_dir), 0),
+		spec_intensity = powf(fmaxf(vec3_dot(var->cam_ray->direc, reflect_dir), 0),
 			SHININESS);
-	res = vec3_add_vecs(res, vec3_mul_vec(var->shadow_rec.material->albedo,
+		res = vec3_add_vecs(res, vec3_mul_vec(var->shadow_rec.material->albedo,
 				spec_intensity));
+	}
 	return (res);
 }

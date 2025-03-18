@@ -291,6 +291,7 @@ typedef struct s_info
 	unsigned int			cy_count;
 	unsigned int			light_count;
 	unsigned int			obj_count;
+	bool					hit_itself;
 }							t_info;
 
 /*   Functions for parser.    */

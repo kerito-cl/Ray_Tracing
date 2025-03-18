@@ -69,6 +69,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	int					i;
 	bool				is_shadow;
 
+	info->hit_itself = false;
 	color = get_phong_ambient(info);
 	var.cam_ray = ray;
 	var.cam_rec = rec;
@@ -91,7 +92,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		}
 		++i;
 	}
-	if (!is_shadow)
+	if (!is_shadow || info->hit_itself == true)
 		color = vec3_mul_colors(rec->material->albedo, color);
 	return (color);
 }

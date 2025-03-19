@@ -6,7 +6,7 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval, t_hit_record *rec);
 void		new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 				bool if_rgb);
                 
-static void assign_typematerial_info(t_info *info, char *material, int i, char **split)
+void assign_typematerial_info(t_info *info, char *material, int i, char **split)
 {
     if (ft_strncmp(material, "M\n", ft_strlen(material)) == 0)
     {
@@ -29,7 +29,7 @@ static void assign_typematerial_info(t_info *info, char *material, int i, char *
         info->obj[i].material.albedo = vec3_mul_vec(info->obj[i].rgb, info->obj[i].br_ratio);
         info->obj[i].material.scatter = light_scatter;
     }
-    else
+    else 
     {
         info->obj[i].material.albedo = info->obj[i].rgb;
         info->obj[i].type_material = DIFFUSE;
@@ -54,6 +54,8 @@ void create_plane_info(t_info *info, char **split, int i, bool *isvalid)
         exit_free_parser(info, split, 2);
     new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
     assign_typematerial_info(info, split[4], i, split);
+    if (split[5] != NULL)
+        exit_free_parser(info, split, 2);
     info->obj[i].hit = pl_hit;
 }
 
@@ -74,6 +76,8 @@ void create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
         exit_free_parser(info, split, 3);
     new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
     assign_typematerial_info(info, split[4], i, split);
+    if (split[5] != NULL)
+        exit_free_parser(info, split, 2);
     info->obj[i].hit = sp_hit;
 }
 
@@ -101,29 +105,9 @@ void create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
         exit_free_parser(info, split, 3);
     new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid,true);
     assign_typematerial_info(info, split[6], i, split);
+    if (split[7] != NULL)
+        exit_free_parser(info, split, 2);
     info->obj[i].hit = cy_hit;
-}
-
-void create_light_info(t_info *info, char **split, int i, bool *isvalid)
-{
-	static int j = 0;
-	char	**vec;
-
-	info->obj[i].radius = LIGHT_RADIUS;
-	info->obj[i].br_ratio = ft_strtof(split[2], NULL);
-	vec = ft_split(split[3], ',');
-	if (!vec)
-		free_arena_exit(info);
-	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
-	vec = ft_split(split[1], ',');
-	if (!vec)
-		free_arena_exit(info);
-	new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
-	info->obj[i].hit = sp_hit;
-	assign_typematerial_info(info, split[0], i, split);
-    info->lights[j] = &info->obj[i];
-	j++;
-	info->light_count = j;
 }
 
 void create_object_info(t_info *info, char **split)

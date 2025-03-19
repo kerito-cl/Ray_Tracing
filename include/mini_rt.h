@@ -292,6 +292,8 @@ typedef struct s_info
 	unsigned int			light_count;
 	unsigned int			obj_count;
 	bool					hit_itself;
+	bool					light_outside;
+	bool					camera_outside;
 }							t_info;
 
 /*   Functions for parser.    */

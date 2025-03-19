@@ -2,7 +2,7 @@
 
 t_color	vec3_sky(void)
 {
-	return (vec3_new(0.01960784313f, 0.01960784313f, 1.0f));
+	return (vec3_new(0.13f, 0.13f, 0.13f));
 }
 
 bool	vec3_near_black(t_color color)

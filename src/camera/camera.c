@@ -15,7 +15,7 @@ unsigned int	get_color(t_vec3 vec)
 
 void	break_point(int i)
 {
-	i += 1;
+	printf("%d\n", i);
 	return 	;
 }
 
@@ -38,7 +38,7 @@ void	camera_render(t_info *info)
 		i = 0;
 		while (i < info->c.image_width)
 		{
-			if (j == 618 && i == 1007)
+			if (j == 524 && i == 1249)
 				break_point(i);
 			ray = camera_get_ray(&info->c, i, j);
 			color = camera_ray_color(info, ray, &info->obj, MAX_DEPTH);

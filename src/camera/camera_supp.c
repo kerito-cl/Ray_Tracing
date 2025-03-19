@@ -3,6 +3,7 @@
 
 t_color	get_phong_color(t_info *info, t_get_light_vars *var);
 t_color	get_phong_ambient(t_info *info);
+t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
 
 // @details apply the math to calculate the properties of the camera.
 //

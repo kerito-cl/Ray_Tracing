@@ -31,29 +31,32 @@ bool cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
     if (!quadratic(var.a, var.b, var.c, &var.t0, &var.t1))
         return false;
     i = 0;
-    while (i < 2)
+    if (var.t0 < 0)
+        var.t0 = var.t1;
+    if (var.t0 > var.t1)
     {
-        if (i == 0)
-            rec->t = var.t0;
-        else
-            rec->t = var.t1;
-        var.m = var.d_dot * rec->t + var.x_dot;
-        if (var.m >= 0.0 && var.m <= cy->height)
-        {
-            if (!interval_surrounds(interval, rec->t))
-                return false;
-            rec->p = ray_at(ray, rec->t);
-            rec->material = &cy->material;
-            var.v = vec3_add_vecs(cy->point, vec3_mul_vec(cy->normal, var.m));
-            rec->normal = vec3_sub_vecs(rec->p, var.v);
-            rec->normal = vec3_unit(rec->normal);
-            if (vec3_dot(rec->normal, ray->direc) > 0)
-                rec->normal = vec3_mul_vec(rec->normal, -1);
-            return true;
-        }
-        i++;
+        float temp = var.t0;
+        var.t0 = var.t1;
+        var.t1 = temp;
     }
-    return false;
+    float t_valid = -1;
+    var.m = var.d_dot * var.t0 + var.x_dot;
+    if (var.t0 >= 0 && var.m >= 0.0 && var.m < cy->height && interval_surrounds(interval, var.t0))
+        t_valid = var.t0;
+    var.m = var.d_dot * var.t1 + var.x_dot;
+    if (t_valid == -1 && var.t1 >= 0 && var.m >= 0.0 && var.m < cy->height && interval_surrounds(interval, var.t1))
+        t_valid = var.t1;
+    if (t_valid == -1)
+        return false;
+    rec->t = t_valid;
+    rec->p = ray_at(ray, rec->t);
+    rec->material = &cy->material;
+    var.m = var.d_dot * rec->t + var.x_dot;
+    var.v = vec3_add_vecs(cy->point, vec3_mul_vec(cy->normal, var.m));
+    rec->normal = vec3_unit(vec3_sub_vecs(rec->p, var.v));
+    if (vec3_dot(rec->normal, ray->direc) > 0)
+        rec->normal = vec3_mul_vec(rec->normal, -1);
+    return (true);
 }
 
 

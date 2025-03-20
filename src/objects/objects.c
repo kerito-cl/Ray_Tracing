@@ -37,12 +37,19 @@ bool	world_hit_shadow(t_info *info, t_ray *ray, t_hit_record *rec,
 	is_hit = false;
 	while (i < info->obj_count)
 	{
-		if (info->index != i && info->obj[i].type_material != GLASS)
+		info->light_outside = false;
+		if (info->obj[i].type_material != GLASS)
 		{
 			if (info->obj[i].hit(&info->obj[i], ray, interval, rec))
 			{
 				if (rec->t < interval->max)
 				{
+					if (info->index == i)
+						info->hit_itself = true;
+					else
+						info->hit_itself = false;
+					if (rec->material->type_material == LIGHT && vec3_length(vec3_sub_vecs(info->obj[info->index].point, info->obj[i].point)) <= info->obj[info->index].radius)
+						info->light_outside = false;
 					is_hit = true;
 					interval->max = rec->t;
 					rec->material->type_material = info->obj[i].type_material;

@@ -3,9 +3,9 @@
 
 # define MOVE_STEP 1.0f
 # define ROTATE_STEP DTR(10)
-# define LIGHT_VISIBLE 0
+# define LIGHT_VISIBLE 1
 # define LIGHT_RADIUS 1
-# define METAL_FUZZ 0.1f
+# define METAL_FUZZ 0.5f
 # define METAL_BR_RATIO 0.5f
 # define GLASS_REF_IDX 0.95f
 # define S (float)1e-8

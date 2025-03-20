@@ -48,7 +48,7 @@ bool	world_hit_shadow(t_info *info, t_ray *ray, t_hit_record *rec,
 						info->hit_itself = true;
 					else
 						info->hit_itself = false;
-					if (rec->material->type_material == LIGHT && vec3_length(vec3_sub_vecs(info->obj[i].point, info->obj[i].point)) <= info->obj[i].radius)
+					if (rec->material->type_material == LIGHT && vec3_length(vec3_sub_vecs(info->obj[info->index].point, info->obj[i].point)) <= info->obj[info->index].radius)
 						info->light_outside = false;
 					is_hit = true;
 					interval->max = rec->t;

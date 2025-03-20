@@ -96,8 +96,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		}
 		++i;
 	}
-	if (!is_shadow || info->light_outside == info->camera_outside || info->hit_itself == true)
-		color = vec3_mul_colors(rec->material->albedo, color);
+	color = vec3_mul_colors(rec->material->albedo, color);
 	return (color);
 }
 

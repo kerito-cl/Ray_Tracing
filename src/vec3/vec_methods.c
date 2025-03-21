@@ -11,16 +11,16 @@ t_vec3	vec3_new(float x, float y, float z)
 	return (vec);
 }
 
-float    vec_length(t_vec3 vec1)
+float	vec_length(t_vec3 vec1)
 {
-    float  x;
-    float  y;
-    float  z;
+	float	x;
+	float	y;
+	float	z;
 
-    x = vec1.x * vec1.x;
-    y = vec1.y * vec1.y;
-    z = vec1.z * vec1.z;
-    return (sqrtf(x + y + z));
+	x = vec1.x * vec1.x;
+	y = vec1.y * vec1.y;
+	z = vec1.z * vec1.z;
+	return (sqrtf(x + y + z));
 }
 
 void	vec3_normalize(t_vec3 *vec)

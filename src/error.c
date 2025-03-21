@@ -26,7 +26,6 @@ void	throw_error(int flag)
 		printf("Wrong file format\n");
 		exit(1);
 	}
-
 	if (flag == 3)
 	{
 		printf("Malloc failed\n");
@@ -41,8 +40,8 @@ int	check_if_rt(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '.' && str[i + 1] == 'r' && str[i + 2] == 't'
-			&& str[i + 3] == '\0')
+		if (str[i] == '.' && str[i + 1] == 'r' && str[i + 2] == 't' && str[i
+			+ 3] == '\0')
 			return (1);
 		i++;
 	}

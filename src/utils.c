@@ -1,17 +1,19 @@
 
 #include "mini_rt.h"
-static void	assign_str_to_vec(t_vec3 *vec3, char **cvec ,bool *isvalid, bool if_rgb)
+
+static void	assign_str_to_vec(t_vec3 *vec3, char **cvec, bool *isvalid,
+		bool if_rgb)
 {
-	char *ptr;
+	char	*ptr;
 
 	vec3->x = ft_strtof(cvec[0], &ptr);
-    if (ptr[0] != 0)
+	if (ptr[0] != 0)
 		*isvalid = false;
 	vec3->y = ft_strtof(cvec[1], &ptr);
-    if (ptr[0] != 0)
+	if (ptr[0] != 0)
 		*isvalid = false;
 	vec3->z = ft_strtof(cvec[2], &ptr);
-    if (ptr[0] != 0 && ptr[0] != '\n')
+	if (ptr[0] != 0 && ptr[0] != '\n')
 		*isvalid = false;
 	if (if_rgb)
 	{
@@ -20,7 +22,6 @@ static void	assign_str_to_vec(t_vec3 *vec3, char **cvec ,bool *isvalid, bool if_
 		vec3->z = vec3->z / 255;
 	}
 }
-
 
 void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 		bool if_rgb)
@@ -43,19 +44,17 @@ void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 
 t_point	ray_at(t_ray *ray, double t)
 {
-	t_point point;
+	t_point	point;
 
-	point = vec3_new(
-        ray->orig.x + t * ray->direc.x, 
-        ray->orig.y + t * ray->direc.y, 
-        ray->orig.z + t * ray->direc.z);
+	point = vec3_new(ray->orig.x + t * ray->direc.x, ray->orig.y + t
+			* ray->direc.y, ray->orig.z + t * ray->direc.z);
 	return (point);
 }
-void set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec)
+void	set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec)
 {
-    rec->front_face = vec3_dot(r.direc, outward_normal) < 0;
-    if (rec->front_face)
-        rec->normal = outward_normal;
-    else
-        rec->normal = vec3_flip_minus(outward_normal);
+	rec->front_face = vec3_dot(r.direc, outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = outward_normal;
+	else
+		rec->normal = vec3_flip_minus(outward_normal);
 }

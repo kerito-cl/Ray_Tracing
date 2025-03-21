@@ -41,7 +41,7 @@ bool	sp_hit2(t_obj *sphere, t_ray *ray, t_interval *interval,
 	t_sp_hit_vars	vars;
 
 	if (sphere->material.type_material == LIGHT && ((!LIGHT_VISIBLE
-		&& ray->type == CAM_RAY) || ray->type == REFECTION_RAY))
+				&& ray->type == CAM_RAY) || ray->type == REFECTION_RAY))
 		return (false);
 	vars.root = intersect_sphere(*ray, sphere);
 	if (!interval_surrounds(interval, vars.root))
@@ -66,7 +66,7 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval,
 	t_sp_hit_vars	vars;
 
 	if (sphere->material.type_material == LIGHT && ((!LIGHT_VISIBLE
-		&& ray->type == CAM_RAY) || ray->type == REFECTION_RAY))
+				&& ray->type == CAM_RAY) || ray->type == REFECTION_RAY))
 		return (false);
 	vars.oc = vec3_sub_vecs(sphere->point, ray->orig);
 	vars.a = vec3_length_squared(ray->direc);

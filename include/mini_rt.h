@@ -176,7 +176,7 @@ typedef struct s_cam
 	t_vec3					u;
 	t_vec3					v;
 	t_vec3					w;
-	t_vec3 					vup;
+	t_vec3					vup;
 	float					focal_length;
 	float					viewport_height;
 	float					viewport_width;
@@ -309,9 +309,11 @@ void						parse(char *file, t_info *info);
 void						freesplit(char **strs);
 void						new_vec3_for_parsing(t_vec3 *vec3, char **cvec,
 								bool *isvalid, bool if_rgb);
-void 						create_light_info(t_info *info, char **split, int i, bool *isvalid);
+void						create_light_info(t_info *info, char **split, int i,
+								bool *isvalid);
 void						create_object_info(t_info *info, char **split);
-void assign_typematerial_info(t_info *info, char *material, int i, char **split);
+void						assign_typematerial_info(t_info *info,
+								char *material, int i, char **split);
 void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
 void						exit_free_parser(t_info *info, char **split, int n);

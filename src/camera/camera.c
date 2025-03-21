@@ -16,7 +16,7 @@ unsigned int	get_color(t_vec3 vec)
 void	break_point(int i)
 {
 	printf("%d\n", i);
-	return 	;
+	return ;
 }
 
 // @details to render by iterate all the pixels.
@@ -27,12 +27,11 @@ void	camera_render(t_info *info)
 	t_ray		ray;
 	t_color		color;
 	uint32_t	packed_color;
-	struct timeval start, end;
 
+	struct timeval start, end;
 	camera_init(&info->c);
 	j = 0;
 	ray.orig = info->c.point;
-	
 	gettimeofday(&start, NULL);
 	while (j < info->c.image_height)
 	{
@@ -50,7 +49,8 @@ void	camera_render(t_info *info)
 		++j;
 	}
 	gettimeofday(&end, NULL);
-	printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
+	printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
+		+ (end.tv_usec - start.tv_usec) / 1000L);
 }
 
 void	camera_start(t_info *info)

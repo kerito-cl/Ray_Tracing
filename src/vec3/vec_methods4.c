@@ -36,7 +36,7 @@ t_vec3	vec3_random_on_hemisphere(t_vec3 normal)
 	return (vec3_flip_minus(random));
 }
 
-t_vec3 vec3_copy(t_vec3 vec)
+t_vec3	vec3_copy(t_vec3 vec)
 {
-    return vec3_new(vec.x, vec.y, vec.z);
+	return (vec3_new(vec.x, vec.y, vec.z));
 }

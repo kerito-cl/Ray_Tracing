@@ -93,7 +93,8 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	is_shadow = true;
 	info->light_outside = true;
 	info->camera_outside = true;
-	if (vec3_length(vec3_sub_vecs(ray->orig, info->obj[info->index].point)) <= info->obj[info->index].radius)
+	if (vec3_length(vec3_sub_vecs(ray->orig,
+				info->obj[info->index].point)) <= info->obj[info->index].radius)
 		info->camera_outside = false;
 	while (i < info->light_count)
 	{

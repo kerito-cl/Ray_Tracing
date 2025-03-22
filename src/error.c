@@ -3,6 +3,10 @@
 
 void	free_all(t_info *info)
 {
+	int i = 0;
+
+	while (i < info->texture_count)
+		mlx_delete_texture(info->textures[i++]);
 	mlx_delete_image(info->mlx, info->img);
 	mlx_terminate(info->mlx);
 	arena_free(info->arena);
@@ -56,6 +60,10 @@ void	free_arena_exit(t_info *info)
 
 void	exit_free_parser(t_info *info, char **split, int n)
 {
+	int i = 0;
+
+	while (i < info->texture_count)
+		mlx_delete_texture(info->textures[i++]);
 	freesplit(split);
 	arena_free(info->arena);
 	throw_error(n);

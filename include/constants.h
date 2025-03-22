@@ -8,6 +8,7 @@
 # define METAL_FUZZ 0.5f
 # define METAL_BR_RATIO 0.5f
 # define GLASS_REF_IDX 0.95f
+# define CHECK_SCALE 0.5f
 # define S (float)1e-8
 # define PI (float)3.14159265358979323846
 # define SHININESS 30

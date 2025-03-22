@@ -110,7 +110,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		}
 		++i;
 	}
-	color = vec3_mul_colors(rec->material->albedo, color);
+	color = vec3_mul_colors(rec->material->texture_get_color(info, rec->material, rec), color);
 	return (color);
 }
 

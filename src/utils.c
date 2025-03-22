@@ -58,3 +58,12 @@ void	set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec)
 	else
 		rec->normal = vec3_flip_minus(outward_normal);
 }
+
+float clamp(float n, float min, float max)
+{
+	if (n < min)
+		return (min);
+	if (n > max)
+		return (max);
+	return (n);
+}

@@ -89,5 +89,7 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval,
 			sphere->radius);
 	rec->material = &sphere->material;
 	set_face_normal(*ray, vars.outward_normal, rec);
+	rec->u = (atan2f(-vars.outward_normal.z, vars.outward_normal.x) + PI) / (2 * PI);
+	rec->v = acosf(-vars.outward_normal.y) / PI;
 	return (true);
 }

@@ -24,7 +24,7 @@ t_color	get_phong_color(t_info *info, t_get_light_vars *var)
 	t_vec3	reflect_dir;
 
 	intensity = fmaxf(vec3_dot(var->cam_rec->normal, var->shadow_ray.direc), 0);
-	res = vec3_mul_vec(var->shadow_rec.material->albedo, intensity);
+	res = vec3_mul_vec(var->shadow_rec.material->texture_get_color(info, var->shadow_rec.material, &var->shadow_rec), intensity);
 	if (intensity != 0)
 	{
 		reflect_dir = vec3_unit(vec3_sub_vecs(var->shadow_ray.direc,

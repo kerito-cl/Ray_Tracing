@@ -16,6 +16,7 @@
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;
+typedef struct s_info		t_info;
 
 // Represents a vector.
 typedef struct s_vec3
@@ -64,17 +65,30 @@ typedef enum e_type
 // Represents a material.
 //
 // albedo: the color of material.
+// albedo2: the color of material, applied for checker boarder only.
+// scale: the width of checker border texture.
+// texture_img_idx: the idx of texture images.
 // type_material: the type of materail.
 // scatter: the function to scatter.
+//
+// texture_get_color: the function pointer to get the color of texture.
+//  - material: the pointer to itself.
+//  - rec: the hit record for u, v which are the surface coordinates.
+//  - returns: the color of the point.
 typedef struct s_material
 {
 	t_vec3					albedo;
+	t_vec3					albedo2;
+	int						texture_img_idx;
+	float					scale;
 	float					fuzz;
 	float					ref_idx;
 	t_type					type_material;
 
 	bool					(*scatter)(t_ray *r_in, t_hit_record *rec,
 							t_vec3 *attenuation, t_ray *scattered);
+	t_color					(*texture_get_color)(t_info *info, t_material *mat,
+							t_hit_record *rec);
 }							t_material;
 
 // Represents a memory block on heap.
@@ -212,6 +226,7 @@ typedef struct s_light
 // material: material of the object at the intersection point.
 // t: the distance from the ray's start point to the intersection point.
 // front_face: is the ray from outside, or inside the obj.
+// u, v: surface coordinates.
 typedef struct s_hit_record
 {
 	t_vec3					p;
@@ -221,6 +236,8 @@ typedef struct s_hit_record
 	float					t;
 	bool					front_face;
 	bool					ray_type;
+	float					u;
+	float					v;
 }							t_hit_record;
 
 // Represents a distance interval.
@@ -266,6 +283,7 @@ typedef struct s_obj
 // arena: a memeory block.
 // mlx: the pointer to render engine.
 // img: the pointer to the image of render engine.
+// textures: the textures.
 // c: the camera.
 // a: the ambient light.
 // obj: the objects.
@@ -275,6 +293,7 @@ typedef struct s_obj
 // cy_count: the count of cylinders.
 // light_count: the count of lights.
 // obj_count: the count of all the objects.
+// texture_count: the count of textures.
 typedef struct s_info
 {
 	t_arena					*arena;
@@ -282,7 +301,7 @@ typedef struct s_info
 	mlx_image_t				*img;
 	t_cam					c;
 	t_alight				a;
-	t_light l; // may be removed.
+	mlx_texture_t			**textures;
 	t_obj					*obj;
 	t_obj					**lights;
 	int						index;
@@ -291,6 +310,7 @@ typedef struct s_info
 	unsigned int			cy_count;
 	unsigned int			light_count;
 	unsigned int			obj_count;
+	unsigned int			texture_count;
 	bool					hit_itself;
 	bool					light_outside;
 	bool					camera_outside;
@@ -460,5 +480,14 @@ void						handle_key_press_event(mlx_key_data_t keydata,
 								void *param);
 void						handle_screen_resize(int32_t width, int32_t height,
 								void *param);
+
+/* Texture */
+
+t_color						texutre_constant_color(t_info *info,
+								t_material *mat, t_hit_record *rec);
+t_color						texture_checker_color(t_info *info, t_material *mat,
+								t_hit_record *rec);
+t_color						texture_img_color(t_info *info, t_material *mat,
+								t_hit_record *rec);
 
 #endif

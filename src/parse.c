@@ -57,6 +57,7 @@ void	create_light_info(t_info *info, char **split, int i, bool *isvalid)
 	new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
 	info->obj[i].hit = sp_hit;
 	assign_typematerial_info(info, split[0], i, split);
+	info->obj[i].material.texture_get_color = texutre_constant_color;
 	info->lights[j] = &info->obj[i];
 	j++;
 	info->light_count = j;

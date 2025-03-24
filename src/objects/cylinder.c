@@ -61,6 +61,15 @@ bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
 	rec->normal = vec3_unit(vec3_sub_vecs(rec->p, var.v));
 	if (vec3_dot(rec->normal, ray->direc) > 0)
 		rec->normal = vec3_mul_vec(rec->normal, -1);
+	var.hit_vec = vec3_sub_vecs(rec->p, var.v);
+	rec->u = (atan2f(var.hit_vec.z, var.hit_vec.x) + PI) / (2 * PI);
+	rec->v = var.m / cy->height;
+	rec->u = fmodf(rec->u, 1.0f);
+	if (rec->u < 0) 
+		rec->u += 1.0f;
+	rec->v = fmodf(rec->v, 1.0f);
+	if (rec->v < 0) 
+		rec->v += 1.0f;
 	return (true);
 }
 

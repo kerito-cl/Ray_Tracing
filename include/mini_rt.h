@@ -12,6 +12,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <pthread.h>
+#include <stdatomic.h>
 
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
@@ -316,6 +318,35 @@ typedef struct s_info
 	bool					camera_outside;
 }							t_info;
 
+typedef struct s_thrdata
+{
+	t_info *thr_info;
+	t_color color;
+	t_ray ray;
+	unsigned int packed_color;
+}	t_thrdata;
+
+
+typedef struct s_tile
+{
+    t_thrdata *thr;
+    t_info *info;
+    int tile_size;
+    int tiles_x;
+    int total_tiles;
+} t_tile;
+
+typedef struct s_thread_pool 
+{
+    pthread_t threads[THREADS_AMOUNT];
+    t_thrdata thr_data[THREADS_AMOUNT];
+    atomic_int tile_index;
+    pthread_mutex_t mutex;
+    pthread_cond_t condition;
+    int work_available;
+} t_thread_pool;
+
+
 /*   Functions for parser.    */
 
 void						print_vec3(t_vec3 vec3);
@@ -336,6 +367,7 @@ void						assign_typematerial_info(t_info *info,
 								char *material, int i, char **split);
 void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
+void 						destroy_thread_pool();
 void						exit_free_parser(t_info *info, char **split, int n);
 
 /* HIT OBJ*/

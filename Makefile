@@ -6,6 +6,7 @@ LIBMLX	:= ./MLX42
 LIB_URL := https://github.com/codam-coding-college/MLX42
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)
 LIBS	:= $(LIBMLX)/build/libmlx42.a
+OPTS	:= -lm -O3 -march=native -ffast-math -fopenmp -ldl -lglfw -lpthread -lm
 
 OBJ_DIR	:= obj
 SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c \
@@ -41,7 +42,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
 $(NAME): $(OBJS) $(LIBS)
-	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -ldl -lglfw -pthread -lm -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) $(OPTS) -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)

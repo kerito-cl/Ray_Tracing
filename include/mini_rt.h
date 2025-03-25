@@ -12,6 +12,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <pthread.h>
+
 
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
@@ -315,6 +317,15 @@ typedef struct s_info
 	bool					light_outside;
 	bool					camera_outside;
 }							t_info;
+
+typedef struct s_thrdata
+{
+	t_info *thr_info;
+	t_color color;
+	t_ray ray;
+	unsigned int packed_color;
+}	t_thrdata;
+
 
 /*   Functions for parser.    */
 

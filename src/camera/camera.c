@@ -87,7 +87,6 @@ void *thr_draw(void *param)
 	tile.tile_size = TILE_SIZE;
 	tile.tiles_x = tile.info->c.image_width / TILE_SIZE;
 	tile.total_tiles =(tile.info->c.image_width / TILE_SIZE) * (tile.info->c.image_height / TILE_SIZE);
-	int	id = thr - pool.thr_data;
 	process_tiles(&tile);
 	return NULL;
 }
@@ -111,12 +110,12 @@ void init_thread_pool(t_info *info)
 
 void start_render_task()
 {
-    //pthread_mutex_lock(&pool.mutex);
+    pthread_mutex_lock(&pool.mutex);
     pool.tile_index = 0;
     pool.work_available = 1;
     pthread_cond_broadcast(&pool.condition);
     gettimeofday(&start, NULL);
-    //pthread_mutex_unlock(&pool.mutex);
+    pthread_mutex_unlock(&pool.mutex);
 }
 
 void camera_render(t_info *info)

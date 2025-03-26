@@ -41,7 +41,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
 $(NAME): $(OBJS) $(LIBS)
-	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -lc -ldl -lglfw -lpthread -lrt -lm -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) $(CFLAGS) -lc -ldl -lglfw -lpthread -lrt -lm -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)

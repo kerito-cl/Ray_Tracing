@@ -19,13 +19,16 @@ void	break_point(int i)
 	return ;
 }
 
+struct timeval start, end;
 t_thread_pool pool;
 
 void render_tile(t_tile *tile, int tile_x, int tile_y)
 {
 	int	row;
 	int	col;
+	t_cam cam;
 
+	cam = tile->info->c;
 	row = tile_y;
 	while (row < tile_y + tile->tile_size)
 	{
@@ -34,8 +37,8 @@ void render_tile(t_tile *tile, int tile_x, int tile_y)
 		{
 			if (row < tile->info->c.image_height && col < tile->info->c.image_width)
 			{
-				tile->thr->ray = camera_get_ray(&tile->info->c, col, row);
-				tile->thr->color = camera_ray_color(tile->info, tile->thr->ray, &tile->info->obj, MAX_DEPTH);
+				tile->thr->ray = camera_get_ray(&cam, col, row);
+				tile->thr->color = camera_ray_color(tile->info, tile->thr->ray, NULL, MAX_DEPTH);
 				tile->thr->packed_color = get_color(tile->thr->color);
 				mlx_put_pixel(tile->info->img, col, row, tile->thr->packed_color);
 			}
@@ -50,8 +53,6 @@ void process_tiles(t_tile *tile)
     int tile_id;
     int tile_x;
     int tile_y;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
     while (1) 
 	{
         pthread_mutex_lock(&pool.mutex);
@@ -61,11 +62,11 @@ void process_tiles(t_tile *tile)
         if (tile_id >= tile->total_tiles)
         {
             pthread_mutex_unlock(&pool.mutex);
-            pthread_mutex_lock(&pool.mutex);
+            //pthread_mutex_lock(&pool.mutex);
 			pool.work_available = 0;
     		gettimeofday(&end, NULL);
     		printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
-            pthread_mutex_unlock(&pool.mutex);
+            //pthread_mutex_unlock(&pool.mutex);
             continue;
         }
         pthread_mutex_unlock(&pool.mutex);
@@ -86,6 +87,7 @@ void *thr_draw(void *param)
 	tile.tile_size = TILE_SIZE;
 	tile.tiles_x = tile.info->c.image_width / TILE_SIZE;
 	tile.total_tiles =(tile.info->c.image_width / TILE_SIZE) * (tile.info->c.image_height / TILE_SIZE);
+	int	id = thr - pool.thr_data;
 	process_tiles(&tile);
 	return NULL;
 }
@@ -109,18 +111,17 @@ void init_thread_pool(t_info *info)
 
 void start_render_task()
 {
-    pthread_mutex_lock(&pool.mutex);
+    //pthread_mutex_lock(&pool.mutex);
     pool.tile_index = 0;
     pool.work_available = 1;
     pthread_cond_broadcast(&pool.condition);
-    pthread_mutex_unlock(&pool.mutex);
+    gettimeofday(&start, NULL);
+    //pthread_mutex_unlock(&pool.mutex);
 }
 
-void camera_render(t_info *info) {
-
-    pthread_mutex_lock(&pool.mutex);
+void camera_render(t_info *info)
+{
 	camera_init(&info->c);
-    pthread_mutex_unlock(&pool.mutex);
     start_render_task(); 
 }
 

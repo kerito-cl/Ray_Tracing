@@ -14,6 +14,7 @@
 # include <unistd.h>
 #include <pthread.h>
 #include <stdatomic.h>
+#include <sched.h>
 
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;

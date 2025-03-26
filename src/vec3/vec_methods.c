@@ -1,7 +1,7 @@
 #include "mini_rt.h"
 #include <math.h>
 
-t_vec3	vec3_new(float x, float y, float z)
+inline t_vec3	vec3_new(float x, float y, float z)
 {
 	t_vec3	vec;
 
@@ -11,7 +11,7 @@ t_vec3	vec3_new(float x, float y, float z)
 	return (vec);
 }
 
-float	vec_length(t_vec3 vec1)
+inline float	vec_length(t_vec3 vec1)
 {
 	float	x;
 	float	y;
@@ -23,7 +23,7 @@ float	vec_length(t_vec3 vec1)
 	return (sqrtf(x + y + z));
 }
 
-void	vec3_normalize(t_vec3 *vec)
+inline void	vec3_normalize(t_vec3 *vec)
 {
 	float	inverse;
 
@@ -35,17 +35,17 @@ void	vec3_normalize(t_vec3 *vec)
 	vec->z = vec->z * inverse;
 }
 
-t_vec3	vec3_flip_minus(t_vec3 vec)
+inline t_vec3	vec3_flip_minus(t_vec3 vec)
 {
 	return (vec3_new(-vec.x, -vec.y, -vec.z));
 }
 
-float	vec3_length_squared(t_vec3 vec)
+inline float	vec3_length_squared(t_vec3 vec)
 {
 	return (vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
 
-float	vec3_length(t_vec3 vec)
+inline float	vec3_length(t_vec3 vec)
 {
 	return (sqrt(vec3_length_squared(vec)));
 }

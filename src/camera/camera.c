@@ -41,7 +41,7 @@ void *thr_draw(void *param)
 		pthread_mutex_unlock(&pool.mutex);
 		//printf("hola\n");
 		row = thr->start_row;
-		while (row < thr->end_row)
+		while (row < thr->thr_info->c.image_height)
 		{
 			col = 0;
 			while (col < thr->thr_info->c.image_width)
@@ -52,7 +52,7 @@ void *thr_draw(void *param)
 				mlx_put_pixel(info->img, col, row, thr->packed_color);
 				++col;
 			}
-			row++;
+			row+=THREADS_AMOUNT;
 		}
 		pool.work_available = 0;
 		gettimeofday(&end, NULL);
@@ -75,7 +75,7 @@ void init_thread_pool(t_info *info)
 	while (i < THREADS_AMOUNT)
 	{
 		pool.thr_data[i].thr_info = info;
-		if (i == 0)
+		/*if (i == 0)
 		{
 			pool.thr_data[i].start_row  = 0;
 			pool.thr_data[i].end_row = gap;
@@ -85,7 +85,8 @@ void init_thread_pool(t_info *info)
 			pool.thr_data[i].start_row  = pool.thr_data[i - 1].end_row;
 			pool.thr_data[i].end_row = pool.thr_data[i].start_row + gap;
 		}
-        pool.thr_data[i].thr_info = info;
+        pool.thr_data[i].thr_info = info;*/
+		pool.thr_data[i].start_row  = i;
 		i++;
 	}
 	i = 0;

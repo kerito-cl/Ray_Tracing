@@ -1,7 +1,7 @@
 NAME	:= miniRT
 LIBFT_DIR	:= libft
 LIBFT_LIB	:= $(LIBFT_DIR)/libft.a
-CFLAGS	:= -Wunreachable-code -Ofast -g
+CFLAGS	:= -Wunreachable-code -O3 -ffast-math
 LIBMLX	:= ./MLX42
 LIB_URL := https://github.com/codam-coding-college/MLX42
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)
@@ -41,7 +41,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
 $(NAME): $(OBJS) $(LIBS)
-	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -ldl -lglfw -pthread -lm -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -flto -ldl -lglfw -pthread -lm -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)

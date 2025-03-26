@@ -21,84 +21,68 @@ void	break_point(int i)
 
 t_thread_pool pool;
 
-void render_tile(t_tile *tile, int tile_x, int tile_y)
-{
-	int	row;
-	int	col;
-
-	row = tile_y;
-	while (row < tile_y + tile->tile_size)
-	{
-		col = tile_x;
-		while (col < tile_x + tile->tile_size)
-		{
-			if (row < tile->info->c.image_height && col < tile->info->c.image_width)
-			{
-				tile->thr->ray = camera_get_ray(&tile->info->c, col, row);
-				tile->thr->color = camera_ray_color(tile->info, tile->thr->ray, &tile->info->obj, MAX_DEPTH);
-				tile->thr->packed_color = get_color(tile->thr->color);
-				mlx_put_pixel(tile->info->img, col, row, tile->thr->packed_color);
-			}
-			col++;
-		}
-		row++;
-	}
-}
-
-void process_tiles(t_tile *tile)
-{
-    int tile_id;
-    int tile_x;
-    int tile_y;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-    while (1) 
-	{
-        pthread_mutex_lock(&pool.mutex);
-        while (!pool.work_available)
-            pthread_cond_wait(&pool.condition, &pool.mutex);
-        tile_id = atomic_fetch_add(&pool.tile_index, 1);
-        if (tile_id >= tile->total_tiles)
-        {
-            pthread_mutex_unlock(&pool.mutex);
-            pthread_mutex_lock(&pool.mutex);
-			pool.work_available = 0;
-    		gettimeofday(&end, NULL);
-    		printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
-            pthread_mutex_unlock(&pool.mutex);
-            continue;
-        }
-        pthread_mutex_unlock(&pool.mutex);
-        tile_x = (tile_id % tile->tiles_x) * tile->tile_size;
-        tile_y = (tile_id / tile->tiles_x) * tile->tile_size;
-        render_tile(tile, tile_x, tile_y);
-    }
-}
 
 void *thr_draw(void *param)
 {
 	t_thrdata *thr;
-	t_tile tile;
+	int row;
+	int col;
+	t_info *info;
 
 	thr = (t_thrdata *)param;
-	tile.thr = thr;
-	tile.info = thr->thr_info;
-	tile.tile_size = TILE_SIZE;
-	tile.tiles_x = tile.info->c.image_width / TILE_SIZE;
-	tile.total_tiles =(tile.info->c.image_width / TILE_SIZE) * (tile.info->c.image_height / TILE_SIZE);
-	process_tiles(&tile);
+	info = thr->thr_info;
+	while (1)
+	{
+		pthread_mutex_lock(&pool.mutex);
+        while (!pool.work_available)
+            pthread_cond_wait(&pool.condition, &pool.mutex);
+		pthread_mutex_unlock(&pool.mutex);
+		row = thr->start_row;
+		while (row < thr->end_row)
+		{
+			col = 0;
+			while (col < thr->thr_info->c.image_width)
+			{
+				thr->ray = camera_get_ray(&thr->thr_info->c, col, row);
+				thr->color = camera_ray_color(thr->thr_info, thr->ray, &thr->thr_info->obj, MAX_DEPTH);
+				thr->packed_color = get_color(thr->color);
+				mlx_put_pixel(info->img, col, row, thr->packed_color);
+				++col;
+			}
+			row++;
+		}
+		pool.work_available = 0;
+	}
+	return (NULL);
 	return NULL;
 }
 
 void init_thread_pool(t_info *info)
 {
     int i;
+	int gap;
 
     i = 0;
-    pool.tile_index = 0;
     pool.work_available = 0;
     pthread_mutex_init(&pool.mutex, NULL);
     pthread_cond_init(&pool.condition, NULL);
+	gap = (info->c.image_height / THREADS_AMOUNT);
+	while (i < THREADS_AMOUNT)
+	{
+		pool.thr_data[i].thr_info = info;
+		if (i == 0)
+		{
+			pool.thr_data[i].start_row  = 0;
+			pool.thr_data[i].end_row = gap;
+		}
+		else
+		{
+			pool.thr_data[i].start_row  = pool.thr_data[i - 1].end_row;
+			pool.thr_data[i].end_row = pool.thr_data[i].start_row + gap;
+		}
+		i++;
+	}
+	i = 0;
     while (i < THREADS_AMOUNT)
     {
         pool.thr_data[i].thr_info = info;

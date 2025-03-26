@@ -323,6 +323,8 @@ typedef struct s_thrdata
 	t_info *thr_info;
 	t_color color;
 	t_ray ray;
+	int start_row;
+	int end_row;
 	unsigned int packed_color;
 }	t_thrdata;
 

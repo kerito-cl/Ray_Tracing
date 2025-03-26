@@ -50,7 +50,8 @@ void process_tiles(t_tile *tile)
     int tile_id;
     int tile_x;
     int tile_y;
-
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
     while (1) 
 	{
         pthread_mutex_lock(&pool.mutex);
@@ -62,6 +63,8 @@ void process_tiles(t_tile *tile)
             pthread_mutex_unlock(&pool.mutex);
             pthread_mutex_lock(&pool.mutex);
 			pool.work_available = 0;
+    		gettimeofday(&end, NULL);
+    		printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
             pthread_mutex_unlock(&pool.mutex);
             continue;
         }
@@ -114,15 +117,11 @@ void start_render_task()
 }
 
 void camera_render(t_info *info) {
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
 
     pthread_mutex_lock(&pool.mutex);
 	camera_init(&info->c);
     pthread_mutex_unlock(&pool.mutex);
     start_render_task(); 
-    gettimeofday(&end, NULL);
-    printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
 }
 
 void	camera_start(t_info *info)

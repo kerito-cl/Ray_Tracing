@@ -326,6 +326,7 @@ typedef struct s_thrdata
 	int start_row;
 	int end_row;
 	unsigned int packed_color;
+	int	work_available;
 }	t_thrdata;
 
 

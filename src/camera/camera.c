@@ -18,7 +18,7 @@ void	break_point(int i)
 	printf("%d\n", i);
 	return ;
 }
-
+struct timeval start, end;
 t_thread_pool pool;
 
 
@@ -35,8 +35,11 @@ void *thr_draw(void *param)
 	{
 		pthread_mutex_lock(&pool.mutex);
         while (!pool.work_available)
+		{
             pthread_cond_wait(&pool.condition, &pool.mutex);
+		}
 		pthread_mutex_unlock(&pool.mutex);
+		//printf("hola\n");
 		row = thr->start_row;
 		while (row < thr->end_row)
 		{
@@ -52,9 +55,11 @@ void *thr_draw(void *param)
 			row++;
 		}
 		pool.work_available = 0;
+		gettimeofday(&end, NULL);
+	printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
+		+ (end.tv_usec - start.tv_usec) / 1000L);
 	}
 	return (NULL);
-	return NULL;
 }
 
 void init_thread_pool(t_info *info)
@@ -80,12 +85,12 @@ void init_thread_pool(t_info *info)
 			pool.thr_data[i].start_row  = pool.thr_data[i - 1].end_row;
 			pool.thr_data[i].end_row = pool.thr_data[i].start_row + gap;
 		}
+        pool.thr_data[i].thr_info = info;
 		i++;
 	}
 	i = 0;
     while (i < THREADS_AMOUNT)
     {
-        pool.thr_data[i].thr_info = info;
         pthread_create(&pool.threads[i], NULL, thr_draw, &pool.thr_data[i]);
         i++;
     }
@@ -93,6 +98,9 @@ void init_thread_pool(t_info *info)
 
 void start_render_task()
 {
+	int i;
+
+	i = 0;
     pthread_mutex_lock(&pool.mutex);
     pool.tile_index = 0;
     pool.work_available = 1;
@@ -102,9 +110,8 @@ void start_render_task()
 
 void camera_render(t_info *info) {
 
-    pthread_mutex_lock(&pool.mutex);
 	camera_init(&info->c);
-    pthread_mutex_unlock(&pool.mutex);
+	gettimeofday(&start, NULL);
     start_render_task(); 
 }
 

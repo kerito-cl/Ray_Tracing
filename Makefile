@@ -1,7 +1,7 @@
 NAME	:= miniRT
 LIBFT_DIR	:= libft
 LIBFT_LIB	:= $(LIBFT_DIR)/libft.a
-CFLAGS	:= -Wunreachable-code -Ofast -g
+CFLAGS	:= -Wunreachable-code -O3 -ffast-math 
 LIBMLX	:= ./MLX42
 LIB_URL := https://github.com/codam-coding-college/MLX42
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)

@@ -62,11 +62,9 @@ void process_tiles(t_tile *tile)
         if (tile_id >= tile->total_tiles)
         {
             pthread_mutex_unlock(&pool.mutex);
-            //pthread_mutex_lock(&pool.mutex);
 			pool.work_available = 0;
     		gettimeofday(&end, NULL);
     		printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L + (end.tv_usec - start.tv_usec) / 1000L);
-            //pthread_mutex_unlock(&pool.mutex);
             continue;
         }
         pthread_mutex_unlock(&pool.mutex);
@@ -86,7 +84,7 @@ void *thr_draw(void *param)
 	tile.info = thr->thr_info;
 	tile.tile_size = TILE_SIZE;
 	tile.tiles_x = tile.info->c.image_width / TILE_SIZE;
-	tile.total_tiles =(tile.info->c.image_width / TILE_SIZE) * (tile.info->c.image_height / TILE_SIZE);
+	tile.total_tiles = (tile.info->c.image_width / TILE_SIZE) * (tile.info->c.image_height / TILE_SIZE);
 	process_tiles(&tile);
 	return NULL;
 }

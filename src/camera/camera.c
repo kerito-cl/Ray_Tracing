@@ -46,7 +46,7 @@ void *thr_draw(void *param)
 				thr->color = camera_ray_color(thr->thr_info, thr->ray, &thr->thr_info->obj, MAX_DEPTH);
 				thr->packed_color = get_color(thr->color);
 				mlx_put_pixel(info->img, col, row, thr->packed_color);
-				++col;
+				col++;
 			}
 			row+=THREADS_AMOUNT;
 			if (pool.work_available[thr->start_row] == 1)
@@ -151,5 +151,4 @@ void destroy_thread_pool() {
         pthread_join(pool.threads[i], NULL);
         i++;
     }
-    pthread_cond_destroy(&pool.condition);
 }

@@ -33,13 +33,9 @@ void *thr_draw(void *param)
 	info = thr->thr_info;
 	while (1)
 	{
-		pthread_mutex_lock(&pool.mutex);
-        while (!pool.work_available)
-		{
-            pthread_cond_wait(&pool.condition, &pool.mutex);
-		}
-		pthread_mutex_unlock(&pool.mutex);
-		//printf("hola\n");
+        while (pool.work_available[thr->start_row] == 0)
+				usleep(1000);
+		pool.work_available[thr->start_row] = 0;
 		row = thr->start_row;
 		while (row < thr->thr_info->c.image_height)
 		{
@@ -53,11 +49,18 @@ void *thr_draw(void *param)
 				++col;
 			}
 			row+=THREADS_AMOUNT;
+			if (pool.work_available[thr->start_row] == 1)
+			{
+				row = thr->start_row;
+				pool.work_available[thr->start_row] = 0;
+			}
 		}
-		pool.work_available = 0;
-		gettimeofday(&end, NULL);
-	printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
-		+ (end.tv_usec - start.tv_usec) / 1000L);
+		if (thr->start_row == 0)
+		{
+			gettimeofday(&end, NULL);
+			printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
+			+ (end.tv_usec - start.tv_usec) / 1000L);
+		}
 	}
 	return (NULL);
 }
@@ -68,13 +71,11 @@ void init_thread_pool(t_info *info)
 	int gap;
 
     i = 0;
-    pool.work_available = 0;
-    pthread_mutex_init(&pool.mutex, NULL);
-    pthread_cond_init(&pool.condition, NULL);
 	gap = (info->c.image_height / THREADS_AMOUNT);
 	while (i < THREADS_AMOUNT)
 	{
 		pool.thr_data[i].thr_info = info;
+    	pool.work_available[i] = 0;
 		/*if (i == 0)
 		{
 			pool.thr_data[i].start_row  = 0;
@@ -102,11 +103,11 @@ void start_render_task()
 	int i;
 
 	i = 0;
-    pthread_mutex_lock(&pool.mutex);
-    pool.tile_index = 0;
-    pool.work_available = 1;
-    pthread_cond_broadcast(&pool.condition);
-    pthread_mutex_unlock(&pool.mutex);
+	while (i < THREADS_AMOUNT) 
+	{
+    	pool.work_available[i] = 1;
+		i++;
+	}
 }
 
 void camera_render(t_info *info) {
@@ -150,6 +151,5 @@ void destroy_thread_pool() {
         pthread_join(pool.threads[i], NULL);
         i++;
     }
-	pthread_mutex_destroy(&pool.mutex);
     pthread_cond_destroy(&pool.condition);
 }

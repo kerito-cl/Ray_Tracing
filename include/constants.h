@@ -18,7 +18,7 @@
 # define MAX_WIDTH 1920
 # define MAX_HEIGHT 1080
 # define TILE_SIZE 16
-# define THREADS_AMOUNT 5
+# define THREADS_AMOUNT 6
 # define DTR(degrees) (degrees * PI / 180.0)
 # define RANDOM_FLOAT (float)rand() / (float)(RAND_MAX + 1.0)
 # define RANDOM_FLOAT_RANGE(min, max) (float)(min + (max - min) * RANDOM_FLOAT)

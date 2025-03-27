@@ -324,6 +324,7 @@ typedef struct s_thrdata
 	t_color color;
 	t_ray ray;
 	int start_row;
+	int index;
 	int end_row;
 	unsigned int packed_color;
 	int	work_available;
@@ -343,10 +344,7 @@ typedef struct s_thread_pool
 {
     pthread_t threads[THREADS_AMOUNT];
     t_thrdata thr_data[THREADS_AMOUNT];
-    atomic_int tile_index;
-    pthread_mutex_t mutex;
-    pthread_cond_t condition;
-    int work_available;
+    atomic_int work_available[THREADS_AMOUNT];
 } t_thread_pool;
 
 
@@ -381,7 +379,7 @@ void						exit_free_parser(t_info *info, char **split, int n);
 //
 // @param info: the pointer to state of the program.
 // @param ray: the ray to hit.
-// @param [rec]: the value is assigned by the function.
+// @param []: the value is assigned by the function.
 // @param interval: the required inteval.
 bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, t_interval *interval);

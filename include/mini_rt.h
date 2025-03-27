@@ -344,7 +344,7 @@ typedef struct s_thread_pool
 {
     pthread_t threads[THREADS_AMOUNT];
     t_thrdata thr_data[THREADS_AMOUNT];
-    atomic_int work_available[THREADS_AMOUNT];
+    atomic_int work_available;
 } t_thread_pool;
 
 

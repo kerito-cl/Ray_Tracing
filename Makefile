@@ -43,6 +43,18 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 $(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -flto -ldl -lglfw -pthread -lm -o $(NAME)
 
+
+	@echo "\n\033[1;34m                        ######  ####### \033[0m"
+	@echo "\033[1;34m  ##   ## # #    # #    #     #    #    \033[0m"
+	@echo "\033[1;34m  # # # # # ##   # #    #     #    #    \033[0m"
+	@echo "\033[1;34m  #  #  # # # #  # #    ######     #    \033[0m"
+	@echo "\033[1;34m  #     # # #  # # #    #   #      #    \033[0m"
+	@echo "\033[1;34m  #     # # #   ## #    #    #     #    \033[0m"
+	@echo "\033[1;34m  #     # # #    # #    #     #    #    \033[0m"
+	@echo "\n\033[1;32mWelcome to Mini RT!\033[0m"
+	@echo "Usage: ./miniRT <scene.rt>"
+	@echo "Example: ./miniRT scenes/example.rt"
+
 clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(LIBMLX)/build

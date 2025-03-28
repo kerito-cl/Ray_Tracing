@@ -26,7 +26,6 @@ int	main(int argc, char **argv)
 	mlx_resize_hook(info.mlx, handle_screen_resize, &info);
 	mlx_loop(info.mlx);
 	destroy_thread_pool();
-	//free_arena_exit(&info);
 	free_all(&info);
 	return (0);
 }

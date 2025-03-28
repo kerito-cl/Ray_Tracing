@@ -68,7 +68,7 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
-		free_arena_exit(info);
+		free_all(info);
 	}
 	if (keydata.key == MLX_KEY_P)
 		print_position(info);

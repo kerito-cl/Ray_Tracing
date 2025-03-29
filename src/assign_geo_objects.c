@@ -77,7 +77,8 @@ void	assign_texture_info(t_info *info, char *texture, int i, char **split)
 		info->obj[i].material.texture_get_color = texutre_constant_color;
 	else if (ft_strncmp(texture, "C\n", ft_strlen(texture)) == 0)
 	{
-		info->obj[i].material.albedo2 = vec3_mul_vec(vec3_sub_vecs(vec3_new(1, 1, 1), info->obj[i].rgb), info->obj[i].br_ratio);
+		info->obj[i].material.albedo2 = vec3_sub_vecs(vec3_new(1, 1, 1), info->obj[i].rgb);
+		vec3_print(info->obj[i].material.albedo2);
 		info->obj[i].material.scale = CHECK_SCALE;
 		info->obj[i].material.texture_get_color = texture_checker_color;
 	}

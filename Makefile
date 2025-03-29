@@ -11,7 +11,7 @@ OBJ_DIR	:= obj
 SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c \
 			src/assign_geo_objects.c  src/interval.c src/material.c \
 			src/vec3/vec_methods.c src/vec3/vec_methods2.c src/vec3/vec_methods3.c src/vec3/vec_methods4.c src/vec3/vec_methods5.c src/vec3/vec_methods6.c \
-			src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c \
+			src/objects/quadrics_supp.c src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c \
 			src/ui/hook.c src/ui/hook_supp.c \
 			src/texture.c \
 			src/camera/camera.c src/camera/camera_supp.c  src/camera/camera_supp2.c\

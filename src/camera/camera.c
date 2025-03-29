@@ -19,6 +19,7 @@ void	break_point(int i)
 	return ;
 }
 struct timeval start, end;
+
 t_thread_pool pool;
 
 
@@ -46,13 +47,12 @@ void *thr_draw(void *param)
 			col = thr->start_row;
 			while (col < thr->thr_info->c.image_width)
 			{
-        		if (atomic_load(&pool.work_available) == 0)
-				{
-					row = IMG_HEIGHT;
-					last_frame = -1;
-					break;
-				}
-        		else if (atomic_load(&pool.work_available) != last_frame)
+				thr->ray = camera_get_ray(&info->c, col, row); //THREADS READING AT SAME TIME INFO->C
+				thr->color = camera_ray_color(thr->thr_info, thr->ray, &thr->thr_info->obj, MAX_DEPTH);
+				thr->packed_color = get_color(thr->color);
+				if (atomic_load(&pool.work_available) == -1)
+					return (NULL);
+				else if (atomic_load(&pool.work_available) != last_frame)
 				{
 					row = 0;
 					col = thr->start_row;
@@ -60,20 +60,17 @@ void *thr_draw(void *param)
 					//cam = thr->thr_info->c; SAFER TO USE IT?
 					continue;
 				}
-				thr->ray = camera_get_ray(&info->c, col, row); //THREADS READING AT SAME TIME INFO->C
-				thr->color = camera_ray_color(thr->thr_info, thr->ray, &thr->thr_info->obj, MAX_DEPTH);
-				thr->packed_color = get_color(thr->color);
 				mlx_put_pixel(info->img, col, row, thr->packed_color);
 				col+=THREADS_AMOUNT;
 			}
 			row++;
 		}
-		/*if (thr->start_row == 0)
+		if (thr->start_row == 0)
 		{
 			gettimeofday(&end, NULL);
 			printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
 			+ (end.tv_usec - start.tv_usec) / 1000L);
-		}*/
+		}
 	}
 	return (NULL);
 }
@@ -97,6 +94,7 @@ void init_thread_pool(t_info *info)
         pthread_create(&pool.threads[i], NULL, thr_draw, &pool.thr_data[i]);
         i++;
     }
+
 }
 
 void camera_render(t_info *info) 
@@ -124,12 +122,13 @@ void	camera_start(t_info *info)
 	if (!info->img || mlx_image_to_window(info->mlx, info->img, 0, 0) < 0)
 		free_all(info);
 	init_thread_pool(info);
+	camera_render(info);
 }
 
 void	camera_resize_screen(t_info *info, int image_width, int image_height)
 {
 	atomic_store(&pool.work_available, 0);
-	usleep(30000);
+	usleep(10000);
 	if (image_height < MAX_HEIGHT)
 		info->c.image_height = image_height / 8 * 8;
 	if (image_height < MAX_WIDTH)
@@ -137,6 +136,7 @@ void	camera_resize_screen(t_info *info, int image_width, int image_height)
 	if (!mlx_resize_image(info->img, info->c.image_width, info->c.image_height))
 		free_all(info);
 	camera_render(info);
+	//atomic_store(0)
 }
 
 void destroy_thread_pool() {

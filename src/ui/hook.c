@@ -68,6 +68,7 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
+		//atomic_store(&pool.work_available, -1); PUT EVERYTHING TO INFO
 		free_all(info);
 	}
 	if (keydata.key == MLX_KEY_P)

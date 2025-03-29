@@ -6,7 +6,8 @@
         "stdlib.h": "c",
         "random": "c",
         "limits": "c",
-        "algorithm": "c"
+        "algorithm": "c",
+        "functional": "c"
     },
     "cmake.sourceDirectory": "/home/kerocl/Hive/miniRT/MLX42"
 }

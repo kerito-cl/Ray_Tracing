@@ -7,5 +7,6 @@
         "random": "c",
         "limits": "c",
         "algorithm": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/home/kerocl/Hive/miniRT/MLX42"
 }

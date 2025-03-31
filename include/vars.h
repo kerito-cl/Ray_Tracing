@@ -40,4 +40,22 @@ typedef struct s_hit_cy_vars
 	float			m;
 }					t_hit_cy_vars;
 
+
+typedef struct s_hit_cone_vars
+{
+	t_vec3			oc;
+	float			cos2;
+	float			d_dot_n;
+	float			oc_dot_n;
+	t_vec3			d_proj;
+	t_vec3			oc_proj;
+	float			t[2];
+	float			a;
+	float			b;
+	float			c;
+	float			m;
+	t_vec3			p_base;
+
+} t_hit_cone_vars;
+
 #endif

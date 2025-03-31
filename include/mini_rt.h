@@ -367,6 +367,8 @@ bool						pl_hit(t_obj *plane, t_ray *ray,
 								t_interval *interval, t_hit_record *rec);
 bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 								t_hit_record *rec);
+bool						cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, 
+								t_hit_record *rec);
 
 /* Camera */
 
@@ -464,6 +466,19 @@ bool						interval_surrounds(t_interval *interval,
 t_point						ray_at(t_ray *ray, double t);
 void						set_face_normal(t_ray r, t_vec3 outward_normal,
 								t_hit_record *rec);
+
+
+// @brief To solve if and what is the valid `t` in : at² + bt + c = 0
+//
+// The question equlas:
+//     t = (-b ± sqrt(b² - 4ac)) / (2a)
+//
+// @param a b c: a, b, c in at² + bt + c = 0.
+// @param [t] to store the possible result `t`, and t[0] < t[1].
+// @return if there is at least one valid `t`.
+bool						cal_quadratic(float a, float b, float c, float t[2]);			
+
+
 bool						lambertian_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
 bool						metal_scatter(t_ray *r_in, t_hit_record *rec,

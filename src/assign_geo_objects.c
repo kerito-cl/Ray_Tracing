@@ -137,7 +137,7 @@ void	create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
 	info->obj[i].hit = sp_hit;
 }
 
-void	create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
+static void	create_cy_or_cn_info(t_info *info, char **split, int i, bool *isvalid)
 {
 	char	**vec;
 	char	*ptr;
@@ -164,7 +164,18 @@ void	create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
 	assign_texture_info(info, split[7], i, split);
 	if (split[7] && split[8] != NULL)
 		exit_free_parser(info, split, 2);
+}
+
+void	create_cylinder_info(t_info *info, char **split, int i, bool *isvalid)
+{
+	create_cy_or_cn_info(info, split, i, isvalid);
 	info->obj[i].hit = cy_hit;
+}
+
+void	create_cone_info(t_info *info, char **split, int i, bool *isvalid)
+{
+	create_cy_or_cn_info(info, split, i, isvalid);
+	info->obj[i].hit = cn_hit;
 }
 
 void	create_object_info(t_info *info, char **split)
@@ -179,6 +190,8 @@ void	create_object_info(t_info *info, char **split)
 		create_sphere_info(info, split, i, &isvalid);
 	else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
 		create_cylinder_info(info, split, i, &isvalid);
+	else if (ft_strncmp(split[0], "cn", ft_strlen(split[0])) == 0)
+		create_cone_info(info, split, i, &isvalid);
 	else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
 		create_light_info(info, split, i, &isvalid);
 	if (!isvalid)

@@ -82,6 +82,8 @@ static void	assign_all(t_info *info, char **split)
 		create_object_info(info, split);
 	else if (ft_strncmp(split[0], "cy", ft_strlen(split[0])) == 0)
 		create_object_info(info, split);
+	else if (ft_strncmp(split[0], "cn", ft_strlen(split[0])) == 0)
+		create_object_info(info, split);
 	else
 		exit_free_parser(info, split, 2);
 	if (!isvalid)

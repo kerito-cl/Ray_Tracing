@@ -1,6 +1,6 @@
 #include "mini_rt.h"
 
-bool	quadratic(float a, float b, float c, float t[2])
+bool	cal_quadratic(float a, float b, float c, float t[2])
 {
 	float	discriminant;
 	float	inv2a;

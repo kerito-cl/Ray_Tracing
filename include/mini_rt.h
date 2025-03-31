@@ -368,7 +368,7 @@ bool						pl_hit(t_obj *plane, t_ray *ray,
 bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 								t_hit_record *rec);
 bool						cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, 
-								t_hit_record *rec)
+								t_hit_record *rec);
 
 /* Camera */
 
@@ -476,7 +476,7 @@ void						set_face_normal(t_ray r, t_vec3 outward_normal,
 // @param a b c: a, b, c in at² + bt + c = 0.
 // @param [t] to store the possible result `t`, and t[0] < t[1].
 // @return if there is at least one valid `t`.
-bool						quadratic(float a, float b, float c, float t[2]);			
+bool						cal_quadratic(float a, float b, float c, float t[2]);			
 
 
 bool						lambertian_scatter(t_ray *r_in, t_hit_record *rec,

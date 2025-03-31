@@ -306,6 +306,7 @@ typedef struct s_info
 	mlx_texture_t			**textures;
 	t_obj					*obj;
 	t_obj					**lights;
+	t_thread_pool			pool;
 	int						index;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
@@ -313,9 +314,6 @@ typedef struct s_info
 	unsigned int			light_count;
 	unsigned int			obj_count;
 	unsigned int			texture_count;
-	bool					hit_itself;
-	bool					light_outside;
-	bool					camera_outside;
 }							t_info;
 
 typedef struct s_thrdata
@@ -327,7 +325,6 @@ typedef struct s_thrdata
 	int index;
 	int end_row;
 	unsigned int packed_color;
-	int	work_available;
 }	t_thrdata;
 
 
@@ -345,6 +342,8 @@ typedef struct s_thread_pool
     pthread_t threads[THREADS_AMOUNT];
     t_thrdata thr_data[THREADS_AMOUNT];
     atomic_int work_available;
+    atomic_int abort_signal;
+    atomic_int start_task;
 } t_thread_pool;
 
 

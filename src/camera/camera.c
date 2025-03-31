@@ -33,44 +33,44 @@ void *thr_draw(void *param)
 	t_info *info;
 
 	thr = (t_thrdata *)param;
-	last_frame = 0;
+	last_frame = -1;
 	info = thr->thr_info;
 	while (1)
 	{
+		if (atomic_load(&pool.start_task) != THREADS_AMOUNT)
+			atomic_fetch_add(&pool.start_task,1);
         while (atomic_load(&pool.work_available) == last_frame)
 			usleep(2000);
+		atomic_fetch_add(&pool.start_task,-1);
 		last_frame = atomic_load(&pool.work_available);
 		row = 0;
-		//cam = thr->thr_info->c; NOT SURE ABOUT THIS, MAYBE IS SAFE TO USE IT
 		while (row < thr->thr_info->c.image_height)
 		{
 			col = thr->start_row;
 			while (col < thr->thr_info->c.image_width)
 			{
-				thr->ray = camera_get_ray(&info->c, col, row); //THREADS READING AT SAME TIME INFO->C
+				thr->ray = camera_get_ray(&info->c, col, row); 
 				thr->color = camera_ray_color(thr->thr_info, thr->ray, &thr->thr_info->obj, MAX_DEPTH);
 				thr->packed_color = get_color(thr->color);
 				if (atomic_load(&pool.work_available) == -1)
 					return (NULL);
-				else if (atomic_load(&pool.work_available) != last_frame)
+				else if (atomic_load(&pool.abort_signal) == 0)
 				{
-					row = 0;
+					row = thr->thr_info->c.image_height;
 					col = thr->start_row;
-					last_frame = atomic_load(&pool.work_available);
-					//cam = thr->thr_info->c; SAFER TO USE IT?
-					continue;
+					break;
 				}
 				mlx_put_pixel(info->img, col, row, thr->packed_color);
 				col+=THREADS_AMOUNT;
 			}
 			row++;
 		}
-		if (thr->start_row == 0)
+		/*if (thr->start_row == 0)
 		{
 			gettimeofday(&end, NULL);
 			printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
 			+ (end.tv_usec - start.tv_usec) / 1000L);
-		}
+		}*/
 	}
 	return (NULL);
 }
@@ -82,6 +82,7 @@ void init_thread_pool(t_info *info)
 
     i = 0;
     pool.work_available = 0;
+    pool.start_task = 0;
 	while (i < THREADS_AMOUNT)
 	{
 		pool.thr_data[i].thr_info = info;
@@ -102,18 +103,32 @@ void camera_render(t_info *info)
 	int i;
 
 	i = 0;
-	camera_init(&info->c);
-	while (i < THREADS_AMOUNT)
+	if (atomic_load(&pool.abort_signal) == -1)
 	{
-		pool.thr_data[i].thr_info = info;
-		i++;
+		camera_init(&info->c);
+		atomic_store(&pool.abort_signal, 1);
+		atomic_fetch_add(&pool.work_available,1);
 	}
-	atomic_fetch_add(&pool.work_available,1);
+	else if (atomic_load(&pool.abort_signal) != -1)
+	{
+		atomic_store(&pool.abort_signal, 0);
+		while(atomic_load(&pool.start_task) != THREADS_AMOUNT)
+			usleep(200);
+		camera_init(&info->c);
+		/*while (i < THREADS_AMOUNT)
+		{
+			pool.thr_data[i].thr_info = info;
+			i++;
+		}*/
+		atomic_store(&pool.abort_signal, 1);
+		atomic_fetch_add(&pool.work_available,1);
+	}
 	gettimeofday(&start, NULL);
 }
 
 void	camera_start(t_info *info)
 {
+	atomic_store(&pool.abort_signal, -1);
 	info->c.image_height = IMG_HEIGHT;
 	info->c.image_width = IMG_WIDTH;
 	info->mlx = mlx_init(IMG_WIDTH, IMG_HEIGHT, "KD MiniRT", true);
@@ -127,14 +142,17 @@ void	camera_start(t_info *info)
 
 void	camera_resize_screen(t_info *info, int image_width, int image_height)
 {
-	atomic_store(&pool.work_available, 0);
-	usleep(10000);
+	//atomic_store(&pool.work_available, 0);
+	atomic_store(&pool.abort_signal, 0);
+	while (atomic_load(&pool.start_task) != THREADS_AMOUNT)
+		usleep(200);
 	if (image_height < MAX_HEIGHT)
 		info->c.image_height = image_height / 8 * 8;
 	if (image_height < MAX_WIDTH)
 		info->c.image_width = image_width / 8 * 8;
 	if (!mlx_resize_image(info->img, info->c.image_width, info->c.image_height))
 		free_all(info);
+	atomic_store(&pool.abort_signal, -1);
 	camera_render(info);
 	//atomic_store(0)
 }

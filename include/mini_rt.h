@@ -15,6 +15,7 @@
 #include <pthread.h>
 #include <stdatomic.h>
 
+//typedef struct s_thread_pool t_thread_pool;
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;
@@ -296,6 +297,28 @@ typedef struct s_obj
 // light_count: the count of lights.
 // obj_count: the count of all the objects.
 // texture_count: the count of textures.
+
+
+typedef struct s_thrdata
+{
+	t_info *thr_info;
+	t_color color;
+	t_ray ray;
+	int start_row;
+	int index;
+	int end_row;
+	unsigned int packed_color;
+}	t_thrdata;
+
+typedef struct s_thread_pool 
+{
+    pthread_t threads[THREADS_AMOUNT];
+    t_thrdata thr_data[THREADS_AMOUNT];
+    atomic_int work_available;
+    atomic_int abort_signal;
+    atomic_int start_task;
+} t_thread_pool;
+
 typedef struct s_info
 {
 	t_arena					*arena;
@@ -316,35 +339,6 @@ typedef struct s_info
 	unsigned int			texture_count;
 }							t_info;
 
-typedef struct s_thrdata
-{
-	t_info *thr_info;
-	t_color color;
-	t_ray ray;
-	int start_row;
-	int index;
-	int end_row;
-	unsigned int packed_color;
-}	t_thrdata;
-
-
-typedef struct s_tile
-{
-    t_thrdata *thr;
-    t_info *info;
-    int tile_size;
-    int tiles_x;
-    int total_tiles;
-} t_tile;
-
-typedef struct s_thread_pool 
-{
-    pthread_t threads[THREADS_AMOUNT];
-    t_thrdata thr_data[THREADS_AMOUNT];
-    atomic_int work_available;
-    atomic_int abort_signal;
-    atomic_int start_task;
-} t_thread_pool;
 
 
 /*   Functions for parser.    */

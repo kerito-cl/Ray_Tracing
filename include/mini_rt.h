@@ -5,6 +5,7 @@
 # include "constants.h"
 # include "get_next_line.h"
 # include "libft.h"
+# include "vec3.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -17,14 +18,6 @@ typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;
 typedef struct s_info		t_info;
-
-// Represents a vector.
-typedef struct s_vec3
-{
-	float					x;
-	float					y;
-	float					z;
-}							t_vec3;
 
 // Represents a color.
 typedef t_vec3				t_color;

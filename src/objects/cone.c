@@ -7,14 +7,14 @@ static float	get_t(t_obj *cone, t_ray *ray, t_interval *interval, t_hit_cone_var
 	t_point hit;
 	float h;
 	
-	hit = ray_at(ray, var.t[0]);
+	hit = ray_at(ray, var->t[0]);
 	h = vec3_dot(vec3_sub_vecs(hit, cone->point), cone->normal);
-	if (interval_surrounds(interval, var.t[0]) &&  h > 0 && h < cone->height)
-		return (var.t[0]);
-	hit = ray_at(ray, var.t[1]);
+	if (interval_surrounds(interval, var->t[0]) &&  h > 0 && h < cone->height)
+		return (var->t[0]);
+	hit = ray_at(ray, var->t[1]);
 	h = vec3_dot(vec3_sub_vecs(hit, cone->point), cone->normal);
-	if (interval_surrounds(interval, var.t[1]) &&  h > 0 && h < cone->height)
-		return (var.t[1]);
+	if (interval_surrounds(interval, var->t[1]) &&  h > 0 && h < cone->height)
+		return (var->t[1]);
 	return (-1);
 }
 
@@ -71,7 +71,7 @@ bool	cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, t_hit_record *rec)
 	var.a = vec3_dot(var.d_proj, var.d_proj) - var.cos2 * var.d_dot_n * var.d_dot_n;
 	var.b = 2.0f * (vec3_dot(var.d_proj, var.oc_proj) - var.cos2 * var.d_dot_n * var.oc_dot_n);
 	var.c = vec3_dot(var.oc_proj, var.oc_proj) - var.cos2 * var.oc_dot_n * var.oc_dot_n;
-	if (!quadratic(var.a, var.b, var.c, var.t))
+	if (!cal_quadratic(var.a, var.b, var.c, var.t))
 		return false;
 	rec->t = get_t(cone, ray, interval, &var);
 	if (rec->t < 0)

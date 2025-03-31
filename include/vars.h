@@ -7,12 +7,9 @@ typedef struct s_sp_hit_vars
 {
 	t_vec3			oc;
 	float			a;
-	float			h;
+	float			b;
 	float			c;
-	float			discriminant;
-	float			sqrtd;
-	float			root;
-	t_vec3			temp;
+	float			t[2];
 	t_vec3			outward_normal;
 }					t_sp_hit_vars;
 

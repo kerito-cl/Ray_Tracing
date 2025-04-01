@@ -22,7 +22,7 @@ struct timeval start, end;
 
 
 
-void *thr_draw(void *param)
+/*void *thr_draw(void *param)
 {
 	t_thrdata *thr;
 	int row;
@@ -63,12 +63,12 @@ void *thr_draw(void *param)
 			}
 			row++;
 		}
-		/*if (thr->start_row == 0)
+		if (thr->start_row == 0)
 		{
 			gettimeofday(&end, NULL);
 			printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
 			+ (end.tv_usec - start.tv_usec) / 1000L);
-		}*/
+		}
 	}
 	return (NULL);
 }
@@ -93,8 +93,7 @@ void init_thread_pool(t_info *info)
         pthread_create(&info->pool.threads[i], NULL, thr_draw, &info->pool.thr_data[i]);
         i++;
     }
-
-}
+}*/
 
 void camera_render(t_info *info) 
 {
@@ -145,7 +144,7 @@ void	camera_resize_screen(t_info *info, int image_width, int image_height)
 	camera_render(info);
 }
 
-void destroy_thread_pool(t_info *info) {
+/*void destroy_thread_pool(t_info *info) {
     int i;
 
     i = 0;
@@ -155,4 +154,4 @@ void destroy_thread_pool(t_info *info) {
         pthread_join(info->pool.threads[i], NULL);
         i++;
     }
-}
+}*/

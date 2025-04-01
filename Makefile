@@ -14,6 +14,7 @@ SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c \
 			src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c \
 			src/ui/hook.c src/ui/hook_supp.c \
 			src/texture.c \
+			src/threads/thread_utils.c \
 			src/camera/camera.c src/camera/camera_supp.c  src/camera/camera_supp2.c\
 		  gnl/get_next_line.c gnl/get_next_line_utils.c
 
@@ -23,7 +24,7 @@ LIBFT	:= -L$(LIBFT_DIR) -lft
 all: libmlx libft $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src $(OBJ_DIR)/src/objects $(OBJ_DIR)/src/camera $(OBJ_DIR)/src/ui
+	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src $(OBJ_DIR)/src/objects $(OBJ_DIR)/src/camera $(OBJ_DIR)/src/ui $(OBJ_DIR)/src/threads
 
 libft:
 	@echo "building libft"
@@ -42,8 +43,6 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 
 $(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -flto -ldl -lglfw -pthread -lm -o $(NAME)
-
-
 	@echo "\n\033[1;34m                        ######  ####### \033[0m"
 	@echo "\033[1;34m  ##   ## # #    # #    #     #    #    \033[0m"
 	@echo "\033[1;34m  # # # # # ##   # #    #     #    #    \033[0m"

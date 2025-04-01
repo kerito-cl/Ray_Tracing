@@ -27,8 +27,7 @@ typedef struct s_hit_cy_vars
 	t_vec3			x;
 	t_vec3			v;
 	t_vec3			hit_vec;
-	float			t0;
-	float			t1;
+	float			t[2];
 	float			a;
 	float			b;
 	float			c;

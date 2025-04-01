@@ -4,8 +4,6 @@
 
 static float	assign_t_value(t_hit_cy_vars *var, t_obj *cy, t_interval *interval)
 {
-	float	temp;
-
 	var->m = var->d_dot * var->t[0] + var->x_dot;
 	if (var->t[0] >= 0 && var->m >= 0.0 && var->m < cy->height
 		&& interval_surrounds(interval, var->t[0]))
@@ -33,7 +31,6 @@ static void	set_uv(t_hit_cy_vars *var, t_hit_record *rec, t_obj *cy)
 bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
 {
 	t_hit_cy_vars	var;
-	float			t_valid;
 
 	var.x = vec3_sub_vecs(ray->orig, cy->point);
 	var.d_dot = vec3_dot(ray->direc, cy->normal);

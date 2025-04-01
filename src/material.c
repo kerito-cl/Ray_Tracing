@@ -54,7 +54,7 @@ bool	dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 	float	cos_theta;
 	bool	cannot_refract;
 	t_vec3	direction;
-
+ 
 	*attenuation = vec3_new(1, 1, 1);
 	r1 = rec->material->ref_idx;
 	if (rec->front_face)

@@ -28,6 +28,13 @@ void	assign_typematerial_info(t_info *info, char *material, int i,
 		info->obj[i].material.ref_idx = GLASS_REF_IDX;
 		info->obj[i].material.scatter = dielectric_scatter;
 	}
+	else if (ft_strncmp(material, "A\n", ft_strlen(material)) == 0)
+	{
+		info->obj[i].type_material = AIR;
+		info->obj[i].material.albedo = info->obj[i].rgb;
+		info->obj[i].material.ref_idx = AIR_REF_IDX;
+		info->obj[i].material.scatter = dielectric_scatter;
+	}
 	else if (ft_strncmp(material, "L\n", ft_strlen(material)) == 0)
 	{
 		info->obj[i].type_material = LIGHT;
@@ -35,6 +42,7 @@ void	assign_typematerial_info(t_info *info, char *material, int i,
 				info->obj[i].br_ratio);
 		info->obj[i].material.scatter = light_scatter;
 	}
+
 	else
 	{
 		info->obj[i].material.albedo = info->obj[i].rgb;

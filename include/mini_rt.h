@@ -50,6 +50,7 @@ typedef struct s_ray
 typedef enum e_type
 {
 	GLASS = 20,
+	AIR,
 	METAL,
 	DIFFUSE,
 	LIGHT,

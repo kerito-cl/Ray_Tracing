@@ -96,15 +96,13 @@ void	parse(char *file, t_info *info)
 	char	*input;
 	char	**split;
 
-	info->lights = arena_alloc(info->arena, sizeof(t_obj *) * 10);
-	info->obj = arena_alloc(info->arena, sizeof(t_obj) * 100);
-	info->textures = arena_alloc(info->arena, sizeof(mlx_texture_t *) * 100);
+	allocate_objects(file, info);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		throw_error(1);
+		free_arena_exit(info);
 	input = get_next_line(fd);
 	if (input == NULL)
-		throw_error(2);
+		free_arena_exit(info);
 	while (input != NULL)
 	{
 		split = ft_split(input, ' ');

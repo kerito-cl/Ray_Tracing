@@ -12,43 +12,24 @@ void	assign_texture_info(t_info *info, char *texture, int i, char **split);
 void	assign_typematerial_info(t_info *info, char *material, int i,
 		char **split)
 {
-	if (ft_strncmp(material, "M\n", ft_strlen(material)) == 0)
-	{
-		info->obj[i].type_material = METAL;
-		info->obj[i].br_ratio = METAL_BR_RATIO;
-		info->obj[i].material.albedo = vec3_mul_vec(info->obj[i].rgb,
-				info->obj[i].br_ratio);
-		info->obj[i].material.fuzz = METAL_FUZZ;
-		info->obj[i].material.scatter = metal_scatter;
-	}
-	else if (ft_strncmp(material, "G\n", ft_strlen(material)) == 0)
-	{
-		info->obj[i].type_material = GLASS;
-		info->obj[i].material.albedo = info->obj[i].rgb;
-		info->obj[i].material.ref_idx = GLASS_REF_IDX;
-		info->obj[i].material.scatter = dielectric_scatter;
-	}
-	else if (ft_strncmp(material, "A\n", ft_strlen(material)) == 0)
-	{
-		info->obj[i].type_material = AIR;
-		info->obj[i].material.albedo = info->obj[i].rgb;
-		info->obj[i].material.ref_idx = AIR_REF_IDX;
-		info->obj[i].material.scatter = dielectric_scatter;
-	}
-	else if (ft_strncmp(material, "L\n", ft_strlen(material)) == 0)
-	{
-		info->obj[i].type_material = LIGHT;
-		info->obj[i].material.albedo = vec3_mul_vec(info->obj[i].rgb,
-				info->obj[i].br_ratio);
-		info->obj[i].material.scatter = light_scatter;
-	}
-
-	else
+	if (material == NULL || ft_strncmp(material, "D", 1) == 0)
 	{
 		info->obj[i].material.albedo = info->obj[i].rgb;
 		info->obj[i].type_material = DIFFUSE;
 		info->obj[i].material.scatter = lambertian_scatter;
 	}
+	else if (ft_strncmp(material, "M", 1) == 0)
+		assign_metal(info, material, i, split);
+	else if (ft_strncmp(material, "G", 1) == 0)
+		assign_glass(info, material, i, split);
+	else if (ft_strncmp(material, "A", 1) == 0)
+		assign_air(info, material, i, split);
+	else if (ft_strncmp(material, "W", 1) == 0)
+		assign_water(info, material, i, split);
+	else if (ft_strncmp(material, "L", 1) == 0)
+		assign_lights(info, material, i, split);
+	else
+		exit_free_parser(info, split, 2);
 }
 
 void	set_texture(t_info *info, char *filename, int i, char **split)
@@ -139,9 +120,12 @@ void	create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
 		exit_free_parser(info, split, 3);
 	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
 	assign_typematerial_info(info, split[4], i, split);
-	assign_texture_info(info, split[5], i, split);
-	if (split[5] && split[6] != NULL)
-		exit_free_parser(info, split, 2);
+	if (split[4] != NULL)
+	{
+		assign_texture_info(info, split[5], i, split);
+		if (split[5] && split[6] != NULL)
+			exit_free_parser(info, split, 2);
+	}
 	info->obj[i].hit = sp_hit;
 }
 

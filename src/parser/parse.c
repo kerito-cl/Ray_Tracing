@@ -17,8 +17,6 @@ static void	assign_camera_info(t_info *info, char **split, bool *isvalid)
 	if (!vec)
 		free_arena_exit(info);
 	new_vec3_for_parsing(&(info->c).orient, vec, isvalid, false);
-	if (split[4] != NULL)
-		exit_free_parser(info, split, 2);
 }
 
 static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)
@@ -33,8 +31,6 @@ static void	assign_ambient_info(t_info *info, char **split, bool *isvalid)
 	if (!rgb)
 		free_arena_exit(info);
 	new_vec3_for_parsing(&(info->a).rgb, rgb, isvalid, true);
-	if (split[3] != NULL)
-		exit_free_parser(info, split, 2);
 }
 
 void	create_light_info(t_info *info, char **split, int i, bool *isvalid)

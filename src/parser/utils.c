@@ -26,7 +26,8 @@ static void	assign_str_to_vec(t_vec3 *vec3, char **cvec, bool *isvalid,
 void	new_vec3_for_parsing(t_vec3 *vec3, char **cvec, bool *isvalid,
 		bool if_rgb)
 {
-	if (!cvec[0] || !cvec[1] || !cvec[2] || cvec[3] != NULL)
+	if (!cvec[0] || !cvec[1] || !cvec[2] || cvec[3] != NULL
+		|| cvec[0][0] == '\n')
 	{
 		freesplit(cvec);
 		*isvalid = false;
@@ -59,7 +60,7 @@ void	set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec)
 		rec->normal = vec3_flip_minus(outward_normal);
 }
 
-float clamp(float n, float min, float max)
+float	clamp(float n, float min, float max)
 {
 	if (n < min)
 		return (min);

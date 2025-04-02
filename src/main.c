@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 	if (argc != 2 || check_if_rt(argv[1]) == 0)
 		throw_error(0);
 	ft_bzero(&info, sizeof(t_info));
-	info.arena = arena_init(20480);
+	info.arena = arena_init(10240000);
 	parse(argv[1], &info);
 	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
 	camera_start(&info);

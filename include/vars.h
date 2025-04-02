@@ -54,4 +54,16 @@ typedef struct s_hit_cone_vars
 
 } t_hit_cone_vars;
 
+typedef struct s_hit_box_vars
+{
+	t_vec3		inv_d;
+	t_vec3		t_min;
+	t_vec3		t_max;
+	t_vec3		t0;
+	t_vec3		t1;
+	float		tminf;
+	float		tmaxf;
+
+}  t_hit_box_vars;
+
 #endif

@@ -24,6 +24,7 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval,
 	rec->normal = plane->normal;
 	if (vec3_dot(rec->normal, ray->direc) > 0)
 		rec->normal = vec3_mul_vec(rec->normal, -1);
+	set_face_normal(ray, rec->normal, rec);
 	rec->material = &plane->material;
 	rec->u = fmodf(vec3_dot(offset, u_axis) * 0.1f, 1.0f);
 	rec->v = fmodf(vec3_dot(offset, v_axis) * 0.1f, 1.0f);

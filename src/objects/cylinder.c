@@ -49,6 +49,7 @@ bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)
 	var.m = var.d_dot * rec->t + var.x_dot;
 	var.v = vec3_add_vecs(cy->point, vec3_mul_vec(cy->normal, var.m));
 	rec->normal = vec3_unit(vec3_sub_vecs(rec->p, var.v));
+	set_face_normal(ray, rec->normal, rec);
 	if (vec3_dot(rec->normal, ray->direc) > 0)
 		rec->normal = vec3_mul_vec(rec->normal, -1);
 	set_uv(&var, rec, cy);

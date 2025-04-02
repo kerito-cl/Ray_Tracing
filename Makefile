@@ -1,7 +1,7 @@
 NAME	:= miniRT
 LIBFT_DIR	:= libft
 LIBFT_LIB	:= $(LIBFT_DIR)/libft.a
-CFLAGS	:= -Wunreachable-code -Ofast -g
+CFLAGS	:= -Wunreachable-code -O3 -ffast-math
 LIBMLX	:= ./MLX42
 LIB_URL := https://github.com/codam-coding-college/MLX42
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)
@@ -16,6 +16,7 @@ SRCS	:= src/main.c src/error.c src/parser/parse.c src/parser/arena.c src/parser/
 			src/objects/quadrics_supp.c src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c src/objects/cone.c \
 			src/ui/hook.c src/ui/hook_supp.c \
 			src/texture.c \
+			src/threads/thread_utils.c \
 			src/camera/camera.c src/camera/camera_supp.c  src/camera/camera_supp2.c\
 		  gnl/get_next_line.c gnl/get_next_line_utils.c
 
@@ -25,7 +26,6 @@ LIBFT	:= -L$(LIBFT_DIR) -lft
 all: libmlx libft $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p \
 	$(OBJ_DIR)/src/vec3 \
 	$(OBJ_DIR)/gnl $(OBJ_DIR)/src \
 	$(OBJ_DIR)/src/objects \
@@ -49,7 +49,17 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS) && printf "Compiling: $(notdir $<)\n"
 
 $(NAME): $(OBJS) $(LIBS)
-	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -ldl -lglfw -pthread -lm -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -flto -ldl -lglfw -pthread -lm -o $(NAME)
+	@echo "\n\033[1;34m                        ######  ####### \033[0m"
+	@echo "\033[1;34m  ##   ## # #    # #    #     #    #    \033[0m"
+	@echo "\033[1;34m  # # # # # ##   # #    #     #    #    \033[0m"
+	@echo "\033[1;34m  #  #  # # # #  # #    ######     #    \033[0m"
+	@echo "\033[1;34m  #     # # #  # # #    #   #      #    \033[0m"
+	@echo "\033[1;34m  #     # # #   ## #    #    #     #    \033[0m"
+	@echo "\033[1;34m  #     # # #    # #    #     #    #    \033[0m"
+	@echo "\n\033[1;32mWelcome to Mini RT!\033[0m"
+	@echo "Usage: ./miniRT <scene.rt>"
+	@echo "Example: ./miniRT scenes/example.rt"
 
 clean:
 	@rm -rf $(OBJ_DIR)

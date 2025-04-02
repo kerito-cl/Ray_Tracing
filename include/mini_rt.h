@@ -9,11 +9,14 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
+# include <pthread.h>
+# include <stdatomic.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
+// typedef struct s_thread_pool t_thread_pool;
 typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;
@@ -287,6 +290,27 @@ typedef struct s_obj
 // light_count: the count of lights.
 // obj_count: the count of all the objects.
 // texture_count: the count of textures.
+
+typedef struct s_thrdata
+{
+	t_info					*thr_info;
+	t_color					color;
+	t_ray					ray;
+	int						start_row;
+	int						index;
+	int						end_row;
+	unsigned int			packed_color;
+}							t_thrdata;
+
+typedef struct s_thread_pool
+{
+	pthread_t				threads[THREADS_AMOUNT];
+	t_thrdata				thr_data[THREADS_AMOUNT];
+	atomic_int				work_available;
+	atomic_int				abort_signal;
+	atomic_int				start_task;
+}							t_thread_pool;
+
 typedef struct s_info
 {
 	t_arena					*arena;
@@ -297,6 +321,7 @@ typedef struct s_info
 	mlx_texture_t			**textures;
 	t_obj					*obj;
 	t_obj					**lights;
+	t_thread_pool			pool;
 	int						index;
 	unsigned int			pl_count;
 	unsigned int			sp_count;
@@ -304,9 +329,6 @@ typedef struct s_info
 	unsigned int			light_count;
 	unsigned int			obj_count;
 	unsigned int			texture_count;
-	bool					hit_itself;
-	bool					light_outside;
-	bool					camera_outside;
 }							t_info;
 
 /*   Functions for parser.    */
@@ -329,6 +351,7 @@ void						assign_typematerial_info(t_info *info,
 								char *material, int i, char **split);
 void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
+void						destroy_thread_pool(void);
 void						exit_free_parser(t_info *info, char **split, int n);
 void						allocate_objects(char *file, t_info *info);
 
@@ -353,7 +376,7 @@ void	assign_water(t_info *info, char *material, int i,
 //
 // @param info: the pointer to state of the program.
 // @param ray: the ray to hit.
-// @param [rec]: the value is assigned by the function.
+// @param []: the value is assigned by the function.
 // @param interval: the required inteval.
 bool						world_hit(t_info *info, t_ray *ray,
 								t_hit_record *rec, t_interval *interval);
@@ -390,6 +413,12 @@ void						camera_start(t_info *info);
 // @param image_width, image_height: the new size of the image.
 void						camera_resize_screen(t_info *info, int image_width,
 								int image_height);
+
+void						camera_init(t_cam *c);
+t_ray						camera_get_ray(t_cam *c, int i, int j);
+t_color						camera_ray_color(t_info *info, t_ray ray,
+								t_obj **world, int depth);
+unsigned int				get_color(t_vec3 vec);
 
 // @brief to render the screen.
 //
@@ -511,5 +540,9 @@ t_color						texture_checker_color(t_info *info, t_material *mat,
 								t_hit_record *rec);
 t_color						texture_img_color(t_info *info, t_material *mat,
 								t_hit_record *rec);
+
+/*  Threading functions */
+
+void 						init_thread_pool(t_info *info);
 
 #endif

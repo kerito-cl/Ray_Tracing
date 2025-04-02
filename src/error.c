@@ -5,8 +5,10 @@ void	free_all(t_info *info)
 {
 	int i = 0;
 
-	while (i < info->texture_count)
-		mlx_delete_texture(info->textures[i++]);
+	//SEG FAULT ON THIS WHILE LOOP
+	/*while (i < info->texture_count)
+		mlx_delete_texture(info->textures[i++]);*/
+	//destroy_thread_pool();
 	mlx_delete_image(info->mlx, info->img);
 	mlx_terminate(info->mlx);
 	arena_free(info->arena);

@@ -8,7 +8,6 @@ void	print_vec3(t_vec3 vec3)
 	printf("y : %f\n", vec3.y);
 	printf("z : %f\n", vec3.z);
 }
-
 int	main(int argc, char **argv)
 {
 	t_info	info;
@@ -26,6 +25,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(info.mlx, handle_key_press_event, &info);
 	mlx_resize_hook(info.mlx, handle_screen_resize, &info);
 	mlx_loop(info.mlx);
-	free_arena_exit(&info);
+	//destroy_thread_pool();
+	free_all(&info);
 	return (0);
 }

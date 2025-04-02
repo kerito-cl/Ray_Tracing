@@ -5,7 +5,7 @@
 # define ROTATE_STEP DTR(10)
 # define LIGHT_VISIBLE 1
 # define LIGHT_RADIUS 1
-# define METAL_FUZZ 0.5f
+# define METAL_FUZZ 0.1f
 # define METAL_BR_RATIO 0.5f
 # define GLASS_REF_IDX 1.5f
 # define AIR_REF_IDX 1.3f / 1.5f

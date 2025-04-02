@@ -1,6 +1,6 @@
 #include "mini_rt.h"
 
-static bool	*render(t_thrdata *thr, t_info *info, int row)
+static bool	render(t_thrdata *thr, t_info *info, int row)
 {
 	int	col;
 

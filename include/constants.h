@@ -7,7 +7,7 @@
 # define LIGHT_RADIUS 1
 # define METAL_FUZZ 0.5f
 # define METAL_BR_RATIO 0.5f
-# define GLASS_REF_IDX 1.0f
+# define AIR_REF_IDX 1.3f / 1.5f
 # define CHECK_SCALE 0.5f
 # define S (float)1e-8
 # define PI (float)3.14159265358979323846

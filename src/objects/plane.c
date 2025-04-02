@@ -4,6 +4,9 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval,
 		t_hit_record *rec)
 {
 	t_vec3 plane_ray_vec;
+	t_vec3 offset;
+	t_vec3 u_axis;
+	t_vec3 v_axis;
 	float dot_plane;
 	float result;
 
@@ -22,5 +25,11 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval,
 	if (vec3_dot(rec->normal, ray->direc) > 0)
 		rec->normal = vec3_mul_vec(rec->normal, -1);
 	rec->material = &plane->material;
+	rec->u = fmodf(vec3_dot(offset, u_axis) * 0.1f, 1.0f);
+	rec->v = fmodf(vec3_dot(offset, v_axis) * 0.1f, 1.0f);
+	if (rec->u < 0) 
+		rec->u += 1.0f;
+	if (rec->v < 0) 
+		rec->v += 1.0f;
 	return (true);
 }

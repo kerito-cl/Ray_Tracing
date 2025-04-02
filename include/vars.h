@@ -7,12 +7,9 @@ typedef struct s_sp_hit_vars
 {
 	t_vec3			oc;
 	float			a;
-	float			h;
+	float			b;
 	float			c;
-	float			discriminant;
-	float			sqrtd;
-	float			root;
-	t_vec3			temp;
+	float			t[2];
 	t_vec3			outward_normal;
 }					t_sp_hit_vars;
 
@@ -29,8 +26,8 @@ typedef struct s_hit_cy_vars
 {
 	t_vec3			x;
 	t_vec3			v;
-	float			t0;
-	float			t1;
+	t_vec3			hit_vec;
+	float			t[2];
 	float			a;
 	float			b;
 	float			c;
@@ -38,5 +35,23 @@ typedef struct s_hit_cy_vars
 	float			x_dot;
 	float			m;
 }					t_hit_cy_vars;
+
+
+typedef struct s_hit_cone_vars
+{
+	t_vec3			oc;
+	float			cos2;
+	float			d_dot_n;
+	float			oc_dot_n;
+	t_vec3			d_proj;
+	t_vec3			oc_proj;
+	float			t[2];
+	float			a;
+	float			b;
+	float			c;
+	float			m;
+	t_vec3			p_base;
+
+} t_hit_cone_vars;
 
 #endif

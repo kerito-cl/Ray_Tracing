@@ -5,6 +5,7 @@
 # include "constants.h"
 # include "get_next_line.h"
 # include "libft.h"
+# include "vec3.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -20,14 +21,6 @@ typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;
 typedef struct s_info		t_info;
-
-// Represents a vector.
-typedef struct s_vec3
-{
-	float					x;
-	float					y;
-	float					z;
-}							t_vec3;
 
 // Represents a color.
 typedef t_vec3				t_color;
@@ -60,6 +53,7 @@ typedef struct s_ray
 typedef enum e_type
 {
 	GLASS = 20,
+	AIR,
 	METAL,
 	DIFFUSE,
 	LIGHT,
@@ -234,7 +228,6 @@ typedef struct s_hit_record
 {
 	t_vec3					p;
 	t_vec3					normal;
-	t_vec3					normal_2;
 	t_material				*material;
 	float					t;
 	bool					front_face;
@@ -360,6 +353,20 @@ void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
 void						destroy_thread_pool(void);
 void						exit_free_parser(t_info *info, char **split, int n);
+void						allocate_objects(char *file, t_info *info);
+
+/*   Assign material    */
+
+void	assign_lights(t_info *info, char *material, int i,
+		char **split);
+void	assign_metal(t_info *info, char *material, int i,
+		char **split);
+void	assign_glass(t_info *info, char *material, int i,
+		char **split);
+void	assign_air(t_info *info, char *material, int i,
+		char **split);
+void	assign_water(t_info *info, char *material, int i,
+		char **split);
 
 /* HIT OBJ*/
 // Check the `hit` in t_obj.
@@ -389,6 +396,8 @@ bool						sp_hit(t_obj *sphere, t_ray *ray,
 bool						pl_hit(t_obj *plane, t_ray *ray,
 								t_interval *interval, t_hit_record *rec);
 bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
+								t_hit_record *rec);
+bool						cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, 
 								t_hit_record *rec);
 
 /* Camera */
@@ -493,6 +502,19 @@ bool						interval_surrounds(t_interval *interval,
 t_point						ray_at(t_ray *ray, double t);
 void						set_face_normal(t_ray r, t_vec3 outward_normal,
 								t_hit_record *rec);
+
+
+// @brief To solve if and what is the valid `t` in : at² + bt + c = 0
+//
+// The question equlas:
+//     t = (-b ± sqrt(b² - 4ac)) / (2a)
+//
+// @param a b c: a, b, c in at² + bt + c = 0.
+// @param [t] to store the possible result `t`, and t[0] < t[1].
+// @return if there is at least one valid `t`.
+bool						cal_quadratic(float a, float b, float c, float t[2]);			
+
+
 bool						lambertian_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
 bool						metal_scatter(t_ray *r_in, t_hit_record *rec,

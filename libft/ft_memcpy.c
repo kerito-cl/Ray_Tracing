@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:50:18 by mquero            #+#    #+#             */
-/*   Updated: 2024/10/29 11:23:48 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/02 13:33:19 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	int			i;
+	size_t		i;
 	const char	*s;
 	char		*d;
 
@@ -23,7 +23,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	i = 0;
 	d = dest;
 	s = src;
-	while (i < (int)n)
+	while (i < n)
 	{
 		d[i] = s[i];
 		i++;

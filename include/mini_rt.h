@@ -330,6 +330,20 @@ void						assign_typematerial_info(t_info *info,
 void						free_all(t_info *info);
 void						free_arena_exit(t_info *info);
 void						exit_free_parser(t_info *info, char **split, int n);
+void						allocate_objects(char *file, t_info *info);
+
+/*   Assign material    */
+
+void	assign_lights(t_info *info, char *material, int i,
+		char **split);
+void	assign_metal(t_info *info, char *material, int i,
+		char **split);
+void	assign_glass(t_info *info, char *material, int i,
+		char **split);
+void	assign_air(t_info *info, char *material, int i,
+		char **split);
+void	assign_water(t_info *info, char *material, int i,
+		char **split);
 
 /* HIT OBJ*/
 // Check the `hit` in t_obj.

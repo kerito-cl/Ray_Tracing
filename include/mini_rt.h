@@ -263,6 +263,8 @@ typedef struct s_interval
 typedef struct s_obj
 {
 	t_vec3					point;
+	t_vec3					min;
+	t_vec3					max;
 	t_vec3					rgb;
 	t_vec3					normal;
 	float					radius;
@@ -399,6 +401,8 @@ bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 								t_hit_record *rec);
 bool						cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, 
 								t_hit_record *rec);
+bool						box_hit(t_obj *box, t_ray *ray, t_interval *interval, 
+								t_hit_record *rec);
 
 /* Camera */
 
@@ -476,6 +480,9 @@ t_color						vec3_sky(void);
 bool						vec3_near_black(t_color color);
 t_color						vec3_black(void);
 t_color						vec3_avoid_overflow(t_vec3 color);
+t_vec3 						vec3_div(float number, t_vec3 vec);
+t_vec3 						vec3_min(t_vec3 vec1, t_vec3 vec2);
+t_vec3 						vec3_max(t_vec3 vec1, t_vec3 vec2);
 
 /*			INTERVAL						*/
 

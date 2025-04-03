@@ -4,6 +4,7 @@ void	create_plane_info(t_info *info, char **split, int i, bool *isvalid);
 void	create_cylinder_info(t_info *info, char **split, int i, bool *isvalid);
 void	create_sphere_info(t_info *info, char **split, int i, bool *isvalid);
 void	create_cone_info(t_info *info, char **split, int i, bool *isvalid);
+void	create_box_info(t_info *info, char **split, int i, bool *isvalid);
 
 void	assign_typematerial_info(t_info *info, char *material, int i,
 		char **split)
@@ -94,6 +95,8 @@ void	create_object_info(t_info *info, char **split)
 		create_cylinder_info(info, split, i, &isvalid);
 	else if (ft_strncmp(split[0], "cn", ft_strlen(split[0])) == 0)
 		create_cone_info(info, split, i, &isvalid);
+	else if (ft_strncmp(split[0], "bx", ft_strlen(split[0])) == 0)
+		create_box_info(info, split, i, &isvalid);
 	else if (ft_strncmp(split[0], "L", ft_strlen(split[0])) == 0)
 		create_light_info(info, split, i, &isvalid);
 	if (!isvalid)

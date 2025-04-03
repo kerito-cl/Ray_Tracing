@@ -77,7 +77,6 @@ typedef struct s_material
 	t_vec3					albedo;
 	t_vec3					albedo2;
 	int						texture_img_idx;
-	float					scale;
 	float					fuzz;
 	float					ref_idx;
 	t_type					type_material;

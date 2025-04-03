@@ -38,8 +38,11 @@ static void set_uv(t_obj *box, t_hit_record *rec)
 	}
 	rec->u = fmodf(rec->u, 1.0f);
 	rec->v = fmodf(rec->v, 1.0f);
-	if (rec->u < 0) rec->u += 1.0f;
-	if (rec->v < 0) rec->v += 1.0f;
+	if (rec->u < 0) 
+		rec->u += 1.0f;
+	if (rec->v < 0) 
+		rec->v += 1.0f;
+	rec->uv_chess_board = true;
 }
 
 // @details returns if the given aabb box is hit by the given ray in given interval.

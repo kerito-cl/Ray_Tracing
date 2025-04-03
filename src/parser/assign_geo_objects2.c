@@ -1,5 +1,8 @@
 #include "mini_rt.h"
 
+void		assign_texture_info(t_info *info, char *texture, int i,
+	char **split);
+
 void	create_box_info(t_info *info, char **split, int i, bool *isvalid)
 {
 	char	**vec;
@@ -22,5 +25,5 @@ void	create_box_info(t_info *info, char **split, int i, bool *isvalid)
 		info->obj[i].material.texture_get_color = texutre_constant_color;
 	else
 		assign_texture_info(info, split[5], i, split);
-	info->obj[i].hit = sp_hit;
+	info->obj[i].hit = box_hit;
 }

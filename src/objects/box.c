@@ -66,8 +66,8 @@ bool	box_hit(t_obj *box, t_ray *ray, t_interval *interval, t_hit_record *rec)
     var.inv_d = vec3_div(1.0f, ray->direc);
 	float	tmin = interval->min;
 	float	tmax = interval->max;
-	var.t0 = vec3_mul_vec(vec3_sub_vecs(box->min, ray->orig), var.inv_d);
-	var.t1 = vec3_mul_vec(vec3_sub_vecs(box->max, ray->orig), var.inv_d);
+	var.t0 = vec3_mul_vecs(vec3_sub_vecs(box->min, ray->orig), var.inv_d);
+	var.t1 = vec3_mul_vecs(vec3_sub_vecs(box->max, ray->orig), var.inv_d);
 	var.tmin = vec3_min(var.t0, var.t1);
 	var.tmax = vec3_max(var.t0, var.t1);
 	var.tminf = fmaxf(fmaxf(var.tmin.x, var.tmin.y), fmaxf(interval->min, var.tmin.z));
@@ -78,7 +78,7 @@ bool	box_hit(t_obj *box, t_ray *ray, t_interval *interval, t_hit_record *rec)
 	rec->p = ray_at(ray, var.tminf);
 	rec->material = &box->material;
     set_normal(box, rec);
-    set_face_normal(ray, rec->normal, rec);
+    set_face_normal(*ray, rec->normal, rec);
     set_uv(box, rec);
 	return true;
 }

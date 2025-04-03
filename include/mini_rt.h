@@ -402,7 +402,7 @@ bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 bool						cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, 
 								t_hit_record *rec);
 bool						box_hit(t_obj *box, t_ray *ray, t_interval *interval, 
-								t_hit_record *rec)
+								t_hit_record *rec);
 
 /* Camera */
 

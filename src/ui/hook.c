@@ -8,7 +8,11 @@ void	handle_win_close_event(void *param)
 	t_info	*info;
 
 	info = (t_info *)param;
-	free_arena_exit(info);
+
+	atomic_store(&info->pool.work_available, -1);
+	while(atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
+		usleep(200);
+	free_all(info);
 }
 
 void	handle_rotation_lr(t_info *info, keys_t key)
@@ -68,7 +72,9 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
-		//atomic_store(&pool.work_available, -1); PUT EVERYTHING TO INFO
+		atomic_store(&info->pool.work_available, -1);
+		while(atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
+			usleep(200);
 		free_all(info);
 	}
 	if (keydata.key == MLX_KEY_P)

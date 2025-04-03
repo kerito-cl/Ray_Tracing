@@ -50,13 +50,10 @@ static void	*thr_draw(void *param)
 		last_frame = atomic_load(&info->pool.work_available);
 		row = 0;
 		if (!render(thr, info, row))
-			return (NULL);
-		/*if (thr->start_row == 0)
 		{
-			gettimeofday(&end, NULL);
-			printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
-			+ (end.tv_usec - start.tv_usec) / 1000L);
-		}*/
+        	atomic_fetch_add(&info->pool.start_task, 1);
+			return (NULL);
+		}
 	}
 	return (NULL);
 }
@@ -78,20 +75,9 @@ void	init_thread_pool(t_info *info)
 	i = 0;
 	while (i < THREADS_AMOUNT)
 	{
-		pthread_create(&info->pool.threads[i], NULL, thr_draw,
-			&info->pool.thr_data[i]);
+		if (pthread_create(&info->pool.threads[i], NULL, thr_draw,
+			&info->pool.thr_data[i]))
+			free_all(info);
 		i++;
 	}
 }
-
-/*void destroy_thread_pool(t_info *info) {
-	int i;
-
-	i = 0;
-	while (i < THREADS_AMOUNT)
-	{
-		pthread_cancel(info->pool.threads[i]);
-		pthread_join(info->pool.threads[i], NULL);
-		i++;
-	}
-}*/

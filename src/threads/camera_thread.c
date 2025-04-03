@@ -18,8 +18,6 @@ void	break_point(int i)
 	printf("%d\n", i);
 	return ;
 }
-struct timeval start, end;
-
 
 void camera_render(t_info *info) 
 {
@@ -38,7 +36,6 @@ void camera_render(t_info *info)
 		atomic_store(&info->pool.abort_signal, 1);
 		atomic_fetch_add(&info->pool.work_available,1);
 	}
-	gettimeofday(&start, NULL);
 }
 
 void	camera_start(t_info *info)

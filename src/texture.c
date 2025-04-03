@@ -13,7 +13,7 @@ t_color	texture_checker_color(t_info *info, t_material *mat, t_hit_record *rec)
 	float	inv_scale;
 	int		res;
 
-	inv_scale = 1.0f / mat->scale;
+	inv_scale = 1.0f / CHECK_SCALE;
 	if (rec->uv_chess_board)
 		res = (int)floorf(rec->u * inv_scale) + (int)floorf(rec->v * inv_scale);
 	else

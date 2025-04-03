@@ -32,8 +32,8 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval,
 	else
 		u_axis = vec3_unit(vec3_cross(vec3_new(1, 0, 0), plane->normal));
 	v_axis = vec3_unit(vec3_cross(plane->normal, u_axis));
-	rec->u = fmodf(vec3_dot(offset, u_axis) * plane->material.scale, 1.0f);
-	rec->v = fmodf(vec3_dot(offset, v_axis) * plane->material.scale, 1.0f);
+	rec->u = fmodf(vec3_dot(offset, u_axis) * CHECK_SCALE, 1.0f);
+	rec->v = fmodf(vec3_dot(offset, v_axis) * CHECK_SCALE, 1.0f);
 	if (rec->u < 0) 
 		rec->u += 1.0f;
 	if (rec->v < 0) 

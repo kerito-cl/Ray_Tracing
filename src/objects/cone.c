@@ -32,6 +32,7 @@ static void set_uv(t_hit_cone_vars *var, t_hit_record *rec, t_obj *cone)
 		rec->u += 1.0f;
 	if (rec->v < 0) 
 		rec->v += 1.0f;
+	rec->uv_chess_board = false;
 }
 
 // @details returns if the given cone is hit by the given ray in given interval.

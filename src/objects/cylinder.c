@@ -26,6 +26,7 @@ static void	set_uv(t_hit_cy_vars *var, t_hit_record *rec, t_obj *cy)
 	rec->v = fmodf(rec->v, 1.0f);
 	if (rec->v < 0) 
 		rec->v += 1.0f;
+	rec->uv_chess_board = false;
 }
 
 bool	cy_hit(t_obj *cy, t_ray *ray, t_interval *interval, t_hit_record *rec)

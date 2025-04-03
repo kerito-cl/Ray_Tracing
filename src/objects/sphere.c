@@ -47,5 +47,6 @@ bool	sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval,
 	set_face_normal(*ray, var.outward_normal, rec);
 	rec->u = (atan2f(-var.outward_normal.z, var.outward_normal.x) + PI) / (2.0f * PI);
 	rec->v = acosf(-var.outward_normal.y) / PI;
+	rec->uv_chess_board = false;
 	return true;
 }

@@ -10,15 +10,18 @@ t_color	texutre_constant_color(t_info *info, t_material *mat, t_hit_record *rec)
 
 t_color	texture_checker_color(t_info *info, t_material *mat, t_hit_record *rec)
 {
-    float u_scaled;
-    float v_scaled;
+	float	inv_scale;
+	int		res;
 
-    (void)info;
-    u_scaled = floorf(rec->u * mat->scale);
-    v_scaled = floorf(rec->v * mat->scale);
-    if (((int)u_scaled + (int)v_scaled) % 2 == 0)
-        return (mat->albedo);
-    return (mat->albedo2);
+	inv_scale = 1.0f / mat->scale;
+	if (rec->uv_chess_board)
+		res = (int)floorf(rec->u * inv_scale) + (int)floorf(rec->v * inv_scale);
+	else
+		res = (int)floorf(rec->p.x * inv_scale) + (int)floorf(rec->p.y
+				* inv_scale) + (int)floorf(rec->p.z * inv_scale);
+	if (res % 2 == 0)
+		return (mat->albedo);
+	return (mat->albedo2);
 }
 
 t_color	texture_img_color(t_info *info, t_material *mat, t_hit_record *rec)

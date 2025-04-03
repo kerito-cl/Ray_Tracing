@@ -231,6 +231,7 @@ typedef struct s_hit_record
 	t_material				*material;
 	float					t;
 	bool					front_face;
+	bool					uv_chess_board;
 	bool					ray_type;
 	float					u;
 	float					v;

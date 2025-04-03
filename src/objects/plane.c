@@ -37,5 +37,6 @@ bool	pl_hit(t_obj *plane, t_ray *ray, t_interval *interval,
 		rec->u += 1.0f;
 	if (rec->v < 0) 
 		rec->v += 1.0f;
+	rec->uv_chess_board = true;
 	return (true);
 }

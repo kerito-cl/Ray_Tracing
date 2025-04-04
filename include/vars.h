@@ -27,8 +27,7 @@ typedef struct s_hit_cy_vars
 	t_vec3			x;
 	t_vec3			v;
 	t_vec3			hit_vec;
-	float			t0;
-	float			t1;
+	float			t[2];
 	float			a;
 	float			b;
 	float			c;
@@ -54,5 +53,17 @@ typedef struct s_hit_cone_vars
 	t_vec3			p_base;
 
 } t_hit_cone_vars;
+
+typedef struct s_hit_box_vars
+{
+	t_vec3		inv_d;
+	t_vec3		tmin;
+	t_vec3		tmax;
+	t_vec3		t0;
+	t_vec3		t1;
+	float		tminf;
+	float		tmaxf;
+
+}  t_hit_box_vars;
 
 #endif

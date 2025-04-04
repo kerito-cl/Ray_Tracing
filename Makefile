@@ -8,13 +8,16 @@ HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)
 LIBS	:= $(LIBMLX)/build/libmlx42.a
 
 OBJ_DIR	:= obj
-SRCS	:= src/main.c src/error.c src/parse.c src/arena.c src/utils.c \
-			src/assign_geo_objects.c  src/interval.c src/material.c \
+SRCS	:= src/main.c src/error.c src/parser/parse.c src/parser/arena.c src/parser/utils.c \
+			src/parser/assign_geo_objects.c src/parser/assign_material.c src/parser/parse_utils.c \
+			src/parser/create_objects.c src/parser/assign_geo_objects2.c\
+			src/interval.c src/material.c \
 			src/vec3/vec_methods.c src/vec3/vec_methods2.c src/vec3/vec_methods3.c src/vec3/vec_methods4.c src/vec3/vec_methods5.c src/vec3/vec_methods6.c \
-			src/objects/quadrics_supp.c src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c src/objects/cone.c \
+			src/objects/quadrics_supp.c src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c src/objects/cone.c src/objects/box.c \
 			src/ui/hook.c src/ui/hook_supp.c \
 			src/texture.c \
-			src/camera/camera.c src/camera/camera_supp.c  src/camera/camera_supp2.c\
+			src/threads/camera_thread.c src/threads/thread_utils.c \
+			src/camera/camera_supp.c  src/camera/camera_supp2.c\
 		  gnl/get_next_line.c gnl/get_next_line_utils.c
 
 OBJS	:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
@@ -23,7 +26,14 @@ LIBFT	:= -L$(LIBFT_DIR) -lft
 all: libmlx libft $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src/vec3 $(OBJ_DIR)/gnl $(OBJ_DIR)/src $(OBJ_DIR)/src/objects $(OBJ_DIR)/src/camera $(OBJ_DIR)/src/ui
+	@mkdir -p \
+	$(OBJ_DIR)/src/vec3 \
+	$(OBJ_DIR)/gnl $(OBJ_DIR)/src \
+	$(OBJ_DIR)/src/objects \
+	$(OBJ_DIR)/src/parser \
+	$(OBJ_DIR)/src/camera \
+	$(OBJ_DIR)/src/threads \
+	$(OBJ_DIR)/src/ui
 
 libft:
 	@echo "building libft"
@@ -42,6 +52,16 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 
 $(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -ldl -lglfw -pthread -lm -o $(NAME)
+	@echo "\n\033[1;34m                        ######  ####### \033[0m"
+	@echo "\033[1;34m  ##   ## # #    # #    #     #    #    \033[0m"
+	@echo "\033[1;34m  # # # # # ##   # #    #     #    #    \033[0m"
+	@echo "\033[1;34m  #  #  # # # #  # #    ######     #    \033[0m"
+	@echo "\033[1;34m  #     # # #  # # #    #   #      #    \033[0m"
+	@echo "\033[1;34m  #     # # #   ## #    #    #     #    \033[0m"
+	@echo "\033[1;34m  #     # # #    # #    #     #    #    \033[0m"
+	@echo "\n\033[1;32mWelcome to Mini RT!\033[0m"
+	@echo "Usage: ./miniRT <scene.rt>"
+	@echo "Example: ./miniRT scenes/example.rt"
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -56,4 +76,6 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libmlx libft
+
+
 

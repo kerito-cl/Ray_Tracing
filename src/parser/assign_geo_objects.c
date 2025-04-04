@@ -1,4 +1,3 @@
-
 #include "mini_rt.h"
 
 bool		sp_hit(t_obj *sphere, t_ray *ray, t_interval *interval,

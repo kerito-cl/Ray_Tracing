@@ -42,5 +42,5 @@ t_color	texture_img_color(t_info *info, t_material *mat, t_hit_record *rec)
 		y = texture->height - 1;
 	index = (y * texture->width + x) * texture->bytes_per_pixel;
 	return (vec3_new(texture->pixels[index + 0] / 255.0f, texture->pixels[index
-			+ 1] / 255.0f, texture->pixels[index + 2] / 255.0f));
+				+ 1] / 255.0f, texture->pixels[index + 2] / 255.0f));
 }

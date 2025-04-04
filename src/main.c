@@ -1,4 +1,3 @@
-
 #include "MLX42/MLX42.h"
 #include "mini_rt.h"
 
@@ -8,6 +7,7 @@ void	print_vec3(t_vec3 vec3)
 	printf("y : %f\n", vec3.y);
 	printf("z : %f\n", vec3.z);
 }
+
 int	main(int argc, char **argv)
 {
 	t_info	info;

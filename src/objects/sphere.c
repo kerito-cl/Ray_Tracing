@@ -2,16 +2,16 @@
 #include "vars.h"
 
 // @brief set the uv for spher hit.
-static void set_uv(t_hit_record *rec, t_sp_hit_vars *var)
+static void	set_uv(t_hit_record *rec, t_sp_hit_vars *var)
 {
-	rec->u = (atan2f(-var->outward_normal.z, var->outward_normal.x) + PI) / (2.0f
-			* PI);
+	rec->u = (atan2f(-var->outward_normal.z, var->outward_normal.x) + PI)
+		/ (2.0f * PI);
 	rec->v = acosf(-var->outward_normal.y) / PI;
 	rec->uv_chess_board = false;
 }
 
-// @details returns if the given sphere is hit by the given ray in given interval.
-// and fill the given rec.
+// @details returns if the given sphere is hit by the given ray 
+// in given interval and fill the given rec.
 //
 // The math is:
 //

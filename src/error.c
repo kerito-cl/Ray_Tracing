@@ -1,4 +1,3 @@
-
 #include "mini_rt.h"
 
 void	free_all(t_info *info)
@@ -44,7 +43,7 @@ int	check_if_rt(char *str)
 	while (str[i])
 	{
 		if (str[i] == '.' && str[i + 1] == 'r' && str[i + 2] == 't' && str[i
-			+ 3] == '\0')
+				+ 3] == '\0')
 			return (1);
 		i++;
 	}
@@ -59,8 +58,9 @@ void	free_arena_exit(t_info *info)
 
 void	exit_free_parser(t_info *info, char **split, int n)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (i < info->texture_count)
 		mlx_delete_texture(info->textures[i++]);
 	freesplit(split);

@@ -19,7 +19,7 @@ static void	set_normal(t_obj *box, t_hit_record *rec)
 }
 
 // @brief help to set the uv for norm.
-static void set_uv_helper(t_hit_record *rec)
+static void	set_uv_helper(t_hit_record *rec)
 {
 	if (rec->u < 0)
 		rec->u += 1.0f;
@@ -56,7 +56,8 @@ static void	set_uv(t_obj *box, t_hit_record *rec)
 	rec->uv_chess_board = true;
 }
 
-// @details returns if the given aabb box is hit by the given ray in given interval.
+// @details returns if the given aabb box is hit by the given ray 
+// in given interval.
 // and fill the given rec.
 //
 //
@@ -66,7 +67,8 @@ static void	set_uv(t_obj *box, t_hit_record *rec)
 //	we compute the intersection of the ray with the two slabs
 //   (planes) that define the min and max bounds along that axis.
 //
-// - We keep track of the largest minimum t (entry point) and the smallest maximum t (exit point).
+//	- We keep track of the largest minimum t (entry point) and 
+// the smallest maximum t (exit point).
 // - If at any point, t_min > t_max, the ray misses the box.
 //
 // The process:

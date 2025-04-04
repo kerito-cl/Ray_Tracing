@@ -1,4 +1,3 @@
-
 #include "mini_rt.h"
 #include "vars.h"
 

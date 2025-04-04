@@ -1,4 +1,3 @@
-
 #include "mini_rt.h"
 
 static void	assign_str_to_vec(t_vec3 *vec3, char **cvec, bool *isvalid,
@@ -51,6 +50,7 @@ t_point	ray_at(t_ray *ray, double t)
 			* ray->direc.y, ray->orig.z + t * ray->direc.z);
 	return (point);
 }
+
 void	set_face_normal(t_ray r, t_vec3 outward_normal, t_hit_record *rec)
 {
 	rec->front_face = vec3_dot(r.direc, outward_normal) < 0;

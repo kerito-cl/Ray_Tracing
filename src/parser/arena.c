@@ -1,4 +1,3 @@
-
 #include "mini_rt.h"
 
 t_arena	*arena_init(size_t size)

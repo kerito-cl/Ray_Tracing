@@ -1,7 +1,6 @@
 #include "mini_rt.h"
 
-void		assign_texture_info(t_info *info, char *texture, int i,
-	char **split);
+void	assign_texture_info(t_info *info, char *texture, int i, char **split);
 
 void	create_box_info(t_info *info, char **split, int i, bool *isvalid)
 {

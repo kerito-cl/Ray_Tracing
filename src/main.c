@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(info.mlx, handle_key_press_event, &info);
 	mlx_resize_hook(info.mlx, handle_screen_resize, &info);
 	mlx_loop(info.mlx);
-	//destroy_thread_pool();
+	// destroy_thread_pool();
 	free_all(&info);
 	return (0);
 }

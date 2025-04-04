@@ -51,7 +51,7 @@ static void	*thr_draw(void *param)
 		row = 0;
 		if (!render(thr, info, row))
 		{
-        	atomic_fetch_add(&info->pool.start_task, 1);
+			atomic_fetch_add(&info->pool.start_task, 1);
 			return (NULL);
 		}
 	}
@@ -76,7 +76,7 @@ void	init_thread_pool(t_info *info)
 	while (i < THREADS_AMOUNT)
 	{
 		if (pthread_create(&info->pool.threads[i], NULL, thr_draw,
-			&info->pool.thr_data[i]))
+				&info->pool.thr_data[i]))
 			free_all(info);
 		i++;
 	}

@@ -32,6 +32,7 @@ static void set_uv(t_hit_cone_vars *var, t_hit_record *rec, t_obj *cone)
 		rec->u += 1.0f;
 	if (rec->v < 0) 
 		rec->v += 1.0f;
+	rec->uv_chess_board = false;
 }
 
 // @details returns if the given cone is hit by the given ray in given interval.
@@ -81,6 +82,7 @@ bool	cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, t_hit_record *rec)
 	var.m = vec3_dot(vec3_sub_vecs(rec->p, cone->point), cone->normal);
 	var.p_base = vec3_add_vecs(cone->point, vec3_mul_vec(cone->normal, var.m));
 	rec->normal = vec3_unit(vec3_sub_vecs(vec3_unit(vec3_sub_vecs(rec->p, var.p_base)), vec3_mul_vec(cone->normal, var.cos2)));
+	set_face_normal(*ray, rec->normal, rec);
 	if (vec3_dot(rec->normal, ray->direc) > 0)
 		rec->normal = vec3_mul_vec(rec->normal, -1);
 	set_uv(&var, rec, cone);

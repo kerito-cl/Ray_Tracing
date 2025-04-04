@@ -54,19 +54,13 @@ bool	dielectric_scatter(t_ray *r_in, t_hit_record *rec, t_vec3 *attenuation,
 	float	cos_theta;
 	bool	cannot_refract;
 	t_vec3	direction;
-
+ 
 	*attenuation = vec3_new(1, 1, 1);
 	r1 = rec->material->ref_idx;
 	if (rec->front_face)
 		r1 = 1.0 / rec->material->ref_idx;
 	unit_direction = vec3_unit(r_in->direc);
-	cos_theta = fminf(vec3_dot(vec3_flip_minus(unit_direction), rec->normal),
-			1.0);
-	cannot_refract = r1 * sqrtf(1.0 - cos_theta * cos_theta) > 1.0;
-	if (cannot_refract || reflectance(cos_theta, r1) > RANDOM_FLOAT)
-		direction = vec3_reflect(unit_direction, rec->normal);
-	else
-		direction = vec3_refract(unit_direction, rec->normal, r1);
+	direction = vec3_refract(unit_direction, rec->normal, r1);
 	scattered->orig = rec->p;
 	scattered->direc = direction;
 	scattered->type = REFECTION_RAY;

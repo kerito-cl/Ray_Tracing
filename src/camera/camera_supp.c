@@ -62,6 +62,7 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 	ray.orig = c->point;
 	ray.direc = vec3_unit(vec3_sub_vecs(pixel_sample, c->point));
 	ray.type = CAM_RAY;
+	//atomic.add camera_rendered
 	return (ray);
 }
 
@@ -82,7 +83,6 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	int					i;
 	bool				is_shadow;
 
-	info->hit_itself = false;
 	color = get_phong_ambient(info);
 	var.cam_ray = ray;
 	var.cam_rec = rec;
@@ -91,11 +91,6 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	var.interval = interval_default();
 	i = 0;
 	is_shadow = true;
-	info->light_outside = true;
-	info->camera_outside = true;
-	if (vec3_length(vec3_sub_vecs(ray->orig,
-				info->obj[info->index].point)) <= info->obj[info->index].radius)
-		info->camera_outside = false;
 	while (i < info->light_count)
 	{
 		var.interval.max = INFINITY;

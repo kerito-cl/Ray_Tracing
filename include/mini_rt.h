@@ -5,7 +5,6 @@
 # include "constants.h"
 # include "get_next_line.h"
 # include "libft.h"
-# include "vec3.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -21,6 +20,14 @@ typedef struct s_material	t_material;
 typedef struct s_hit_record	t_hit_record;
 typedef struct s_obj		t_obj;
 typedef struct s_info		t_info;
+
+// Represents a vector.
+typedef struct s_vec3
+{
+	float					x;
+	float					y;
+	float					z;
+}							t_vec3;
 
 // Represents a color.
 typedef t_vec3				t_color;
@@ -359,16 +366,16 @@ void						allocate_objects(char *file, t_info *info);
 
 /*   Assign material    */
 
-void	assign_lights(t_info *info, char *material, int i,
-		char **split);
-void	assign_metal(t_info *info, char *material, int i,
-		char **split);
-void	assign_glass(t_info *info, char *material, int i,
-		char **split);
-void	assign_air(t_info *info, char *material, int i,
-		char **split);
-void	assign_water(t_info *info, char *material, int i,
-		char **split);
+void						assign_lights(t_info *info, char *material, int i,
+								char **split);
+void						assign_metal(t_info *info, char *material, int i,
+								char **split);
+void						assign_glass(t_info *info, char *material, int i,
+								char **split);
+void						assign_air(t_info *info, char *material, int i,
+								char **split);
+void						assign_water(t_info *info, char *material, int i,
+								char **split);
 
 /* HIT OBJ*/
 // Check the `hit` in t_obj.
@@ -399,10 +406,10 @@ bool						pl_hit(t_obj *plane, t_ray *ray,
 								t_interval *interval, t_hit_record *rec);
 bool						cy_hit(t_obj *cy, t_ray *ray, t_interval *interval,
 								t_hit_record *rec);
-bool						cn_hit(t_obj *cone, t_ray *ray, t_interval *interval, 
-								t_hit_record *rec);
-bool						box_hit(t_obj *box, t_ray *ray, t_interval *interval, 
-								t_hit_record *rec);
+bool						cn_hit(t_obj *cone, t_ray *ray,
+								t_interval *interval, t_hit_record *rec);
+bool						box_hit(t_obj *box, t_ray *ray,
+								t_interval *interval, t_hit_record *rec);
 
 /* Camera */
 
@@ -480,9 +487,9 @@ t_color						vec3_sky(void);
 bool						vec3_near_black(t_color color);
 t_color						vec3_black(void);
 t_color						vec3_avoid_overflow(t_vec3 color);
-t_vec3 						vec3_div(float number, t_vec3 vec);
-t_vec3 						vec3_min(t_vec3 vec1, t_vec3 vec2);
-t_vec3 						vec3_max(t_vec3 vec1, t_vec3 vec2);
+t_vec3						vec3_div(float number, t_vec3 vec);
+t_vec3						vec3_min(t_vec3 vec1, t_vec3 vec2);
+t_vec3						vec3_max(t_vec3 vec1, t_vec3 vec2);
 
 /*			INTERVAL						*/
 
@@ -510,7 +517,6 @@ t_point						ray_at(t_ray *ray, double t);
 void						set_face_normal(t_ray r, t_vec3 outward_normal,
 								t_hit_record *rec);
 
-
 // @brief To solve if and what is the valid `t` in : at² + bt + c = 0
 //
 // The question equlas:
@@ -519,8 +525,8 @@ void						set_face_normal(t_ray r, t_vec3 outward_normal,
 // @param a b c: a, b, c in at² + bt + c = 0.
 // @param [t] to store the possible result `t`, and t[0] < t[1].
 // @return if there is at least one valid `t`.
-bool						cal_quadratic(float a, float b, float c, float t[2]);			
-
+bool						cal_quadratic(float a, float b, float c,
+								float t[2]);
 
 bool						lambertian_scatter(t_ray *r_in, t_hit_record *rec,
 								t_vec3 *attenuation, t_ray *scattered);
@@ -550,6 +556,6 @@ t_color						texture_img_color(t_info *info, t_material *mat,
 
 /*  Threading functions */
 
-void 						init_thread_pool(t_info *info);
+void						init_thread_pool(t_info *info);
 
 #endif

@@ -13,28 +13,22 @@ unsigned int	get_color(t_vec3 vec)
 				* 255) << 16) | ((uint8_t)(vec.z * 255) << 8) | 255);
 }
 
-void	break_point(int i)
-{
-	printf("%d\n", i);
-	return ;
-}
-
-void camera_render(t_info *info) 
+void	camera_render(t_info *info)
 {
 	if (atomic_load(&info->pool.abort_signal) == -1)
 	{
 		camera_init(&info->c);
 		atomic_store(&info->pool.abort_signal, 1);
-		atomic_fetch_add(&info->pool.work_available,1);
+		atomic_fetch_add(&info->pool.work_available, 1);
 	}
 	else
 	{
 		atomic_store(&info->pool.abort_signal, 0);
-		while(atomic_load(&info->pool.start_task) != THREADS_AMOUNT)
+		while (atomic_load(&info->pool.start_task) != THREADS_AMOUNT)
 			usleep(1);
 		camera_init(&info->c);
 		atomic_store(&info->pool.abort_signal, 1);
-		atomic_fetch_add(&info->pool.work_available,1);
+		atomic_fetch_add(&info->pool.work_available, 1);
 	}
 }
 

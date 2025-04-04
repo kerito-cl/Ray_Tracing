@@ -1,6 +1,5 @@
 #include "constants.h"
 #include "mini_rt.h"
-#include <sys/time.h>
 
 void			camera_init(t_cam *c);
 t_ray			camera_get_ray(t_cam *c, int i, int j);
@@ -13,12 +12,6 @@ unsigned int	get_color(t_vec3 vec)
 				* 255) << 16) | ((uint8_t)(vec.z * 255) << 8) | 255);
 }
 
-void	break_point(int i)
-{
-	printf("%d\n", i);
-	return ;
-}
-
 // @details to render by iterate all the pixels.
 void	camera_render(t_info *info)
 {
@@ -28,18 +21,14 @@ void	camera_render(t_info *info)
 	t_color		color;
 	uint32_t	packed_color;
 
-	struct timeval start, end;
 	camera_init(&info->c);
 	j = 0;
 	ray.orig = info->c.point;
-	gettimeofday(&start, NULL);
 	while (j < info->c.image_height)
 	{
 		i = 0;
 		while (i < info->c.image_width)
 		{
-			if (j == 524 && i == 1249)
-				break_point(i);
 			ray = camera_get_ray(&info->c, i, j);
 			color = camera_ray_color(info, ray, &info->obj, MAX_DEPTH);
 			packed_color = get_color(color);
@@ -48,9 +37,6 @@ void	camera_render(t_info *info)
 		}
 		++j;
 	}
-	gettimeofday(&end, NULL);
-	printf("Render time: %ld ms\n", (end.tv_sec - start.tv_sec) * 1000L
-		+ (end.tv_usec - start.tv_usec) / 1000L);
 }
 
 void	camera_start(t_info *info)

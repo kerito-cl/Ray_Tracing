@@ -62,7 +62,6 @@ t_ray	camera_get_ray(t_cam *c, int i, int j)
 	ray.orig = c->point;
 	ray.direc = vec3_unit(vec3_sub_vecs(pixel_sample, c->point));
 	ray.type = CAM_RAY;
-	//atomic.add camera_rendered
 	return (ray);
 }
 
@@ -105,7 +104,8 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		}
 		++i;
 	}
-	color = vec3_mul_colors(rec->material->texture_get_color(info, rec->material, rec), color);
+	color = vec3_mul_colors(rec->material->texture_get_color(info,
+				rec->material, rec), color);
 	return (color);
 }
 

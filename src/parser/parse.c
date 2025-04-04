@@ -113,9 +113,3 @@ void	parse(char *file, t_info *info)
 	}
 	close(fd);
 }
-
-// info->obj = ft_memmove(info->l + info->light_count, info->obj,
-//		sizeof(t_obj));
-//* info->pl_count);
-// info->cy = ft_memmove(info->pl + info->pl_count, info->cy, sizeof(t_cy)
-//* info->cy_count);

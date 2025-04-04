@@ -82,8 +82,8 @@ void	assign_texture_info(t_info *info, char *texture, int i, char **split)
 
 void	create_object_info(t_info *info, char **split)
 {
-	bool isvalid;
-	static int i = 0;
+	bool		isvalid;
+	static int	i = 0;
 
 	isvalid = true;
 	if (ft_strncmp(split[0], "pl", ft_strlen(split[0])) == 0)

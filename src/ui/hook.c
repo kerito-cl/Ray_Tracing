@@ -8,9 +8,8 @@ void	handle_win_close_event(void *param)
 	t_info	*info;
 
 	info = (t_info *)param;
-
 	atomic_store(&info->pool.work_available, -1);
-	while(atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
+	while (atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
 		usleep(200);
 	free_all(info);
 }
@@ -73,7 +72,7 @@ void	handle_key_press_event(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
 		atomic_store(&info->pool.work_available, -1);
-		while(atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
+		while (atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
 			usleep(200);
 		free_all(info);
 	}

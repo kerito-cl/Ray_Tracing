@@ -2,7 +2,8 @@
 #include "mini_rt.h"
 #include "vars.h"
 
-static float	assign_t_value(t_hit_cy_vars *var, t_obj *cy, t_interval *interval)
+static float	assign_t_value(t_hit_cy_vars *var, t_obj *cy,
+		t_interval *interval)
 {
 	var->m = var->d_dot * var->t[0] + var->x_dot;
 	if (var->t[0] >= 0 && var->m >= 0.0 && var->m < cy->height
@@ -21,10 +22,10 @@ static void	set_uv(t_hit_cy_vars *var, t_hit_record *rec, t_obj *cy)
 	rec->u = (atan2f(var->hit_vec.z, var->hit_vec.x) + PI) / (2 * PI);
 	rec->v = var->m / cy->height;
 	rec->u = fmodf(rec->u, 1.0f);
-	if (rec->u < 0) 
+	if (rec->u < 0)
 		rec->u += 1.0f;
 	rec->v = fmodf(rec->v, 1.0f);
-	if (rec->v < 0) 
+	if (rec->v < 0)
 		rec->v += 1.0f;
 	rec->uv_chess_board = false;
 }

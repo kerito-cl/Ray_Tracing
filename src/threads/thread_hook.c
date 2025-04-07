@@ -33,7 +33,9 @@ void	handle_rotation_lr(t_info *info, keys_t key)
 		orient.x = info->c.orient.x * cos + info->c.orient.z * sin;
 		orient.z = info->c.orient.z * cos - info->c.orient.x * sin;
 	}
+	wait_for_threads(info);
 	info->c.orient = vec3_unit(orient);
+	camera_init(&info->c);
 	camera_render(info);
 }
 
@@ -56,7 +58,9 @@ void	handle_rotation_ud(t_info *info, keys_t key)
 		orient.y = info->c.orient.y * cos + info->c.orient.z * sin;
 		orient.z = info->c.orient.z * cos - info->c.orient.y * sin;
 	}
+	wait_for_threads(info);
 	info->c.orient = vec3_unit(orient);
+	camera_init(&info->c);
 	camera_render(info);
 }
 

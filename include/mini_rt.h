@@ -557,5 +557,6 @@ t_color						texture_img_color(t_info *info, t_material *mat,
 /*  Threading functions */
 
 void						init_thread_pool(t_info *info);
+void 						wait_for_threads(t_info	*info);
 
 #endif

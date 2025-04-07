@@ -23,18 +23,6 @@ inline t_vec3	vec3_refract(t_vec3 uv, t_vec3 n, float etai_over_etat)
 	return (vec3_add_vecs(r_out_perp, r_out_parallel));
 }
 
-inline t_vec3	vec3_random_in_unit_disk(void)
-{
-	t_vec3	p;
-
-	while (true)
-	{
-		p = vec3_new(RANDOM_FLOAT_RANGE(-1, 1), RANDOM_FLOAT_RANGE(-1, 1), 0);
-		if (vec3_length_squared(p) < 1)
-			return (p);
-	}
-}
-
 inline t_color	vec3_mul_colors(t_vec3 vec1, t_vec3 vec2)
 {
 	t_color	color;

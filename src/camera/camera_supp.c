@@ -22,25 +22,27 @@ t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
 // pixel00_loc = top_left and shift by half pixel.
 void	camera_init(t_cam *c)
 {
-	c->look_at = vec3_add_vecs(c->point, c->orient);
-	c->aspect_ratio = (float)c->image_width / c->image_height;
-	c->vfov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / c->aspect_ratio);
+	t_camera_init_vars var;
+
+	var.look_at = vec3_add_vecs(c->point, c->orient);
+	var.aspect_ratio = (float)c->image_width / c->image_height;
+	var.vfov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / var.aspect_ratio);
 	c->w = vec3_flip_minus(c->orient);
-	c->right = vec3_unit(vec3_cross(vec3_new(0, 1, 0), c->w));
-	c->vup = vec3_flip_minus(vec3_cross(c->right, c->w));
-	c->u = vec3_unit(vec3_cross(c->vup, c->w));
-	c->v = vec3_cross(c->w, c->u);
-	c->focal_length = vec3_length(vec3_sub_vecs(c->point, c->look_at));
-	c->viewport_height = 2.0 * tanf(c->vfov / 2) * c->focal_length;
-	c->viewport_width = c->aspect_ratio * c->viewport_height;
-	c->viewport_u = vec3_mul_vec(c->u, c->viewport_width);
-	c->viewport_v = vec3_mul_vec(c->v, -c->viewport_height);
-	c->pixel_delta_u = vec3_div_vec(c->viewport_u, c->image_width);
-	c->pixel_delta_v = vec3_div_vec(c->viewport_v, c->image_height);
-	c->top_left = vec3_sub_vecs(c->look_at,
-			vec3_add_vecs(vec3_div_vec(c->viewport_u, 2),
-				vec3_div_vec(c->viewport_v, 2)));
-	c->pixel00_loc = vec3_add_vecs(c->top_left,
+	var.right = vec3_unit(vec3_cross(vec3_new(0, 1, 0), c->w));
+	var.vup = vec3_flip_minus(vec3_cross(var.right, c->w));
+	c->u = vec3_unit(vec3_cross(var.vup, c->w));
+	var.v = vec3_cross(c->w, c->u);
+	var.focal_length = vec3_length(vec3_sub_vecs(c->point, var.look_at));
+	var.viewport_height = 2.0 * tanf(var.vfov / 2) * var.focal_length;
+	var.viewport_width = var.aspect_ratio * var.viewport_height;
+	var.viewport_u = vec3_mul_vec(c->u, var.viewport_width);
+	var.viewport_v = vec3_mul_vec(var.v, -var.viewport_height);
+	c->pixel_delta_u = vec3_div_vec(var.viewport_u, c->image_width);
+	c->pixel_delta_v = vec3_div_vec(var.viewport_v, c->image_height);
+	var.top_left = vec3_sub_vecs(var.look_at,
+			vec3_add_vecs(vec3_div_vec(var.viewport_u, 2),
+				vec3_div_vec(var.viewport_v, 2)));
+	c->pixel00_loc = vec3_add_vecs(var.top_left,
 			vec3_mul_vec(vec3_add_vecs(c->pixel_delta_u, c->pixel_delta_v),
 				0.5));
 }

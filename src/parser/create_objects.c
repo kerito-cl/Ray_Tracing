@@ -68,7 +68,6 @@ void	assign_texture_info(t_info *info, char *texture, int i, char **split)
 	{
 		info->obj[i].material.albedo2 = vec3_sub_vecs(vec3_new(1, 1, 1),
 				info->obj[i].rgb);
-		vec3_print(info->obj[i].material.albedo2);
 		info->obj[i].material.texture_get_color = texture_checker_color;
 	}
 	else if (ft_strncmp(texture, "F:", 2) == 0)

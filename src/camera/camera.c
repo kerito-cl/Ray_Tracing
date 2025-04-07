@@ -41,9 +41,9 @@ void	camera_render(t_info *info)
 
 void	camera_start(t_info *info)
 {
-	info->c.image_height = IMG_HEIGHT;
-	info->c.image_width = IMG_WIDTH;
-	info->mlx = mlx_init(IMG_WIDTH, IMG_HEIGHT, "KD MiniRT", true);
+	info->c.image_height = DEFAULT_HEIGHT;
+	info->c.image_width = DEFAULT_WIDTH;
+	info->mlx = mlx_init(DEFAULT_WIDTH, DEFAULT_HEIGHT, "KD MiniRT", true);
 	info->img = mlx_new_image(info->mlx, info->c.image_width,
 			info->c.image_height);
 	if (!info->img || mlx_image_to_window(info->mlx, info->img, 0, 0) < 0)
@@ -53,10 +53,8 @@ void	camera_start(t_info *info)
 
 void	camera_resize_screen(t_info *info, int image_width, int image_height)
 {
-	if (image_height < MAX_HEIGHT)
-		info->c.image_height = image_height / 8 * 8;
-	if (image_height < MAX_WIDTH)
-		info->c.image_width = image_width / 8 * 8;
+	info->c.image_height = image_height / THREADS_AMOUNT * THREADS_AMOUNT;
+	info->c.image_width = image_width / THREADS_AMOUNT * THREADS_AMOUNT;
 	if (!mlx_resize_image(info->img, info->c.image_width, info->c.image_height))
 		free_all(info);
 	camera_render(info);

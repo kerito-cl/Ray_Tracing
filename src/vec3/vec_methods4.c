@@ -26,17 +26,14 @@ inline t_vec3	vec3_random_unit_vector(void)
 	}
 }
 
-inline t_vec3	vec3_random_on_hemisphere(t_vec3 normal)
+inline t_vec3	vec3_min(t_vec3 vec1, t_vec3 vec2)
 {
-	t_vec3	random;
-
-	random = vec3_random_unit_vector();
-	if (vec3_dot(random, normal) > 0)
-		return (random);
-	return (vec3_flip_minus(random));
+	return (vec3_new(fminf(vec1.x, vec2.x), fminf(vec1.y, vec2.y), fminf(vec1.z,
+				vec2.z)));
 }
 
-inline t_vec3	vec3_copy(t_vec3 vec)
+inline t_vec3	vec3_max(t_vec3 vec1, t_vec3 vec2)
 {
-	return (vec3_new(vec.x, vec.y, vec.z));
+	return (vec3_new(fmaxf(vec1.x, vec2.x), fmaxf(vec1.y, vec2.y), fmaxf(vec1.z,
+				vec2.z)));
 }

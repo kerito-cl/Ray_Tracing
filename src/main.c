@@ -21,8 +21,9 @@ int	main(int argc, char **argv)
 	if (!info.arena)
 		throw_error(0);
 	parse(argv[1], &info);
-	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
+	
 	camera_start(&info);
+	mlx_set_window_limit(info.mlx, MIN_WIDTH, MIN_HEIGHT, MAX_WIDTH, MAX_HEIGHT);
 	mlx_close_hook(info.mlx, handle_win_close_event, &info);
 	mlx_key_hook(info.mlx, handle_key_press_event, &info);
 	mlx_resize_hook(info.mlx, handle_screen_resize, &info);

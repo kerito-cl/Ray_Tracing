@@ -6,7 +6,7 @@ t_color	get_phong_ambient(t_info *info)
 {
 	t_color	a_light;
 
-	a_light = vec3_copy(info->a.rgb);
+	a_light = info->a.rgb;
 	a_light = vec3_mul_vec(a_light, info->a.ratio);
 	return (a_light);
 }

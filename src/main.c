@@ -17,7 +17,9 @@ int	main(int argc, char **argv)
 	if (argc != 2 || check_if_rt(argv[1]) == 0)
 		throw_error(0);
 	ft_bzero(&info, sizeof(t_info));
-	info.arena = arena_init(10240000);
+	info.arena = arena_init(MAX_MEMORY);
+	if (!info.arena)
+		throw_error(0);
 	parse(argv[1], &info);
 	printf("NUMBER OF OBJECTS %u\n", info.obj_count);
 	camera_start(&info);
@@ -25,7 +27,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(info.mlx, handle_key_press_event, &info);
 	mlx_resize_hook(info.mlx, handle_screen_resize, &info);
 	mlx_loop(info.mlx);
-	// destroy_thread_pool();
 	free_all(&info);
 	return (0);
 }

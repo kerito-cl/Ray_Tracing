@@ -1,6 +1,7 @@
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
+# define MAX_MEMORY 10240000
 # define MOVE_STEP 1.0f
 # define ROTATE_STEP DTR(10)
 # define LIGHT_VISIBLE 0

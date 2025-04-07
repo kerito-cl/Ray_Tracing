@@ -81,3 +81,10 @@ void	init_thread_pool(t_info *info)
 		i++;
 	}
 }
+
+void	wait_for_threads(t_info *info)
+{
+	atomic_store(&info->pool.abort_signal, 0);
+	while (atomic_load(&info->pool.start_task) != (THREADS_AMOUNT))
+		usleep(200);
+}

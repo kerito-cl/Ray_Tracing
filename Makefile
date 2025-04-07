@@ -6,8 +6,10 @@ LIBMLX	:= ./MLX42
 LIB_URL := https://github.com/codam-coding-college/MLX42
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I $(LIBFT_DIR)
 LIBS	:= $(LIBMLX)/build/libmlx42.a
-THREAD	:= src/threads/camera_thread.c src/threads/thread_utils.c src/threads/thread_hook.c
-CAMERA	:= src/camera/camera_supp.c src/camera/camera_supp2.c src/camera/camera.c src/ui/hook.c
+THREAD	:= src/threads/camera_thread.c src/threads/thread_utils.c src/threads/thread_hook.c \
+		src/threads/thread_hook_supp.c
+CAMERA	:= src/camera/camera_supp.c src/camera/camera_supp2.c src/camera/camera.c src/ui/hook.c \
+		src/ui/hook_supp.c
 OBJ_DIR	:= obj
 SRCS	:= src/main.c src/error.c src/parser/parse.c src/parser/arena.c src/parser/utils.c \
 			src/parser/assign_geo_objects.c src/parser/assign_material.c src/parser/parse_utils.c \
@@ -15,7 +17,6 @@ SRCS	:= src/main.c src/error.c src/parser/parse.c src/parser/arena.c src/parser/
 			src/interval.c src/material.c \
 			src/vec3/vec_methods.c src/vec3/vec_methods2.c src/vec3/vec_methods3.c src/vec3/vec_methods4.c src/vec3/vec_methods5.c src/vec3/vec_methods6.c  \
 			src/objects/quadrics_supp.c src/objects/objects.c src/objects/sphere.c src/objects/plane.c src/objects/cylinder.c src/objects/cone.c src/objects/box.c \
-			src/ui/hook_supp.c \
 			src/texture.c \
 			$(THREAD) \
 			src/camera/camera_supp.c  src/camera/camera_supp2.c\

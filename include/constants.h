@@ -15,10 +15,12 @@
 # define PI (float)3.14159265358979323846
 # define SHININESS 30
 # define MAX_DEPTH 10
-# define IMG_WIDTH 1920
-# define IMG_HEIGHT 1080
-# define MAX_WIDTH 1920
-# define MAX_HEIGHT 1080
+# define DEFAULT_WIDTH 1920
+# define DEFAULT_HEIGHT 1080
+# define MIN_WIDTH 192
+# define MIN_HEIGHT 108
+# define MAX_WIDTH 3840
+# define MAX_HEIGHT 2160
 # define TILE_SIZE 16
 # define THREADS_AMOUNT 8
 # define DTR(degrees) (degrees * PI / 180.0)

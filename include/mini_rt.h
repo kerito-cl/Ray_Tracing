@@ -130,48 +130,18 @@ typedef struct s_arena
 //
 //
 // These are helper properties, and the value is assigned when init the camera.
-//
-// look_at: the center point of the image plane.
-//
-// vfov: the Vertical Field of View, means the angle of viewpoint,
-//       the value is affected by focal which is the distance
-//       from point of camera to point of image, and the size of image.
-//       vfov = 2 * arctan((sizeof_image_plane / 2) / distance)
-//
-// vup: The up direction in world space (Y-axis direction).
-//      It normally points to (0, 1, 0),
-//    	representing the world's upward direction.
-//
 // u: the rightward unit vector in the image plane, the direction to right.
 //    when the camara is normally placed, the u is 1, 0, 0.
 //    = unit(cross(vup, w)).
-// v: the upward unit vector in the image plane, the direction to up.
-//    when the camara is normally placed, the u is 0, 1, 0.
-//    = unit(cross(w, u));
 // w: the forward unit vector from the observation point towards the image plane
 //    the direction to front. (-orient)
 //
-// aspect_ratio: the aspect ratio of image plane.
-//
-// focal_length: the distance from the camera's observation point to the image plane.
-//
-// top_left: the top-left pixel of the image plane.
 // pixel00_loc: the center of top-left pixel.
 // a pixel is an area, not a point. so pixel00_loc is the center of top_left.
 //
 // pixel_delta_u: the horizontal vector step between adjacent pixel centers.
 // pixel_delta_v: the vertical vector step between adjacent pixel centers.
 // the world-space distance between 2 image plane pixels.
-//
-// viewport_height: the height of image plane in world space coordinator.
-// viewport_width: the width of the image plane world space coordinator.
-//
-// viewpoint_u: a vector of the width of the image plane. u * viewport_width.
-// viewpoint_v: a vector of the height of the image plane. v * viewport_height.
-// combines both length and direction, as well as a line.
-//
-// dist: the direction from the observation point to the center of image plane.
-// right: the camera's right vector, just a temp variable.
 typedef struct s_cam
 {
 	// Set to default.
@@ -179,29 +149,16 @@ typedef struct s_cam
 	int						image_height;
 
 	// From Parsing.
+	float					hov;
 	t_point					point;
 	t_vec3					orient;
-	float					hov;
 
 	// Need to be calculated.
-	t_point					look_at;
-	float					vfov;
-	float					aspect_ratio;
 	t_point					pixel00_loc;
 	t_vec3					pixel_delta_u;
 	t_vec3					pixel_delta_v;
 	t_vec3					u;
-	t_vec3					v;
 	t_vec3					w;
-	t_vec3					vup;
-	float					focal_length;
-	float					viewport_height;
-	float					viewport_width;
-	t_vec3					viewport_u;
-	t_vec3					viewport_v;
-	t_vec3					top_left;
-	t_vec3					right;
-
 }							t_cam;
 
 typedef struct s_alight

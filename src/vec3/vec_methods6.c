@@ -14,8 +14,3 @@ t_color	vec3_black(void)
 {
 	return (vec3_new(0, 0, 0));
 }
-
-t_color	vec3_avoid_overflow(t_vec3 color)
-{
-	return (vec3_new(fmaxf(color.x, 1), fmaxf(color.y, 1), fmaxf(color.z, 1)));
-}

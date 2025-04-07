@@ -11,28 +11,9 @@ inline t_vec3	vec3_new(float x, float y, float z)
 	return (vec);
 }
 
-inline float	vec_length(t_vec3 vec1)
+inline float	vec3_length(t_vec3 vec)
 {
-	float	x;
-	float	y;
-	float	z;
-
-	x = vec1.x * vec1.x;
-	y = vec1.y * vec1.y;
-	z = vec1.z * vec1.z;
-	return (sqrtf(x + y + z));
-}
-
-inline void	vec3_normalize(t_vec3 *vec)
-{
-	float	inverse;
-
-	inverse = 1 / vec_length(*vec);
-	if (inverse == 0)
-		return ;
-	vec->x = vec->x * inverse;
-	vec->y = vec->y * inverse;
-	vec->z = vec->z * inverse;
+	return (sqrtf(vec3_length_squared(vec)));
 }
 
 inline t_vec3	vec3_flip_minus(t_vec3 vec)

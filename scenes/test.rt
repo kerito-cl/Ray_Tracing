@@ -1,20 +1,21 @@
 A 0.2 255,255,255
 
-C 0,2,-21    0,0.1,1  120
+C 0,2,15    0,-0.1,-1  120
 
-L -10,10,0 0.5 255,255,255
-L 10,10,0 0.5 255,255,255
-L 0,1,0 0.5 255,255,255
+L 10,10,10 0.5 255,255,255
 
 
-pl -20,-5,0    1,0,0             33,200,225 D C
-pl 0,-5,-30     0,0,1             33,200,225 D C
-pl 20,-5,0     -1,0,0             33,200,225 D C
-pl 0,15,0       0,-1,0              33,200,225 D C
+pl -20,-5,0    1,0,0             33,200,225 D F:./scenes/textures/wall.png
+pl 0,-5,-30     0,0,1             33,200,225 D F:./scenes/textures/wall.png
+pl 20,-5,0     -1,0,0             33,200,225 D F:./scenes/textures/wall.png
+pl 0,15,0       0,-1,0              33,200,225 D F:./scenes/textures/wall.png
 pl 0,-5,0       0,1,0              255,215,0 M
 
-sp 0,-2,-10 6 255,134,10 D F:./scenes/textures/wall.png
+sp 0,-2,-10 6 255,134,10 D F:./scenes/textures/8k_sun.png
 sp -5,-2,-5 6 255,134,10 D F:./scenes/textures/earth.png
 sp 6,-2,-7 6 255,134,10 D F:./scenes/textures/1.png
-cy 2,2,-3  0,1,0  6   8      255,134,10  D F:./scenes/textures/8k_sun.png
 
+cy -10,-5,0  0,1,0  6   8      255,134,10  D F:./scenes/textures/ball2.png
+
+bx 10,-5,3 15,0,-2      255,255,255  D F:./scenes/textures/wood.png
+cn 2,0,-3  0,-1,0  6   8      255,134,10  D F:./scenes/textures/wall.png

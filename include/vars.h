@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vars.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 13:26:27 by mquero            #+#    #+#             */
+/*   Updated: 2025/04/09 13:27:30 by mquero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VARS_H
 # define VARS_H
 
@@ -36,7 +48,6 @@ typedef struct s_hit_cy_vars
 	float			t[2];
 }					t_hit_cy_vars;
 
-
 typedef struct s_hit_cone_vars
 {
 	t_vec3			oc;
@@ -51,19 +62,19 @@ typedef struct s_hit_cone_vars
 	float			c;
 	float			m;
 	float			t[2];
-} t_hit_cone_vars;
+}					t_hit_cone_vars;
 
 typedef struct s_hit_box_vars
 {
-	t_vec3		inv_d;
-	t_vec3		tmin;
-	t_vec3		tmax;
-	t_vec3		t0;
-	t_vec3		t1;
-	float		tminf;
-	float		tmaxf;
+	t_vec3			inv_d;
+	t_vec3			tmin;
+	t_vec3			tmax;
+	t_vec3			t0;
+	t_vec3			t1;
+	float			tminf;
+	float			tmaxf;
 
-}  t_hit_box_vars;
+}					t_hit_box_vars;
 
 // These are helper properties, and the value is assigned when init the camera.
 //
@@ -84,7 +95,8 @@ typedef struct s_hit_box_vars
 //
 // aspect_ratio: the aspect ratio of image plane.
 //
-// focal_length: the distance from the camera's observation point to the image plane.
+// focal_length: the distance from the camera's observation point 
+// to the image plane.
 //
 // top_left: the top-left pixel of the image plane.
 //
@@ -99,18 +111,18 @@ typedef struct s_hit_box_vars
 // right: the camera's right vector, just a temp variable.
 typedef struct s_camera_init_vars
 {
-	t_point look_at;
-	t_vec3 right;
-	t_vec3 vup;
-	t_vec3 v;
-	t_vec3 viewport_u;
-	t_vec3 viewport_v;
-	t_point top_left;
-	float focal_length;
-	float viewport_height;
-	float viewport_width;
-	float aspect_ratio;
-	float vfov;
-} t_camera_init_vars;
+	t_point			look_at;
+	t_vec3			right;
+	t_vec3			vup;
+	t_vec3			v;
+	t_vec3			viewport_u;
+	t_vec3			viewport_v;
+	t_point			top_left;
+	float			focal_length;
+	float			viewport_height;
+	float			viewport_width;
+	float			aspect_ratio;
+	float			vfov;
+}					t_camera_init_vars;
 
 #endif

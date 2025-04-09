@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_rt.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 13:25:53 by mquero            #+#    #+#             */
+/*   Updated: 2025/04/09 13:41:12 by mquero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINI_RT_H
 # define MINI_RT_H
 
@@ -87,7 +99,6 @@ typedef struct s_material
 	float					fuzz;
 	float					ref_idx;
 	t_type					type_material;
-
 	bool					(*scatter)(t_ray *r_in, t_hit_record *rec,
 							t_vec3 *attenuation, t_ray *scattered);
 	t_color					(*texture_get_color)(t_info *info, t_material *mat,
@@ -144,16 +155,11 @@ typedef struct s_arena
 // the world-space distance between 2 image plane pixels.
 typedef struct s_cam
 {
-	// Set to default.
 	int						image_width;
 	int						image_height;
-
-	// From Parsing.
 	float					hov;
 	t_point					point;
 	t_vec3					orient;
-
-	// Need to be calculated.
 	t_point					pixel00_loc;
 	t_vec3					pixel_delta_u;
 	t_vec3					pixel_delta_v;
@@ -514,8 +520,9 @@ t_color						texture_img_color(t_info *info, t_material *mat,
 /*  Threading functions */
 
 // @brief
-/// Initializes the thread pool by preparing per-thread data and spawning all threads.
+// Initializes the thread pool by preparing per-thread data
+// and spawning all threads.
 void						init_thread_pool(t_info *info);
-void 						wait_for_threads(t_info	*info);
+void						wait_for_threads(t_info *info);
 
 #endif

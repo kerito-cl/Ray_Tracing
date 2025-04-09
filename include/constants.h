@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   constants.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 13:26:59 by mquero            #+#    #+#             */
+/*   Updated: 2025/04/09 13:29:54 by mquero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
 # define MAX_MEMORY 10240000
 # define MOVE_STEP 1.0f
-# define ROTATE_STEP DTR(10)
+# define ROTATE_STEP 0.17453f
 # define LIGHT_VISIBLE 0
 # define LIGHT_RADIUS 1
 # define METAL_FUZZ 0.01f
 # define METAL_BR_RATIO 0.5f
 # define GLASS_REF_IDX 1.5f
-# define AIR_REF_IDX 1.3f / 1.5f
+# define AIR_REF_IDX 0.8667f
 # define CHECK_SCALE 0.5f
 # define S (float)1e-8
 # define PI (float)3.14159265358979323846

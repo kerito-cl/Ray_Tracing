@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:26:59 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 13:29:54 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:41:28 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define AIR_REF_IDX 0.8667f
 # define CHECK_SCALE 0.5f
 # define S (float)1e-8
-# define PI (float)3.14159265358979323846
+# define PI 3.1415926f
 # define SHININESS 30
 # define MAX_DEPTH 10
 # define DEFAULT_WIDTH 1920
@@ -35,8 +35,6 @@
 # define MAX_HEIGHT 2160
 # define TILE_SIZE 16
 # define THREADS_AMOUNT 8
-# define DTR(degrees) (degrees * PI / 180.0)
-# define RANDOM_FLOAT (float)rand() / (float)(RAND_MAX + 1.0)
-# define RANDOM_FLOAT_RANGE(min, max) (float)(min + (max - min) * RANDOM_FLOAT)
+# define RAND_MAX 32767
 
 #endif

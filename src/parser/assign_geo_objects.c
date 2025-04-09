@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_geo_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:38:43 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:38:45 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:44:10 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	create_plane_info(t_info *info, char **split, int i, bool *isvalid)
 	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
 	assign_typematerial_info(info, split[4], i, split);
 	if (split[4] == NULL)
-		info->obj[i].material.texture_get_color = texutre_constant_color;
+		info->obj[i].material.shading = texutre_constant_color;
 	else
 		assign_texture_info(info, split[5], i, split);
 	info->obj[i].hit = pl_hit;
@@ -62,7 +62,7 @@ void	create_sphere_info(t_info *info, char **split, int i, bool *isvalid)
 	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
 	assign_typematerial_info(info, split[4], i, split);
 	if (split[4] == NULL)
-		info->obj[i].material.texture_get_color = texutre_constant_color;
+		info->obj[i].material.shading = texutre_constant_color;
 	else
 		assign_texture_info(info, split[5], i, split);
 	info->obj[i].hit = sp_hit;
@@ -91,7 +91,7 @@ static void	create_cy_or_cn_info(t_info *info, char **split, int i,
 	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
 	assign_typematerial_info(info, split[6], i, split);
 	if (split[6] == NULL)
-		info->obj[i].material.texture_get_color = texutre_constant_color;
+		info->obj[i].material.shading = texutre_constant_color;
 	else
 		assign_texture_info(info, split[7], i, split);
 }

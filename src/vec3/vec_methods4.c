@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_methods4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:39 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:47:40 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:40:09 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 inline t_vec3	vec3_random(void)
 {
-	return (vec3_new(RANDOM_FLOAT, RANDOM_FLOAT, RANDOM_FLOAT));
+	return (vec3_new(random_float(), random_float(), random_float()));
 }
 
 inline t_vec3	vec3_random_range(float min, float max)
 {
-	return (vec3_new(RANDOM_FLOAT_RANGE(min, max), RANDOM_FLOAT_RANGE(min, max),
-			RANDOM_FLOAT_RANGE(min, max)));
+	return (vec3_new(random_float_range(min, max), random_float_range(min, max),
+			random_float_range(min, max)));
 }
 
 inline t_vec3	vec3_random_unit_vector(void)

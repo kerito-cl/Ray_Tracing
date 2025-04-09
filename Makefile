@@ -11,7 +11,7 @@ THREAD	:= src/threads/camera_thread.c src/threads/thread_utils.c src/threads/thr
 CAMERA	:= src/camera/camera.c src/ui/hook.c \
 		src/ui/hook_supp.c
 OBJ_DIR	:= obj
-SRCS	:= src/main.c src/parser/parse.c src/parser/arena.c src/parser/utils.c \
+SRCS	:= src/main.c src/comm_utils.c src/parser/parse.c src/parser/arena.c src/parser/utils.c \
 			src/parser/assign_geo_objects.c src/parser/assign_material.c src/parser/parse_utils.c \
 			src/parser/create_objects.c src/parser/assign_geo_objects2.c src/parser/error.c \
 			src/interval.c src/material.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_rt.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:25:53 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 13:41:12 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:57:42 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ typedef enum e_type
 	LIGHT,
 }							t_type;
 
+typedef bool				(*t_scatter)(t_ray *r_in, t_hit_record *rec,
+					t_vec3 *attenuation, t_ray *scattered);
+
+typedef t_color				(*t_texture_shading)(t_info *info, t_material *mat,
+					t_hit_record *rec);
+
 // Represents a material.
 //
 // albedo: the color of material.
@@ -99,10 +105,8 @@ typedef struct s_material
 	float					fuzz;
 	float					ref_idx;
 	t_type					type_material;
-	bool					(*scatter)(t_ray *r_in, t_hit_record *rec,
-							t_vec3 *attenuation, t_ray *scattered);
-	t_color					(*texture_get_color)(t_info *info, t_material *mat,
-							t_hit_record *rec);
+	t_scatter				scatter;
+	t_texture_shading		shading;
 }							t_material;
 
 // Represents a memory block on heap.
@@ -213,6 +217,9 @@ typedef struct s_interval
 	float					max;
 }							t_interval;
 
+typedef bool				(*t_hit)(t_obj *obj, t_ray *ray,
+					t_interval *interval, t_hit_record *rec);
+
 // Represents an object.
 //
 // point: the center point, applies for a sphere.
@@ -240,8 +247,7 @@ typedef struct s_obj
 	float					radius;
 	float					height;
 	float					br_ratio;
-	bool					(*hit)(t_obj *obj, t_ray *ray, t_interval *interval,
-							t_hit_record *rec);
+	t_hit					hit;
 	t_type					type_material;
 	t_material				material;
 }							t_obj;
@@ -524,5 +530,11 @@ t_color						texture_img_color(t_info *info, t_material *mat,
 // and spawning all threads.
 void						init_thread_pool(t_info *info);
 void						wait_for_threads(t_info *info);
+
+/*  */
+
+float						degree_to_radius(float degree);
+float						random_float(void);
+float						random_float_range(float min, float max);
 
 #endif

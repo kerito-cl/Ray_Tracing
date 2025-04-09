@@ -1,5 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   thread_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 09:40:47 by mquero            #+#    #+#             */
+/*   Updated: 2025/04/09 09:45:41 by mquero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mini_rt.h"
 
+/// @details
+/// The `render` function is the core per-thread rendering routine. It renders
+/// pixels from a specific row and column 
+/// pattern based on the thread's start_row.
+/// Threads render every Nth column (N = THREADS_AMOUNT),
+/// allowing parallel column -
+///	wise rendering.
+/// The function checks for an abort signal or stop condition on 
+/// each pixel loop.
 static bool	render(t_thrdata *thr, t_info *info, int row)
 {
 	int	col;
@@ -29,6 +50,16 @@ static bool	render(t_thrdata *thr, t_info *info, int row)
 	return (true);
 }
 
+/// @details
+/// This is the main loop for each thread. 
+///It synchronizes the thread pool using atomic
+/// counters and waits for work (i.e., a frame render) to become available.
+/// Threads are reused across frames and sleep when idle.
+///
+/// Uses `start_task` to coordinate readiness,
+/// and `work_available` as a trigger for new work.
+/// A change in `work_available` indicates a new frame should be rendered.
+/// The `render` function is called to handle pixel drawing.
 static void	*thr_draw(void *param)
 {
 	t_thrdata	*thr;
@@ -58,6 +89,14 @@ static void	*thr_draw(void *param)
 	return (NULL);
 }
 
+// @brief
+/// Initializes the thread pool by preparing per-thread 
+/// data and spawning all threads.
+/// Each thread is assigned a `start_row` to determine 
+/// which columns it will render.
+/// Threads are created once and reused for future render calls.
+/// Atomic variables are initialized to manage 
+/// synchronization between render calls.
 void	init_thread_pool(t_info *info)
 {
 	int	i;
@@ -81,6 +120,13 @@ void	init_thread_pool(t_info *info)
 		i++;
 	}
 }
+/// @details
+/// This function ensures that all threads are ready 
+/// before beginning a render task.
+/// It waits until each thread increments the `start_task` counter,
+/// signaling readiness.
+/// Also used to cleanly synchronize the start 
+/// of a frame render from the main thread.
 
 void	wait_for_threads(t_info *info)
 {

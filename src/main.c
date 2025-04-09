@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 09:47:51 by mquero            #+#    #+#             */
+/*   Updated: 2025/04/09 09:48:28 by mquero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "MLX42/MLX42.h"
 #include "mini_rt.h"
 
@@ -21,9 +33,9 @@ int	main(int argc, char **argv)
 	if (!info.arena)
 		throw_error(0);
 	parse(argv[1], &info);
-	
 	camera_start(&info);
-	mlx_set_window_limit(info.mlx, MIN_WIDTH, MIN_HEIGHT, MAX_WIDTH, MAX_HEIGHT);
+	mlx_set_window_limit(info.mlx, MIN_WIDTH, MIN_HEIGHT, MAX_WIDTH,
+		MAX_HEIGHT);
 	mlx_close_hook(info.mlx, handle_win_close_event, &info);
 	mlx_key_hook(info.mlx, handle_key_press_event, &info);
 	mlx_resize_hook(info.mlx, handle_screen_resize, &info);

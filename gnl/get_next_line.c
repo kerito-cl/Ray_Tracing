@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:59:10 by mquero            #+#    #+#             */
-/*   Updated: 2025/02/22 16:10:06 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 09:37:55 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	*check_when_no_nl(char *temp, t_myitems *mystruct, int hold)
 {
 	if (mystruct->i == 1)
 	{
-		temp = ft_strjoin_free(temp, mystruct->buffer + hold, mystruct->j - hold);
+		temp = ft_strjoin_free(temp, mystruct->buffer + hold, mystruct->j
+				- hold);
 		mystruct->i = 0;
 	}
 	else

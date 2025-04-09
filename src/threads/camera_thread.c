@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   camera_thread.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 09:40:25 by mquero            #+#    #+#             */
+/*   Updated: 2025/04/09 09:40:27 by mquero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "constants.h"
 #include "mini_rt.h"
 #include <sys/time.h>
@@ -12,6 +24,11 @@ unsigned int	get_color(t_vec3 vec)
 	return (((uint8_t)(vec.x * 255) << 24) | ((uint8_t)(vec.y
 				* 255) << 16) | ((uint8_t)(vec.z * 255) << 8) | 255);
 }
+// @details
+// Signals the worker threads to start rendering a new frame.
+// Sets `abort_signal` to 1, which tells threads that rendering should proceed.
+// Increments `work_available` to notify all threads that a new frame is ready.
+// Threads are waiting for `work_available` to change before proceeding.
 
 void	camera_render(t_info *info)
 {

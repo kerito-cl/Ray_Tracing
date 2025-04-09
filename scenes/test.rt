@@ -1,15 +1,13 @@
-A 0.2 255,255,255
+A 0.2 175,175,255
 
 C 0,2,15    0,-0.1,-1  120
 
-L 10,10,10 0.5 255,255,255
+L 10,10,10 0.5 255,225,225
 
 
-pl -20,-5,0    1,0,0             33,200,225 D F:./scenes/textures/wall.png
-pl 0,-5,-30     0,0,1             33,200,225 D F:./scenes/textures/wall.png
-pl 20,-5,0     -1,0,0             33,200,225 D F:./scenes/textures/wall.png
-pl 0,15,0       0,-1,0              33,200,225 D F:./scenes/textures/wall.png
-pl 0,-5,0       0,1,0              255,215,0 M
+pl 0,-5,-30     -1,0,1             255,0,0
+pl 0,-5,-30     1,0,1             0,255,0
+pl 0,-5,0       0,1,0              255,255,255 M
 
 sp 0,-2,-10 6 255,134,10 D F:./scenes/textures/8k_sun.png
 sp -5,-2,-5 6 255,134,10 D F:./scenes/textures/earth.png

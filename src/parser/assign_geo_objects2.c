@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_geo_objects2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:38:48 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:38:49 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:45:02 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	create_box_info(t_info *info, char **split, int i, bool *isvalid)
 	new_vec3_for_parsing(&(info->obj[i]).rgb, vec, isvalid, true);
 	assign_typematerial_info(info, split[4], i, split);
 	if (split[4] == NULL)
-		info->obj[i].material.texture_get_color = texutre_constant_color;
+		info->obj[i].material.shading= texutre_constant_color;
 	else
 		assign_texture_info(info, split[5], i, split);
 	info->obj[i].hit = box_hit;

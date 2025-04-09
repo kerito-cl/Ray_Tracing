@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_supp2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:46:19 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 10:38:16 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:45:47 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_color	get_phong_color(t_info *info, t_get_light_vars *var)
 	t_vec3	reflect_dir;
 
 	intensity = fmaxf(vec3_dot(var->cam_rec->normal, var->shadow_ray.direc), 0);
-	res = vec3_mul_vec(var->shadow_rec.material->texture_get_color(info,
+	res = vec3_mul_vec(var->shadow_rec.material->shading(info,
 				var->shadow_rec.material, &var->shadow_rec), intensity);
 	if (intensity != 0)
 	{

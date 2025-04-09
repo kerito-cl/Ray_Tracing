@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:38:55 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:38:57 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:44:45 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@ void	assign_texture_info(t_info *info, char *texture, int i, char **split)
 {
 	if (!texture || !*texture || info->obj[i].type_material != DIFFUSE
 		|| texture[0] == '\n')
-		info->obj[i].material.texture_get_color = texutre_constant_color;
+		info->obj[i].material.shading = texutre_constant_color;
 	else if (ft_strncmp(texture, "C\n", ft_strlen(texture)) == 0)
 	{
 		info->obj[i].material.albedo2 = vec3_sub_vecs(vec3_new(1, 1, 1),
 				info->obj[i].rgb);
-		info->obj[i].material.texture_get_color = texture_checker_color;
+		info->obj[i].material.shading = texture_checker_color;
 	}
 	else if (ft_strncmp(texture, "F:", 2) == 0)
 	{
-		info->obj[i].material.texture_get_color = texture_img_color;
+		info->obj[i].material.shading = texture_img_color;
 		set_texture(info, texture + 2, i, split);
 	}
 	else

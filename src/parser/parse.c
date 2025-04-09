@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:39:07 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:39:08 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:43:37 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	create_light_info(t_info *info, char **split, int i, bool *isvalid)
 	new_vec3_for_parsing(&(info->obj[i]).point, vec, isvalid, false);
 	info->obj[i].hit = sp_hit;
 	assign_typematerial_info(info, split[0], i, split);
-	info->obj[i].material.texture_get_color = texutre_constant_color;
+	info->obj[i].material.shading = texutre_constant_color;
 	info->lights[j] = &info->obj[i];
 	j++;
 	info->light_count = j;

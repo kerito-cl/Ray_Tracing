@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_supp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: xifeng <xifeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:46:15 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 10:38:35 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:45:25 by xifeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	camera_init(t_cam *c)
 
 	var.look_at = vec3_add_vecs(c->point, c->orient);
 	var.aspect_ratio = (float)c->image_width / c->image_height;
-	var.vfov = 2.0f * atanf(tanf(DTR(c->hov) / 2) / var.aspect_ratio);
+	var.vfov = 2.0f * atanf(tanf(degree_to_radius(c->hov) / 2)
+			/ var.aspect_ratio);
 	c->w = vec3_flip_minus(c->orient);
 	var.right = vec3_unit(vec3_cross(vec3_new(0, 1, 0), c->w));
 	var.vup = vec3_flip_minus(vec3_cross(var.right, c->w));
@@ -114,7 +115,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		}
 		++i;
 	}
-	color = vec3_mul_colors(rec->material->texture_get_color(info,
+	color = vec3_mul_colors(rec->material->shading(info,
 				rec->material, rec), color);
 	return (color);
 }

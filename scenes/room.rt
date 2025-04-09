@@ -1,0 +1,21 @@
+A 0.2 255,255,255
+
+
+C 0.9,-1.17,-16    0.3,-0.3,-1  120
+
+L 10,10,10  0.95   255,255,255
+
+pl 0,-5,0 0,1,0               33,200,225 D F:./scenes/textures/wall.png
+
+
+cy 2,-5,-20  0,1,0  0.2   3      255,134,10  D F:./scenes/textures/snow.png
+cy 2,-5,-18  0,1,0  0.2   3      255,134,10  D F:./scenes/textures/snow.png
+cy 0,-5,-18  0,1,0  0.2   3      255,134,10  D F:./scenes/textures/snow.png
+cy 0,-5,-20  0,1,0  0.2   3      255,134,10  D F:./scenes/textures/snow.png
+bx 0,-2,-22 3,-1.8,-17      255,255,255  D F:./scenes/textures/wood.png
+
+
+sp 0.5,-1.55,-18   0.5      255,255,0  D F:./scenes/textures/ball2.png
+
+sp 1,-1.55,-18   0.5      255,255,255  G
+sp 1,-1.55,-18   0.4      255,255,255  W

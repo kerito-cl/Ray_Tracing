@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:46:58 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 10:27:12 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 10:38:17 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	world_hit(t_info *info, t_ray *ray, t_hit_record *rec,
 		if (ray->type == SHADOW_RAY && info->obj[i].type_material == GLASS)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (info->obj[i].hit(&info->obj[i], ray, interval, rec))
 		{
@@ -41,4 +41,3 @@ bool	world_hit(t_info *info, t_ray *ray, t_hit_record *rec,
 	}
 	return (is_hit);
 }
-

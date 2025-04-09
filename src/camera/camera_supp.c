@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:46:15 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 10:27:14 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 10:38:35 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 t_color	get_phong_color(t_info *info, t_get_light_vars *var);
 t_color	get_phong_ambient(t_info *info);
 t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
+void	init_shadow_ray(t_get_light_vars *var, t_ray *ray, t_hit_record *rec);
 
 // @details apply the math to calculate the properties of the camera.
 //
@@ -34,7 +35,7 @@ t_color	camera_ray_color(t_info *info, t_ray ray, t_obj **world, int depth);
 // pixel00_loc = top_left and shift by half pixel.
 void	camera_init(t_cam *c)
 {
-	t_camera_init_vars var;
+	t_camera_init_vars	var;
 
 	var.look_at = vec3_add_vecs(c->point, c->orient);
 	var.aspect_ratio = (float)c->image_width / c->image_height;
@@ -97,11 +98,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 	bool				is_shadow;
 
 	color = get_phong_ambient(info);
-	var.cam_ray = ray;
-	var.cam_rec = rec;
-	var.shadow_ray.type = SHADOW_RAY;
-	var.shadow_ray.orig = rec->p;
-	var.interval = interval_default();
+	init_shadow_ray(&var, ray, rec);
 	i = 0;
 	is_shadow = true;
 	while (i < info->light_count)
@@ -109,8 +106,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		var.interval.max = INFINITY;
 		var.shadow_ray.direc = vec3_unit(vec3_sub_vecs(info->lights[i]->point,
 					rec->p));
-		if (world_hit(info, &var.shadow_ray, &var.shadow_rec,
-				&var.interval)
+		if (world_hit(info, &var.shadow_ray, &var.shadow_rec, &var.interval)
 			&& var.shadow_rec.material->type_material == LIGHT)
 		{
 			is_shadow = false;

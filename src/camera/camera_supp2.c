@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:46:19 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:46:21 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 10:38:16 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,14 @@ t_color	get_phong_color(t_info *info, t_get_light_vars *var)
 					spec_intensity));
 	}
 	return (res);
+}
+
+// @brief help to init a shadow ray.
+void	init_shadow_ray(t_get_light_vars *var, t_ray *ray, t_hit_record *rec)
+{
+	var->cam_ray = ray;
+	var->cam_rec = rec;
+	var->shadow_ray.type = SHADOW_RAY;
+	var->shadow_ray.orig = rec->p;
+	var->interval = interval_default();
 }

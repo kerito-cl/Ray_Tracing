@@ -6,7 +6,7 @@
 /*   By: mquero <mquero@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:46:15 by mquero            #+#    #+#             */
-/*   Updated: 2025/04/09 09:46:16 by mquero           ###   ########.fr       */
+/*   Updated: 2025/04/09 10:27:14 by mquero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_color	camera_send_shadow_rays(t_info *info, t_ray *ray, t_hit_record *rec)
 		var.interval.max = INFINITY;
 		var.shadow_ray.direc = vec3_unit(vec3_sub_vecs(info->lights[i]->point,
 					rec->p));
-		if (world_hit_shadow(info, &var.shadow_ray, &var.shadow_rec,
+		if (world_hit(info, &var.shadow_ray, &var.shadow_rec,
 				&var.interval)
 			&& var.shadow_rec.material->type_material == LIGHT)
 		{

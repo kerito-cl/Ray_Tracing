@@ -5,8 +5,6 @@
 This project is a CPU-based ray tracer implemented in C, inspired by the ["Ray Tracing in One Weekend"](https://raytracing.github.io/books/RayTracingInOneWeekend.html) book series. The program reads scene descriptions from .rt files and renders them using ray tracing techniques, with real-time display through MLX42 and optional multi-threading support for improved performance.
 
 
-Here's your refined README.md with all the updated features and scene file format specifications:
-
 ## Features
 
 

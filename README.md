@@ -61,9 +61,10 @@ bx          10,-5,3                            15,0,-2                     255,2
 cn          2,0,-3              0,-1,0                   6               8           255,134,10          D                   F:./scenes/textures/wall.png
 
 
----
-**Made by Matias Quero & Daniel Xifeng**
 
 
 
 ```
+---
+
+<p align="center"><strong>Made by Matias Quero & Daniel Xifeng</strong></p>

@@ -62,8 +62,8 @@ cn          2,0,-3              0,-1,0                   6               8      
 
 
 ---
+**Made by Matias Quero & Daniel Xifeng**
 
-<p align="center"><strong>Made by Matias Quero & Daniel Xifeng</strong></p>
 
 
 ```

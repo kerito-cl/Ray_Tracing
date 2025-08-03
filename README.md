@@ -1,6 +1,15 @@
 
 # Ray Tracing Project
 
+<p align="center">
+  <img src="scenes/screenshots/hall.png" alt="Scene 1" width="600"/>
+</p>
+
+<p align="center">
+  <img src="scenes/screenshots/spheres.png" alt="Scene 2" width="600"/>
+</p>
+
+
 ## Overview
 This project is a CPU-based ray tracer implemented in C, inspired by the ["Ray Tracing in One Weekend"](https://raytracing.github.io/books/RayTracingInOneWeekend.html) book series. The program reads scene descriptions from .rt files and renders them using ray tracing techniques, with real-time display through MLX42 and optional multi-threading support for improved performance.
 
